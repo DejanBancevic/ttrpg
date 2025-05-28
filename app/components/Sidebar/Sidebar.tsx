@@ -2,17 +2,22 @@ import React from "react";
 import "./Sidebar.css"
 
 
+type SidebarProps = {
+    sidebarMove: boolean;
+    sidebarExpanded: () => void;
+    sidebarReduce: () => void;
+}
 
-type Props = {};
 
-const Sidebar = (props: Props) => (
-    <nav className="sidebar">
+const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce }: SidebarProps) => (
+    
+    <nav className={` ${sidebarMove ? "sidebarExp" : "sidebar"}`}>
         <div className="sidebarContent">
-            <button className="sidebarButton">John Johnson</button>
-            <button className="sidebarButton">Doug Raw</button>
-            <button className="sidebarButton">Lace Max</button>
-            <button className="sidebarButton">Sunny Jim</button>
-            <button className="sidebarButton">Ruvic Coldwin</button>
+            <button onMouseOver={sidebarExpanded} onMouseOut={sidebarReduce} className="sidebarButton">First</button>
+            <button onMouseOver={sidebarExpanded} onMouseOut={sidebarReduce} className="sidebarButton">Second</button>
+            <button onMouseOver={sidebarExpanded} onMouseOut={sidebarReduce} className="sidebarButton">Third</button>
+            <button onMouseOver={sidebarExpanded} onMouseOut={sidebarReduce} className="sidebarButton">da</button>
+            <button onMouseOver={sidebarExpanded} onMouseOut={sidebarReduce} className="sidebarButton">da</button>
         </div>
     </nav>
 );

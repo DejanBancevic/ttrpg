@@ -6,9 +6,20 @@
     z-index: 10;
 
     @apply h-full block pt-2 md:px-6 top-14 bg-primary md:top-20 bottom-0 
-    w-14 shadow-xl left-0 flex-row flex-nowrap md:w-36 border-r-2;
+    w-14 shadow-xl left-0 flex-row flex-nowrap md:w-28 border-r-2 transition-all duration-300; 
 
     box-shadow: 5px 0 15px rgba(103,189,173,1);
+   
+}
+
+.sidebarExp {
+    z-index: 10;
+
+    @apply h-full block pt-2 md:px-6 top-14 bg-primary md:top-20 bottom-0 
+    w-14 shadow-xl left-0 flex-row flex-nowrap md:w-44 border-r-2 transition-all duration-300;
+
+    box-shadow: 5px 0 15px rgba(103, 189, 173, 1);
+
 }
 
 .sidebarContent {
@@ -16,7 +27,7 @@
 }
 
 .sidebarButton {
-    @apply md:p-2 md:ml-0 ml-1 md:text-2xl text-white rounded-lg  md:my-3 my-4 w-10 h-10 md:w-auto md:h-auto
+    @apply md:p-2 md:ml-0 ml-1 md:text-lg text-white rounded-lg  md:my-3 my-4 w-10 h-10 md:w-auto md:h-auto
 }
 
 .activeSidebarButton {

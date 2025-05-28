@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 
 import { ReactNode } from "react";
+import LayoutWrapper from "./components/LayoutWrapper/LayoutWrapper";
 
 const rubik = Rubik({ subsets: ["latin"] });  // Loading the font which we first imported
 
@@ -20,18 +21,8 @@ export default async function RootLayout({ children }: { children: ReactNode; })
   return (
     <html lang="en">
       <body className={rubik.className}>
-        {<Navbar />}
-        <div className='flex h-max'>
-          <div>
-            <Sidebar />
-          </div>
-          <div className="flex-1">
-            {children}
-          </div>
-        </div>
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
-
-
 }

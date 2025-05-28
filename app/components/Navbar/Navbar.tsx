@@ -14,7 +14,7 @@ const Navbar = () => {
                     <img src={logo.src} alt="" className="mr-2 w-10 h-10 md:w-16 md:h-16" />
                 </Link>
                 <div className="md:flex pb-1 md:gap-4">
-                    <h1 className="text-title text-lg md:text-3xl">TTRPG Editor</h1>
+                    <h1 className="text-ctext text-lg md:text-3xl">TTRPG Editor</h1>
                 </div>
             </div>
         </nav>
