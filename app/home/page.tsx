@@ -14,48 +14,62 @@ const Home = () => {
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
 
-          {/*HP & Portrait */}
+          {/*HP*/}
           <div className='flex justify-between gap-4'>
-
-            {/*Portrait */}
-            <div className='mainContainers'>
-              <img src={portrait.src} alt="" className="card-portrait" />
-            </div>
 
             {/*HP/AC */}
             <div className='mainContainers'>
               <div className='flex justify-center gap-2'>
                 {/*HP*/}
                 <div className='flex flex-col gap-2'>
-                  <div className='flex items-center gap-5 pl-3'>
-                    <h1 className='text-2xl font-bold italic'>HP</h1>
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-2xl font-bold italic mr-2'>HP</h1>
                     <textarea
                       value={"56"}
                       spellCheck={false}
-                      className="card-textarea-hp w-14 h-9 text-center "
+                      className="card-textarea-hp w-14 h-10 text-center "
                     />
-                  </div>
-                  <div className='flex justify-center items-center gap-4 '>
+                    <div className='border-l border-gray h-full'></div>
+                    <textarea
+                      value={"78"}
+                      spellCheck={false}
+                      className="card-textarea-hp w-14 h-10 text-center "
+                    />
+
                     <h1 className='text-lg font-bold italic'>Temp</h1>
                     <textarea
                       value={"7"}
                       spellCheck={false}
-                      className="card-textarea-hp w-14 h-9 text-center text-sec"
+                      className="card-textarea-hp w-11 h-10 text-center text-sec"
                     />
+                  </div>
+
+                  {/*Bottow Row*/}
+                  <div className='flex items-center gap-2'>
+                    <h1 className='text-2xl font-bold italic mr-2'>AC</h1>
+                    <textarea
+                      value={"18"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center mr-3"
+                    />
+                    <h1 className='text-lg font-bold '>Stress</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea-hp w-11 h-10 text-center "
+                    />
+                    <div className='border-l border-gray h-full'></div>
+                    <textarea
+                      value={"78"}
+                      spellCheck={false}
+                      className="card-textarea-hp w-11 h-10 text-center "
+                    />
+
+
                   </div>
                 </div>
 
-                <div className='border-l border-gray h-full'></div>
 
-                {/*AC*/}
-                <div className='flex flex-col items-center  gap-2'>
-                  <h1 className='text-2xl font-bold italic'>AC</h1>
-                  <textarea
-                    value={"18"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-center"
-                  />
-                </div>
               </div>
 
             </div>
@@ -153,306 +167,227 @@ const Home = () => {
           {/*Initiative & Atributes */}
           <div className='flex justify-between gap-4'>
 
-            {/*Initiative */}
-            <div className='mainContainers'>
-              <div className='flex flex-col items-center gap-2'>
-                <h1 className='text-2xl font-bold italic'>Initiative</h1>
-                <textarea
-                  value={"15"}
-                  spellCheck={false}
-                  className="card-textarea-hp w-11 h-10 text-center"
-                />
-              </div>
-            </div>
-
             {/*Atributes */}
-            <div className='mainContainersAtrib max-w-[80vh] min-w-0 overflow-x-auto custom-scrollbar'>
+            <div className='mainContainersAtrib max-w-[100vh] min-w-0 overflow-x-auto custom-scrollbar'>
               <div className='flex items-center gap-3 min-w-max'>
 
                 {/*Atribute Instance */}
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Strength</h1>
-                    <Trash2 className='size-6 text-gray' />
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
+
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"19"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+4"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
+                </div>
+                
+
+
+     
+
+                {/*Atribute Instance */}
+                <div className='border-l border-gray h-full'></div>
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
+
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/*Atribute Instance */}
                 <div className='border-l border-gray h-full'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                </div>
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
 
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-20'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-20'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-20'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-20'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                </div>
-
-                <Plus className='size-6 text-sec' />
-
-              </div>
-            </div>
-          </div>
-
-          {/*Movement & Saving Throws */}
-          <div className='flex justify-between gap-4'>
-
-            {/*Movement */}
-            <div className='mainContainers'>
-              <div className='flex flex-col items-center gap-2'>
-                <h1 className='movementText font-bold italic mb-1'>Movement</h1>
-                <textarea
-                  value={"15"}
-                  spellCheck={false}
-                  className="card-textarea-hp w-11 h-10 text-center"
-                />
-              </div>
-              <textarea
-                value={"ft."}
-                spellCheck={false}
-                className="bg-primary text-center w-8 h-8 pt-3 resize-none font-bold overflow-hidden"
-              />
-            </div>
-
-            {/*Saving Throws */}
-            <div className='mainContainersAtrib max-w-[80vh] min-w-0 overflow-x-auto custom-scrollbar'>
-              <div className='flex items-center gap-3 min-w-max'>
-
-                {/*Atribute Instance */}
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Strength</h1>
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"19"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+4"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                  <h1 className='text-md font-bold'>Saving Throw</h1>
                 </div>
 
                 {/*Atribute Instance */}
                 <div className='border-l border-gray h-full'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
+
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                  <h1 className='text-md font-bold'>Saving Throw</h1>
                 </div>
 
                 {/*Atribute Instance */}
-                <div className='border-l border-gray h-28'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
+                <div className='border-l border-gray h-full'></div>
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
+
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                  <h1 className='text-md font-bold'>Saving Throw</h1>
                 </div>
 
                 {/*Atribute Instance */}
-                <div className='border-l border-gray h-28'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                  <h1 className='text-md font-bold'>Saving Throw</h1>
-                </div>
+                <div className='border-l border-gray h-full'></div>
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
 
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-28'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea-hp w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                  <h1 className='text-md font-bold'>Saving Throw</h1>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-28'></div>
-                <div className='flex flex-col items-center gap-3'>
-                  <div className='flex justify-between gap-2 items-center'>
-                    <h1 className='text-lg font-bold'>Dexterity</h1>
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  <div className='flex gap-2'>
-                    <textarea
-                      value={"24"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
-                    />
-                    <textarea
-                      value={"+6"}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
-                    />
-                  </div>
-                  <h1 className='text-md font-bold'>Saving Throw</h1>
                 </div>
 
                 <Plus className='size-6 text-sec' />
