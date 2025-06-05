@@ -26,6 +26,10 @@ button:hover {
     @apply bg-primary border border-white rounded-md w-40 h-10 text-start p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
 
+.card-textarea-item {
+    @apply bg-primary border border-white rounded-md w-48 h-10 text-start p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+}
+
 .card-textarea-hp {
     @apply bg-primary border border-white rounded-md text-center pt-1.5 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
@@ -33,6 +37,12 @@ button:hover {
 .card-textarea-spellbox {
     @apply bg-primary border border-white rounded-md text-center size-8 pt-1 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
+
+.card-bag {
+    @apply bg-primary border border-white rounded-md text-center p-2 overflow-hidden font-bold resize-none placeholder-grayActive whitespace-nowrap truncate;
+}
+
+
 
 .movementText {
     font-size: 1.30rem;

@@ -6,23 +6,21 @@ import portrait from "../../public/portrait.png"
 const Home = () => {
 
   return (
-    <div className="flex-col p-6 md:px-20 md:mt-[90px] ml-12">
-
-      {/*Other Info*/}
+    <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
       <div className='md:flex justify-between md:justify-center md:gap-4 '>
 
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
 
           {/*HP*/}
-          <div className='flex justify-between gap-4'>
+          <div className='flex justify-between gap-4 w-full'>
 
             {/*HP/AC */}
-            <div className='mainContainers'>
+            <div className='mainContainers w-full'>
               <div className='flex justify-center gap-2'>
                 {/*HP*/}
                 <div className='flex flex-col gap-2'>
-                  <div className='flex items-center gap-2 '>
+                  <div className='flex items-center gap-3 '>
                     <h1 className='text-2xl font-bold italic mr-2'>HP</h1>
                     <textarea
                       value={"56"}
@@ -45,7 +43,7 @@ const Home = () => {
                   </div>
 
                   {/*Bottow Row*/}
-                  <div className='flex items-center gap-2'>
+                  <div className='flex items-center gap-3'>
                     <h1 className='text-2xl font-bold italic mr-2'>AC</h1>
                     <textarea
                       value={"18"}
@@ -76,7 +74,7 @@ const Home = () => {
           </div>
 
           {/*Name & Level */}
-          <div className='mainContainers'>
+          <div className='mainContainers w-full'>
             <div className='flex justify-center gap-2'>
               {/*Name*/}
               <div className='flex flex-col gap-2'>
@@ -84,13 +82,13 @@ const Home = () => {
                   value={"Ruvik Coldwin"}
                   placeholder={"Name"}
                   spellCheck={false}
-                  className="card-textarea w-40 h-10 !text-start pl-2 text-sec placeholder-grayActive"
+                  className="card-textarea w-44 h-10 !text-start pl-2 text-sec placeholder-grayActive"
                 />
                 <textarea
                   value={"Male, Elf, Barbarian"}
                   placeholder={"Description"}
                   spellCheck={false}
-                  className="card-textarea w-40 h-10 text-xs !text-start !pt-3 pl-2 placeholder-grayActive !overflow-y-auto custom-scrollbar"
+                  className="card-textarea w-44 h-10 text-xs !text-start !pt-3 pl-2 placeholder-grayActive !overflow-y-auto custom-scrollbar"
                 />
               </div>
 
@@ -120,7 +118,7 @@ const Home = () => {
           </div>
 
           {/*Skills */}
-          <div className='mainContainers max-h-[70vh] min-h-0 overflow-y-auto custom-scrollbar '>
+          <div className='mainContainers max-h-[61vh] min-h-0 overflow-y-auto custom-scrollbar '>
             <div className='flex flex-col'>
               <div className='flex justify-between pr-8'>
                 <h1 className='text-2xl font-bold italic mb-2'>Skills</h1>
@@ -128,6 +126,381 @@ const Home = () => {
               </div>
 
               <div className='flex flex-col gap-2 items-center'>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
+
+                {/*Skill Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Animal Handling"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-skill"
+                  />
+                  <textarea
+                    value={"15"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+
+                  <div className='border-l border-gray h-full'></div>
+
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10 text-sec"
+                  />
+                  <Trash2 className='size-6 text-gray' />
+
+                </div>
 
                 {/*Skill Instance */}
                 <div className='flex items-center gap-2'>
@@ -168,7 +541,7 @@ const Home = () => {
           <div className='flex justify-between gap-4'>
 
             {/*Atributes */}
-            <div className='mainContainersAtrib max-w-[100vh] min-w-0 overflow-x-auto custom-scrollbar'>
+            <div className='mainContainersAtrib max-w-[90vh] min-w-0 overflow-x-auto custom-scrollbar'>
               <div className='flex items-center gap-3 min-w-max'>
 
                 {/*Atribute Instance */}
@@ -184,9 +557,9 @@ const Home = () => {
                         <textarea
                           value={"19"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                        <h1 className='text-lg font-bold mt-3'>ST</h1>
                       </div>
 
                       {/* Right Column */}
@@ -194,52 +567,12 @@ const Home = () => {
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                          className="card-textarea w-11 h-10 text-center text-sec"
                         />
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-
-
-     
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-full'></div>
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
                       </div>
                     </div>
@@ -260,7 +593,7 @@ const Home = () => {
                         <textarea
                           value={"19"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
                         <h1 className='text-lg font-bold mt-3'>SV</h1>
                       </div>
@@ -270,12 +603,12 @@ const Home = () => {
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                          className="card-textarea w-11 h-10 text-center text-sec"
                         />
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
                       </div>
                     </div>
@@ -296,7 +629,7 @@ const Home = () => {
                         <textarea
                           value={"19"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
                         <h1 className='text-lg font-bold mt-3'>SV</h1>
                       </div>
@@ -306,12 +639,12 @@ const Home = () => {
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                          className="card-textarea w-11 h-10 text-center text-sec"
                         />
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
                       </div>
                     </div>
@@ -332,7 +665,7 @@ const Home = () => {
                         <textarea
                           value={"19"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
                         <h1 className='text-lg font-bold mt-3'>SV</h1>
                       </div>
@@ -342,12 +675,12 @@ const Home = () => {
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                          className="card-textarea w-11 h-10 text-center text-sec"
                         />
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
                       </div>
                     </div>
@@ -368,7 +701,7 @@ const Home = () => {
                         <textarea
                           value={"19"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
                         />
                         <h1 className='text-lg font-bold mt-3'>SV</h1>
                       </div>
@@ -378,12 +711,119 @@ const Home = () => {
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center text-sec"
+                          className="card-textarea w-11 h-10 text-center text-sec"
                         />
                         <textarea
                           value={"+4"}
                           spellCheck={false}
-                          className="card-textarea-hp w-11 h-10 text-center"
+                          className="card-textarea w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/*Atribute Instance */}
+                <div className='border-l border-gray h-full'></div>
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
+
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/*Atribute Instance */}
+                <div className='border-l border-gray h-full'></div>
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
+
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/*Atribute Instance */}
+                <div className='border-l border-gray h-full'></div>
+                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
+                  <div className='flex flex-col items-center gap-2'>
+                    <div className='flex justify-between gap-2 items-center'>
+                      <h1 className='text-lg font-bold'>Strength</h1>
+                      <Trash2 className='size-6 text-gray' />
+                    </div>
+                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
+                      {/* Left Column */}
+                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
+                        <textarea
+                          value={"19"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center"
+                        />
+                        <h1 className='text-lg font-bold mt-3'>SV</h1>
+                      </div>
+
+                      {/* Right Column */}
+                      <div className='flex flex-col justify-center items-center gap-2'>
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center text-sec"
+                        />
+                        <textarea
+                          value={"+4"}
+                          spellCheck={false}
+                          className="card-textarea w-11 h-10 text-center"
                         />
                       </div>
                     </div>
@@ -400,25 +840,127 @@ const Home = () => {
           <div className='flex gap-4'>
 
             {/*Feats */}
-            <div className='mainContainers !items-stretch w-full max-h-[70vh] min-h-0 overflow-y-auto custom-scrollbar '>
+            <div className='mainContainers !items-stretch w-full max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar '>
               <div className='flex flex-col '>
 
                 <h1 className='text-2xl font-bold italic mb-2'>Features & Traits</h1>
 
                 <div className='flex flex-col gap-2'>
                   {/*Feat Instance */}
-                  <div className='flex flex-col gap-1 '>
+                  <div className='flex flex-col gap-1'>
                     <div className='flex justify-between items-center'>
                       <div className='flex items-center gap-3'>
                         <h1 className='text-lg font-bold'>Sneak Attack</h1>
                         <Trash2 className='size-6 text-gray' />
                       </div>
-                      <div className='flex items-center gap-3'>
-                        <h1 className='text-lg font-bold'>Charges</h1>
+                      <div className='flex items-center gap-1'>
+                        <h1 className='text-md font-bold'>Charges</h1>
                         <textarea
-                          value={"3"}
+                          value={"6"}
                           spellCheck={false}
-                          className="card-textarea w-11 h-10 text-sec"
+                          className="card-textarea w-10 h-10 text-sec"
+                        />
+                        <div className='border border-gray h-10 w-px' />
+                        <textarea
+                          value={"16"}
+                          spellCheck={false}
+                          className="card-textarea w-10 h-10 "
+                        />
+                      </div>
+                    </div>
+
+                    <textarea
+                      value={"You know how to strike subtly and exploit a foes distraction Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attackroll if you have Advantage on the roll and the attack uses a Finesse or a Ranged weapon"}
+                      spellCheck={false}
+                      placeholder={"Description"}
+                      className="card-textarea text-sm !font-normal !w-full h-40 !text-start !overflow-auto custom-scrollbar"
+                    />
+
+                  </div>
+
+                  {/*Feat Instance */}
+                  <div className='flex flex-col gap-1'>
+                    <div className='flex justify-between items-center'>
+                      <div className='flex items-center gap-3'>
+                        <h1 className='text-lg font-bold'>Sneak Attack</h1>
+                        <Trash2 className='size-6 text-gray' />
+                      </div>
+                      <div className='flex items-center gap-1'>
+                        <h1 className='text-md font-bold'>Charges</h1>
+                        <textarea
+                          value={"6"}
+                          spellCheck={false}
+                          className="card-textarea w-10 h-10 text-sec"
+                        />
+                        <div className='border border-gray h-10 w-px' />
+                        <textarea
+                          value={"16"}
+                          spellCheck={false}
+                          className="card-textarea w-10 h-10 "
+                        />
+                      </div>
+                    </div>
+
+                    <textarea
+                      value={"You know how to strike subtly and exploit a foes distraction Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attackroll if you have Advantage on the roll and the attack uses a Finesse or a Ranged weapon"}
+                      spellCheck={false}
+                      placeholder={"Description"}
+                      className="card-textarea text-sm !font-normal !w-full h-40 !text-start !overflow-auto custom-scrollbar"
+                    />
+
+                  </div>
+
+                  {/*Feat Instance */}
+                  <div className='flex flex-col gap-1'>
+                    <div className='flex justify-between items-center'>
+                      <div className='flex items-center gap-3'>
+                        <h1 className='text-lg font-bold'>Sneak Attack</h1>
+                        <Trash2 className='size-6 text-gray' />
+                      </div>
+                      <div className='flex items-center gap-1'>
+                        <h1 className='text-md font-bold'>Charges</h1>
+                        <textarea
+                          value={"6"}
+                          spellCheck={false}
+                          className="card-textarea w-10 h-10 text-sec"
+                        />
+                        <div className='border border-gray h-10 w-px' />
+                        <textarea
+                          value={"16"}
+                          spellCheck={false}
+                          className="card-textarea w-10 h-10 "
+                        />
+                      </div>
+                    </div>
+
+                    <textarea
+                      value={"You know how to strike subtly and exploit a foes distraction Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attackroll if you have Advantage on the roll and the attack uses a Finesse or a Ranged weapon"}
+                      spellCheck={false}
+                      placeholder={"Description"}
+                      className="card-textarea text-sm !font-normal !w-full h-40 !text-start !overflow-auto custom-scrollbar"
+                    />
+
+                  </div>
+
+                  {/*Feat Instance */}
+                  <div className='flex flex-col gap-1'>
+                    <div className='flex justify-between items-center'>
+                      <div className='flex items-center gap-3'>
+                        <h1 className='text-lg font-bold'>Sneak Attack</h1>
+                        <Trash2 className='size-6 text-gray' />
+                      </div>
+                      <div className='flex items-center gap-1'>
+                        <h1 className='text-md font-bold'>Charges</h1>
+                        <textarea
+                          value={"6"}
+                          spellCheck={false}
+                          className="card-textarea w-10 h-10 text-sec"
+                        />
+                        <div className='border border-gray h-10 w-px' />
+                        <textarea
+                          value={"16"}
+                          spellCheck={false}
+                          className="card-textarea w-10 h-10 "
                         />
                       </div>
                     </div>
@@ -440,7 +982,7 @@ const Home = () => {
             </div>
 
             {/*Spells */}
-            <div className='mainContainers shrink-0 w-fit max-h-[70vh] min-h-0 overflow-y-auto custom-scrollbar '>
+            <div className='mainContainers shrink-0 w-fit max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar '>
               <div className='flex flex-col gap-2'>
 
                 <h1 className='text-2xl font-bold italic'>Spells</h1>
@@ -489,7 +1031,22 @@ const Home = () => {
                   <button className="card-textarea-spellbox">7</button>
                   <button className="card-textarea-spellbox">8</button>
                   <button className="card-textarea-spellbox">9+</button>
+                </div>
 
+                {/*Slots */}
+                <div className='flex justify-start items-center gap-2 mt-2'>
+                  <h1 className='text-lg font-bold'>Slots</h1>
+                  <textarea
+                    value={"5"}
+                    spellCheck={false}
+                    className="card-textarea w-10 h-10 text-center text-sec"
+                  />
+                  <div className='border-l border-gray h-full'></div>
+                  <textarea
+                    value={"8"}
+                    spellCheck={false}
+                    className="card-textarea w-10 h-10 text-center "
+                  />
                 </div>
 
                 {/*Labels */}
@@ -537,6 +1094,303 @@ const Home = () => {
                     />
                   </div>
 
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
+                  {/*Spell Instance */}
+                  <div className='flex items-center gap-2'>
+                    <textarea
+                      value={"Polymorph"}
+                      placeholder={"Name"}
+                      spellCheck={false}
+                      className="card-textarea-skill"
+                    />
+
+                    <Trash2 className='size-6 text-gray' />
+
+                    <textarea
+                      value={"4"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                    <textarea
+                      value={"Yes"}
+                      spellCheck={false}
+                      className="card-textarea w-12 h-10"
+                    />
+                    <textarea
+                      value={"120"}
+                      spellCheck={false}
+                      className="card-textarea w-14 h-10"
+                    />
+                    <textarea
+                      value={"6"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10"
+                    />
+                  </div>
+
                   <Plus className='size-6 text-sec' />
                 </div>
 
@@ -547,41 +1401,723 @@ const Home = () => {
         </div>
 
         {/*Right Side */}
-        <div className='flex flex-col items-center'>
+        <div className='flex flex-col items-center gap-4'>
 
-          {/*Skills */}
-          <div className='mainContainers max-h-[70vh] min-h-0 overflow-y-auto custom-scrollbar '>
-            <div className='flex flex-col'>
-
+          {/*Passives and Profs */}
+          <div className='mainContainers max-h-[32vh] min-h-0 w-full overflow-y-auto custom-scrollbar'>
+            <div className='flex flex-col gap-2 w-full'>
               <h1 className='text-2xl font-bold italic mb-2'>Passives & Proficiencies</h1>
+              <div className='flex justify-between'>
 
+                {/*Passives */}
+                <div className='flex flex-col gap-2 items-center'>
 
+                  {/*Passives Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
 
-              <div className='flex flex-col gap-2 items-center'>
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
 
-                {/*Skill Instance */}
+                  <Plus className='size-6 text-sec' />
+
+                </div>
+
+                <div className='border-l border-gray h-full'></div>
+
+                {/*Proffs */}
+                <div className='flex flex-col gap-2 items-center'>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  <Plus className='size-6 text-sec' />
+
+                </div>
+
+                <div className='border-l border-gray h-full'></div>
+
+                {/*Proffs */}
+                <div className='flex flex-col gap-2 items-center'>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+                  {/*Proffs Instance*/}
+                  <div className='flex items-center gap-2 '>
+                    <h1 className='text-lg font-bold '>Initiative</h1>
+                    <textarea
+                      value={"56"}
+                      spellCheck={false}
+                      className="card-textarea w-11 h-10 text-center "
+                    />
+                    <Trash2 className='size-6 text-gray' />
+                  </div>
+
+                  <Plus className='size-6 text-sec' />
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/*Inventory */}
+          <div className='mainContainers shrink-0 w-fit max-h-[50vh] min-h-0 overflow-y-auto custom-scrollbar '>
+            <div className='flex flex-col gap-2'>
+
+              <h1 className='text-2xl font-bold italic'>Inventory</h1>
+
+              {/*Upper bar */}
+              <div className='flex justify-between items-center'>
                 <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
+                  <h1 className='text-md font-bold'>Weight</h1>
                   <textarea
                     value={"6"}
                     spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
+                    className="card-textarea w-10 h-10 text-sec"
                   />
+                  <div className='border border-gray h-10 w-px' />
+                  <textarea
+                    value={"16"}
+                    spellCheck={false}
+                    className="card-textarea w-10 h-10 "
+                  />
+                </div>
+                <div className='flex items-center gap-1'>
+                  <h1 className='text-md font-bold'>Currency</h1>
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-10 h-10"
+                  />
+                  <h1 className='text-sm font-bold'>g</h1>
+                  <div className='border border-gray h-10 w-px'></div>
+                  <textarea
+                    value={"16"}
+                    spellCheck={false}
+                    className="card-textarea w-10 h-10 "
+                  />
+                  <h1 className='text-sm font-bold'>s</h1>
+                  <div className='border border-gray h-10 w-px'></div>
+                  <textarea
+                    value={"16"}
+                    spellCheck={false}
+                    className="card-textarea w-10 h-10 "
+                  />
+                  <h1 className='text-sm font-bold'>c</h1>
+                </div>
+              </div>
+
+              {/*Bags */}
+              <div className='flex justify-start gap-2 mt-2 items-center'>
+                <button className="card-bag">All</button>
+                <button className="card-bag">Equipment</button>
+                <button className="card-bag">Backpack</button>
+                <button className="card-bag">Bag of Holding</button>
+
+                <Plus className='size-6 text-sec' />
+              </div>
+
+              {/*Labels */}
+              <div className='flex justify-between'>
+                <h1 className='text-lg font-bold'>Name</h1>
+                <div className='flex pr-2'>
+                  <h1 className='text-lg font-bold mr-11'>Hit</h1>
+                  <h1 className='text-lg font-bold mr-10'>Dmg</h1>
+                  <h1 className='text-lg font-bold mr-3'>Range</h1>
+                  <h1 className='text-lg font-bold mr-7'>Value</h1>
+                  <h1 className='text-lg font-bold mr-3'>#</h1>
+                </div>
+              </div>
+
+              <div className='border-t-2 border-gray w-full'></div>
+
+              <div className='flex flex-col gap-2 items-center'>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
                   <Trash2 className='size-6 text-gray' />
 
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
+                </div>
+
+                {/*Item Instance */}
+                <div className='flex items-center gap-2'>
+                  <textarea
+                    value={"Longsword"}
+                    placeholder={"Name"}
+                    spellCheck={false}
+                    className="card-textarea-item"
+                  />
+
+                  <Trash2 className='size-6 text-gray' />
+
+                  <textarea
+                    value={"+12"}
+                    spellCheck={false}
+                    className="card-textarea w-12 h-10"
+                  />
+                  <textarea
+                    value={"1d10+26"}
+                    spellCheck={false}
+                    className="card-textarea w-24 h-10"
+                  />
+                  <textarea
+                    value={"120"}
+                    spellCheck={false}
+                    className="card-textarea w-14 h-10"
+                  />
+                  <textarea
+                    value={"6000"}
+                    spellCheck={false}
+                    className="card-textarea w-16 h-10"
+                  />
+                  <textarea
+                    value={"6"}
+                    spellCheck={false}
+                    className="card-textarea w-11 h-10"
+                  />
                 </div>
 
                 <Plus className='size-6 text-sec' />
@@ -591,6 +2127,7 @@ const Home = () => {
           </div>
 
         </div>
+        
       </div>
     </div>
   )
