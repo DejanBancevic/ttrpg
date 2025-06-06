@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 
 import { ReactNode } from "react";
 import LayoutWrapper from "./components/LayoutWrapper/LayoutWrapper";
+import StoreProvider from "./StoreProvider";
 
 const rubik = Rubik({ subsets: ["latin"] });  // Loading the font which we first imported
 
@@ -21,7 +22,9 @@ export default async function RootLayout({ children }: { children: ReactNode; })
   return (
     <html lang="en">
       <body className={rubik.className}>
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <StoreProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </StoreProvider>
       </body>
     </html>
   );

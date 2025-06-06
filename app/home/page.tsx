@@ -1,44 +1,67 @@
+'use client'
+
 import React from 'react';
 import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
-import portrait from "../../public/portrait.png"
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../lib/store';
+import { updateHealthData } from '@/lib/features/main/mainSlice';
+
 
 const Home = () => {
+
+  //Redux
+  const dispatch: AppDispatch = useDispatch();
+  const healthData = useSelector((state: RootState) => state.mainData.healthData);
 
   return (
     <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
       <div className='md:flex justify-between md:justify-center md:gap-4 '>
 
+        {/*TEST 
+            <div>
+              <h1>Data Test</h1>
+              {healthData && <pre>{JSON.stringify(healthData, null, 2)}</pre>}
+            </div>
+          */}
+        
+        <div>
+          <h1>Data Test</h1>
+          {healthData && <pre>{JSON.stringify(healthData, null, 2)}</pre>}
+        </div>
+
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
 
-          {/*HP*/}
+          {/*Health*/}
           <div className='flex justify-between gap-4 w-full'>
-
-            {/*HP/AC */}
             <div className='mainContainers w-full'>
               <div className='flex justify-center gap-2'>
+
                 {/*HP*/}
                 <div className='flex flex-col gap-2'>
                   <div className='flex items-center gap-3 '>
-                    <h1 className='text-2xl font-bold italic mr-2'>HP</h1>
+                    <h1 className='text-2xl font-bold italic mr-2'>{healthData.hpLabel}</h1>
                     <textarea
-                      value={"56"}
+                      value={healthData.hpCurrent}
+                      onChange={(e) => dispatch(updateHealthData({ key: 'hpCurrent', value: e.target.value }))}
                       spellCheck={false}
-                      className="card-textarea-hp w-14 h-10 text-center "
+                      className="card-textarea-hp w-14 h-10 text-sec text-center "
                     />
                     <div className='border-l border-gray h-full'></div>
                     <textarea
-                      value={"78"}
+                      value={healthData.hpMax}
+                      onChange={(e) => dispatch(updateHealthData({ key: 'hpMax', value: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea-hp w-14 h-10 text-center "
                     />
 
                     <h1 className='text-lg font-bold italic'>Temp</h1>
                     <textarea
-                      value={"7"}
+                      value={healthData.hpTemp}
+                      onChange={(e) => dispatch(updateHealthData({ key: 'hpTemp', value: e.target.value }))}
                       spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center text-sec"
+                      className="card-textarea-hp w-11 h-10 text-center"
                     />
                   </div>
 
@@ -46,30 +69,28 @@ const Home = () => {
                   <div className='flex items-center gap-3'>
                     <h1 className='text-2xl font-bold italic mr-2'>AC</h1>
                     <textarea
-                      value={"18"}
+                      value={healthData.ac}
+                      onChange={(e) => dispatch(updateHealthData({ key: 'ac', value: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea w-11 h-10 text-center mr-3"
                     />
                     <h1 className='text-lg font-bold '>Stress</h1>
                     <textarea
-                      value={"56"}
+                      value={healthData.stressCurrent}
+                      onChange={(e) => dispatch(updateHealthData({ key: 'stressCurrent', value: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea-hp w-11 h-10 text-center "
                     />
                     <div className='border-l border-gray h-full'></div>
                     <textarea
-                      value={"78"}
+                      value={healthData.stressMax}
+                      onChange={(e) => dispatch(updateHealthData({ key: 'stressMax', value: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea-hp w-11 h-10 text-center "
                     />
-
-
                   </div>
                 </div>
-
-
               </div>
-
             </div>
           </div>
 
@@ -99,9 +120,9 @@ const Home = () => {
                 <div className='flex items-center gap-4'>
                   <h1 className='text-2xl font-bold'>Level</h1>
                   <textarea
-                    value={"8"}
+                    value={"18"}
                     spellCheck={false}
-                    className="card-textarea w-11 h-10 text-center"
+                    className="card-textarea w-11 h-11 text-center"
                   />
                 </div>
                 <div className='flex justify-center items-center gap-4 '>
@@ -109,7 +130,7 @@ const Home = () => {
                   <textarea
                     value={"123456"}
                     spellCheck={false}
-                    className="card-textarea-hp w-20 h-10 text-center"
+                    className="card-textarea w-20 h-10 text-center"
                   />
                 </div>
               </div>
@@ -537,10 +558,8 @@ const Home = () => {
         {/*Middle Side */}
         <div className='flex flex-col gap-4'>
 
-          {/*Initiative & Atributes */}
+          {/*Atributes */}
           <div className='flex justify-between gap-4'>
-
-            {/*Atributes */}
             <div className='mainContainersAtrib max-w-[90vh] min-w-0 overflow-x-auto custom-scrollbar'>
               <div className='flex items-center gap-3 min-w-max'>
 
@@ -1060,6 +1079,8 @@ const Home = () => {
                   </div>
                 </div>
 
+                <div className='border-t-2 border-gray w-full'></div>
+
                 <div className='flex flex-col gap-2 items-center'>
                   {/*Spell Instance */}
                   <div className='flex items-center gap-2'>
@@ -1532,7 +1553,7 @@ const Home = () => {
 
                 <div className='border-l border-gray h-full'></div>
 
-                {/*Proffs */}
+                {/*Other */}
                 <div className='flex flex-col gap-2 items-center'>
 
                   {/*Proffs Instance*/}
@@ -1644,7 +1665,7 @@ const Home = () => {
                     spellCheck={false}
                     className="card-textarea w-10 h-10 text-sec"
                   />
-                  <div className='border border-gray h-10 w-px' />
+                  <div className='border border-gray h-10 ' />
                   <textarea
                     value={"16"}
                     spellCheck={false}
@@ -1654,25 +1675,26 @@ const Home = () => {
                 <div className='flex items-center gap-1'>
                   <h1 className='text-md font-bold'>Currency</h1>
                   <textarea
-                    value={"6"}
+                    value={"62422"}
                     spellCheck={false}
-                    className="card-textarea w-10 h-10"
+                    className="card-textarea w-20 h-10"
                   />
                   <h1 className='text-sm font-bold'>g</h1>
                   <div className='border border-gray h-10 w-px'></div>
                   <textarea
-                    value={"16"}
+                    value={"16622"}
                     spellCheck={false}
-                    className="card-textarea w-10 h-10 "
+                    className="card-textarea w-20 h-10"
                   />
                   <h1 className='text-sm font-bold'>s</h1>
                   <div className='border border-gray h-10 w-px'></div>
                   <textarea
-                    value={"16"}
+                    value={"53546"}
                     spellCheck={false}
-                    className="card-textarea w-10 h-10 "
+                    className="card-textarea w-20 h-10"
                   />
                   <h1 className='text-sm font-bold'>c</h1>
+
                 </div>
               </div>
 
@@ -2127,7 +2149,7 @@ const Home = () => {
           </div>
 
         </div>
-        
+
       </div>
     </div>
   )
