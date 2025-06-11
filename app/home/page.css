@@ -11,11 +11,19 @@
 textarea:focus {
     outline: none;
     border: 2px solid rgb(63, 179, 154);
+    background-color: rgb(30, 32, 36);
+    @apply transition-all duration-300
+}
+
+button {
+    @apply border-2 rounded-lg border-gray
 }
 
 button:hover {
     outline: none;
     border: 2px solid rgb(63, 179, 154);
+    background-color: rgb(30, 32, 36);
+    @apply transition-all duration-300 
 }
 
 .card-textarea {

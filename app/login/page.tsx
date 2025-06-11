@@ -10,13 +10,14 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className="flex-col text-center py-6 px-6 md:ml-0 md:px-20 md:mt-[90px] ml-12">
                 <button
-                    className="btn-land text-xl px-4 md:px-6 py-3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+                className="text-xl p-4"
                     onClick={handleSignInGoogle}
                 >
                     Sign in with Google
-                </button>
+            </button>
+       
         
         </div>
     )
