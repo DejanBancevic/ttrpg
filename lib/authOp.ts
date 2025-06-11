@@ -16,5 +16,16 @@ export const authOptions: AuthOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
         }),
     ],
+    callbacks: {
+        async session({ session, token }) {
+            try {
+                // your session logic
+                return session;
+            } catch (e) {
+                console.error("Session callback error:", e);
+                return session;
+            }
+        },
+    },
 
 }

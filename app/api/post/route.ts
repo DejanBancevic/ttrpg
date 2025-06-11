@@ -4,14 +4,39 @@ import { getSession } from "../../actions/getCurrentUser";
 
 
 
+export async function POST(request: { json: () => any; }) {
+    const body = await request.json()
+    const { name } = body;
+    const session = await getSession();
+    const result = await prisma.health.create({
+        data: {
+            hpCurrent: name,
+            hpMax: name,
+            hpTemp: name,
+            ac: name,
+            stressCurrent: name,
+            stressMax: name,
+            hpLabel: name, 
+            hpTempLabel: name, 
+            acLabel: name, 
+            stressLabel: name, 
+            author: { connect: { email: session?.user?.email! } },
+        },
+    });
+
+    return NextResponse.json({
+        data: body
+    });
+}
+
 export async function DELETE(request: { json: () => any; }) {
     const body = await request.json()
-    const { date } = body;
+    const { name } = body;
     const session = await getSession();
     const postToDelete = await prisma.health.findFirst({
         where: {
             AND: [
-                
+                { ac: name },
                 { author: { email: session?.user?.email } }
             ]
         }
