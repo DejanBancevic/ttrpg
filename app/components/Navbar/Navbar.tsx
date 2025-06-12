@@ -19,7 +19,7 @@ const Navbar = () => {
 
         if (session) {
             return (
-                <button className="text-xl p-3 border  rounded-lg" onClick={() => handleSignOut()}>
+                <button className="text-xl p-3 rounded-lg" onClick={() => handleSignOut()}>
                         {session?.user?.name} | Sign out
                     </button>
             );

@@ -9,45 +9,41 @@
 }
 
 textarea:focus {
-    outline: none;
-    border: 2px solid rgb(63, 179, 154);
-    background-color: rgb(30, 32, 36);
-    @apply transition-all duration-300
+
+    @apply   border-sec bg-blackButtonBackground
 }
 
 button {
-    @apply border-2 rounded-lg border-gray
+    @apply border-2 rounded-lg border-gray transition-all duration-300 outline-none
 }
 
 button:hover {
-    outline: none;
-    border: 2px solid rgb(63, 179, 154);
-    background-color: rgb(30, 32, 36);
-    @apply transition-all duration-300 
+
+    @apply  border-sec bg-blackButtonBackground
 }
 
 .card-textarea {
-    @apply bg-primary border border-white rounded-md text-center p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
 
 .card-textarea-skill {
-    @apply bg-primary border border-white rounded-md w-40 h-10 text-start p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md w-40 h-10 text-start p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
 
 .card-textarea-item {
-    @apply bg-primary border border-white rounded-md w-48 h-10 text-start p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md w-48 h-10 text-start p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
 
 .card-textarea-hp {
-    @apply bg-primary border border-white rounded-md text-center pt-1.5 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center pt-1.5 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
 
 .card-textarea-spellbox {
-    @apply bg-primary border border-white rounded-md text-center size-8 pt-1 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center size-8 pt-1 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
 
 .card-bag {
-    @apply bg-primary border border-white rounded-md text-center p-2 overflow-hidden font-bold resize-none placeholder-grayActive whitespace-nowrap truncate;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 overflow-hidden font-bold resize-none placeholder-grayActive whitespace-nowrap truncate;
 }
 
 
