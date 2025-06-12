@@ -28,7 +28,7 @@ export const metadata = {
     siteName: "TTRPG Editor",
     images: [
       {
-        url: "https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/05/The-Lost-Mine-Of-Phandelver-Cover-Dungeons-Dragons.jpg",
+        url: "https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/08/dnd-5e-dragonlance-chapter-2-art-1.jpg",
         width: 1200,
         height: 630,
       },
