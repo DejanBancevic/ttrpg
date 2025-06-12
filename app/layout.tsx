@@ -23,13 +23,13 @@ export const metadata = {
   },
   openGraph: {
     title: "TTRPG Editor",
-    description: "The only TTRPG editor you'll ever need.",
+    description: "The only TTRPG character sheet you'll ever need.",
     url: "https://ttrpg-gamma.vercel.app/",
     siteName: "TTRPG Editor",
     images: [
       {
         url: "https://ttrpg-gamma.vercel.app/_next/static/media/logo.07616a33.png",
-        width: 1200,
+        width: 800,
         height: 630,
       },
     ],
