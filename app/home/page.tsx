@@ -1,11 +1,11 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updateHealthData } from '@/lib/features/main/mainSlice';
+import { patchHealthData, updateHealthData } from '@/lib/features/main/mainSlice';
 
 
 const Home = () => {
@@ -13,6 +13,8 @@ const Home = () => {
   //Redux
   const dispatch: AppDispatch = useDispatch();
   const healthData = useSelector((state: RootState) => state.mainData.healthData);
+  const locks = useSelector((state: RootState) => state.mainData.locks);
+
 
   return (
     <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
@@ -24,12 +26,7 @@ const Home = () => {
               {healthData && <pre>{JSON.stringify(healthData, null, 2)}</pre>}
             </div>
           */}
-        
-        <div>
-          <h1>Data Test</h1>
-          {healthData && <pre>{JSON.stringify(healthData, null, 2)}</pre>}
-        </div>
-
+     
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
 
@@ -41,10 +38,26 @@ const Home = () => {
                 {/*HP*/}
                 <div className='flex flex-col gap-2'>
                   <div className='flex items-center gap-3 '>
-                    <h1 className='text-2xl font-bold italic mr-2'>{healthData.hpLabel}</h1>
+                    <textarea
+                      value={healthData.hpLabel}
+                      readOnly={locks.labelLock}
+                      onChange={(e) => {
+                        if (!locks.labelLock) {
+                          dispatch(updateHealthData({ key: 'hpLabel', value: e.target.value }));
+                        }
+                      }}
+                      onBlur={(e) => {
+                        if (!locks.labelLock) {
+                          dispatch(patchHealthData({ hpLabel: e.target.value }));
+                        }
+                      }}
+                      spellCheck={false}
+                      className="card-textarea-label text-2xl italic h-8 w-10"
+                    />
                     <textarea
                       value={healthData.hpCurrent}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpCurrent', value: e.target.value }))}
+                      onBlur={(e) => dispatch(patchHealthData({hpCurrent: e.target.value}))}
                       spellCheck={false}
                       className="card-textarea-hp w-14 h-10 text-sec text-center "
                     />
@@ -52,14 +65,31 @@ const Home = () => {
                     <textarea
                       value={healthData.hpMax}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpMax', value: e.target.value }))}
+                      onBlur={(e) => dispatch(patchHealthData({ hpMax: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea-hp w-14 h-10 text-center "
                     />
 
-                    <h1 className='text-lg font-bold italic'>Temp</h1>
+                     <textarea
+                      value={healthData.hpTempLabel}
+                      readOnly={locks.labelLock}
+                      onChange={(e) => {
+                        if (!locks.labelLock) {
+                          dispatch(updateHealthData({ key: 'hpTempLabel', value: e.target.value }));
+                        }
+                      }}
+                      onBlur={(e) => {
+                        if (!locks.labelLock) {
+                          dispatch(patchHealthData({ hpTempLabel: e.target.value }));
+                        }
+                      }}
+                      spellCheck={false}
+                      className="card-textarea-label text-lg italic h-8 w-14"
+                    />
                     <textarea
                       value={healthData.hpTemp}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpTemp', value: e.target.value }))}
+                      onBlur={(e) => dispatch(patchHealthData({ hpTemp: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea-hp w-11 h-10 text-center"
                     />
@@ -71,13 +101,15 @@ const Home = () => {
                     <textarea
                       value={healthData.ac}
                       onChange={(e) => dispatch(updateHealthData({ key: 'ac', value: e.target.value }))}
+                      onBlur={(e) => dispatch(patchHealthData({ ac: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea w-11 h-10 text-center mr-3"
                     />
-                    <h1 className='text-lg font-bold '>Stress</h1>
+                    <h1 className='text-lg font-bold '>Addons</h1>
                     <textarea
                       value={healthData.stressCurrent}
                       onChange={(e) => dispatch(updateHealthData({ key: 'stressCurrent', value: e.target.value }))}
+                      onBlur={(e) => dispatch(patchHealthData({ stressCurrent: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea-hp w-11 h-10 text-center "
                     />
@@ -85,6 +117,7 @@ const Home = () => {
                     <textarea
                       value={healthData.stressMax}
                       onChange={(e) => dispatch(updateHealthData({ key: 'stressMax', value: e.target.value }))}
+                      onBlur={(e) => dispatch(patchHealthData({ stressMax: e.target.value }))}
                       spellCheck={false}
                       className="card-textarea-hp w-11 h-10 text-center "
                     />

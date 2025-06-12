@@ -6,6 +6,7 @@ import StoreProvider from "./StoreProvider";
 import { Providers } from "./components/SessionProvider";
 import { getSession } from "./actions/getCurrentUser";
 import Navbar from "./components/Navbar/Navbar";
+import InitDataLoader from "./components/DataGet/DataGet";
 
 const rubik = Rubik({ subsets: ["latin"] });  // Loading the font which we first imported
 
@@ -23,7 +24,7 @@ export const metadata = {
   },
   openGraph: {
     title: "TTRPG Editor",
-    description: "The only TTRPG character sheet you'll ever need.",
+    description: "The only TTRPG character sheet editor you'll ever need.",
     url: "https://ttrpg-gamma.vercel.app/",
     siteName: "TTRPG Editor",
     images: [
@@ -49,6 +50,7 @@ export default async function RootLayout({ children }: { children: ReactNode; })
           <StoreProvider>
             <LayoutWrapper>
               {session && <Navbar />}
+              <InitDataLoader />
               {children}
             </LayoutWrapper>
           </StoreProvider>

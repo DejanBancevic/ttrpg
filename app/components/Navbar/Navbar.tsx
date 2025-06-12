@@ -1,13 +1,20 @@
 "use client"
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import logo from "./logo.png"
 import "./Navbar.css"
 import { signOut, useSession } from "next-auth/react";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from "@/lib/store";
+import { updateLocks } from '@/lib/features/main/mainSlice';
+import { Lock, Unlock } from "@deemlol/next-icons";
 
 const Navbar = () => {
+
+    //Redux
+    const dispatch: AppDispatch = useDispatch();
+    const locks = useSelector((state: RootState) => state.mainData.locks);
 
     const handleSignOut = () => {
         const callbackUrl = `${window.location.origin}/`;
@@ -19,9 +26,9 @@ const Navbar = () => {
 
         if (session) {
             return (
-                <button className="text-xl p-3 rounded-lg" onClick={() => handleSignOut()}>
-                        {session?.user?.name} | Sign out
-                    </button>
+                <button className="text-xl p-3 rounded-lg m-3" onClick={() => handleSignOut()}>
+                    {session?.user?.name} | Sign out
+                </button>
             );
         }
 
@@ -38,9 +45,23 @@ const Navbar = () => {
                         <h1 className="text-ctext text-lg md:text-3xl">TTRPG Editor</h1>
                     </div>
                 </div>
-              
-                <AuthButton />
-               
+
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => dispatch(updateLocks({ key: 'labelLock', value: !locks.labelLock }))}
+                        className="text-lg px-2 py-1 ">
+                        {
+                            <div className="flex flex-col text-center items-center">
+                                <h1>Label Lock</h1>
+                                {locks.labelLock ? (
+                                    <Lock size={26} color="#FFFFFF" />
+                                ) : (<Unlock size={26} color="#FFFFFF" />)}
+                            </div>
+                        }
+                    </button>
+                    <AuthButton />
+                </div>
+
             </div>
         </nav>
     );

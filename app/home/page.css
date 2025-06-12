@@ -9,7 +9,6 @@
 }
 
 textarea:focus {
-
     @apply   border-sec bg-blackButtonBackground
 }
 
@@ -18,12 +17,19 @@ button {
 }
 
 button:hover {
-
     @apply  border-sec bg-blackButtonBackground
 }
 
 .card-textarea {
     @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+}
+
+.card-textarea-label {
+    @apply bg-primary outline-none rounded-md text-center overflow-hidden font-bold resize-none
+}
+
+.card-textarea-label:focus{
+    @apply bg-primary
 }
 
 .card-textarea-skill {
@@ -35,7 +41,7 @@ button:hover {
 }
 
 .card-textarea-hp {
-    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center pt-1.5 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center pt-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
 
 .card-textarea-spellbox {

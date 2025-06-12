@@ -1,21 +1,33 @@
-import prisma from "../../../lib/prisma";
-import { getSession } from "../../actions/getCurrentUser";
+'use client';
 
+import { updateHealthData } from '@/lib/features/main/mainSlice';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
+export default function InitDataLoader() {
+    const dispatch = useDispatch();
 
-const mealGet = async () => {
-    const session = await getSession();
+    useEffect(() => {
+        // Auto-create or load health record
+        const fetchHealth = async () => {
+            try {
+                const res = await fetch('/api/health', { method: 'GET' });
+                const json = await res.json();
+                const health = json.data;
 
-    if (session && session.user !== null) {
-        const meals = await prisma.health.findMany({
-            where: { author: session.user },
-        });
-        return meals;
-    } else {
-        const meals = [{}];
-        return meals;
-    }
+                // update Redux state
+                Object.entries(health).forEach(([key, value]) => {
+                    if (typeof value === 'string') {
+                        dispatch(updateHealthData({ key, value }));
+                    }
+                });
+            } catch (err) {
+                console.error("Error fetching health data:", err);
+            }
+        };
+
+        fetchHealth();
+    }, [dispatch]);
+
+    return null; // This is a logic-only component
 }
-
-
-export default mealGet
