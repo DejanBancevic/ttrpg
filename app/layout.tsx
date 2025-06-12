@@ -28,8 +28,8 @@ export const metadata = {
     siteName: "TTRPG Editor",
     images: [
       {
-        url: "https://ttrpg-gamma.vercel.app/_next/static/media/logo.07616a33.png",
-        width: 800,
+        url: "https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/05/The-Lost-Mine-Of-Phandelver-Cover-Dungeons-Dragons.jpg",
+        width: 1200,
         height: 630,
       },
     ],
