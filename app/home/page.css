@@ -24,11 +24,11 @@ button:hover {
     @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
 }
 
-.card-textarea-label {
+.card-label {
     @apply bg-primary outline-none rounded-md text-center overflow-hidden font-bold resize-none
 }
 
-.card-textarea-label:focus{
+.card-label:focus{
     @apply bg-primary
 }
 

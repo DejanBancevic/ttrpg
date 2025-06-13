@@ -5,7 +5,7 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { patchHealthData, updateHealthData } from '@/lib/features/main/mainSlice';
+import { patchPostData, updateHealthData, updateBasicsData } from '@/lib/features/main/mainSlice';
 
 
 const Home = () => {
@@ -26,19 +26,19 @@ const Home = () => {
               {healthData && <pre>{JSON.stringify(healthData, null, 2)}</pre>}
             </div>
           */}
-     
+
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
 
           {/*Health*/}
-          <div className='flex justify-between gap-4 w-full'>
-            <div className='mainContainers w-full'>
-              <div className='flex justify-center gap-2'>
-
-                {/*HP*/}
+          <div className='flex justify-between '>
+            <div className='mainContainers '>
+              <div className='flex justify-center'>
                 <div className='flex flex-col gap-2'>
+
+                  {/*Top Row*/}
                   <div className='flex items-center gap-3 '>
-                    <textarea
+                    <input
                       value={healthData.hpLabel}
                       readOnly={locks.labelLock}
                       onChange={(e) => {
@@ -48,16 +48,16 @@ const Home = () => {
                       }}
                       onBlur={(e) => {
                         if (!locks.labelLock) {
-                          dispatch(patchHealthData({ hpLabel: e.target.value }));
+                          dispatch(patchPostData({ health: { hpLabel: e.target.value } }));
                         }
                       }}
                       spellCheck={false}
-                      className="card-textarea-label text-2xl italic h-8 w-10"
+                      className="card-label text-2xl italic h-8 w-10"
                     />
                     <textarea
                       value={healthData.hpCurrent}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpCurrent', value: e.target.value }))}
-                      onBlur={(e) => dispatch(patchHealthData({hpCurrent: e.target.value}))}
+                      onBlur={(e) => dispatch(patchPostData({ health: { hpCurrent: e.target.value } }))}
                       spellCheck={false}
                       className="card-textarea-hp w-14 h-10 text-sec text-center "
                     />
@@ -65,12 +65,12 @@ const Home = () => {
                     <textarea
                       value={healthData.hpMax}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpMax', value: e.target.value }))}
-                      onBlur={(e) => dispatch(patchHealthData({ hpMax: e.target.value }))}
+                      onBlur={(e) => dispatch(patchPostData({ health: { hpMax: e.target.value } }))}
                       spellCheck={false}
                       className="card-textarea-hp w-14 h-10 text-center "
                     />
 
-                     <textarea
+                    <input
                       value={healthData.hpTempLabel}
                       readOnly={locks.labelLock}
                       onChange={(e) => {
@@ -80,16 +80,16 @@ const Home = () => {
                       }}
                       onBlur={(e) => {
                         if (!locks.labelLock) {
-                          dispatch(patchHealthData({ hpTempLabel: e.target.value }));
+                          dispatch(patchPostData({ health: { hpTempLabel: e.target.value } }));
                         }
                       }}
                       spellCheck={false}
-                      className="card-textarea-label text-lg italic h-8 w-14"
+                      className="card-label text-lg italic h-8 w-14"
                     />
                     <textarea
                       value={healthData.hpTemp}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpTemp', value: e.target.value }))}
-                      onBlur={(e) => dispatch(patchHealthData({ hpTemp: e.target.value }))}
+                      onBlur={(e) => dispatch(patchPostData({ health: { hpTemp: e.target.value } }))}
                       spellCheck={false}
                       className="card-textarea-hp w-11 h-10 text-center"
                     />
@@ -97,19 +97,50 @@ const Home = () => {
 
                   {/*Bottow Row*/}
                   <div className='flex items-center gap-3'>
-                    <h1 className='text-2xl font-bold italic mr-2'>AC</h1>
+                    <input
+                      value={healthData.acLabel}
+                      readOnly={locks.labelLock}
+                      onChange={(e) => {
+                        if (!locks.labelLock) {
+                          dispatch(updateHealthData({ key: 'acLabel', value: e.target.value }));
+                        }
+                      }}
+                      onBlur={(e) => {
+                        if (!locks.labelLock) {
+                          dispatch(patchPostData({ health: { acLabel: e.target.value } }));
+                        }
+                      }}
+                      spellCheck={false}
+                      className="card-label text-2xl italic w-10 h-10 "
+                    />
                     <textarea
                       value={healthData.ac}
                       onChange={(e) => dispatch(updateHealthData({ key: 'ac', value: e.target.value }))}
-                      onBlur={(e) => dispatch(patchHealthData({ ac: e.target.value }))}
+                      onBlur={(e) => dispatch(patchPostData({ health: { ac: e.target.value } }))}
                       spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center mr-3"
+                      className="card-textarea w-14 h-10 text-center "
                     />
-                    <h1 className='text-lg font-bold '>Addons</h1>
+
+                    <input
+                      value={healthData.stressLabel}
+                      readOnly={locks.labelLock}
+                      onChange={(e) => {
+                        if (!locks.labelLock) {
+                          dispatch(updateHealthData({ key: 'stressLabel', value: e.target.value }));
+                        }
+                      }}
+                      onBlur={(e) => {
+                        if (!locks.labelLock) {
+                          dispatch(patchPostData({ health: { stressLabel: e.target.value } }));
+                        }
+                      }}
+                      spellCheck={false}
+                      className="card-label text-lg w-[68] h-7"
+                    />
                     <textarea
                       value={healthData.stressCurrent}
                       onChange={(e) => dispatch(updateHealthData({ key: 'stressCurrent', value: e.target.value }))}
-                      onBlur={(e) => dispatch(patchHealthData({ stressCurrent: e.target.value }))}
+                      onBlur={(e) => dispatch(patchPostData({ health: { stressCurrent: e.target.value } }))}
                       spellCheck={false}
                       className="card-textarea-hp w-11 h-10 text-center "
                     />
@@ -117,7 +148,7 @@ const Home = () => {
                     <textarea
                       value={healthData.stressMax}
                       onChange={(e) => dispatch(updateHealthData({ key: 'stressMax', value: e.target.value }))}
-                      onBlur={(e) => dispatch(patchHealthData({ stressMax: e.target.value }))}
+                      onBlur={(e) => dispatch(patchPostData({ health: { stressMax: e.target.value } }))}
                       spellCheck={false}
                       className="card-textarea-hp w-11 h-10 text-center "
                     />
@@ -172,7 +203,7 @@ const Home = () => {
           </div>
 
           {/*Skills */}
-          <div className='mainContainers max-h-[61vh] min-h-0 overflow-y-auto custom-scrollbar '>
+          <div className='mainContainers max-h-[61vh] min-h-0 overflow-y-auto custom-scrollbar w-full '>
             <div className='flex flex-col'>
               <div className='flex justify-between pr-8'>
                 <h1 className='text-2xl font-bold italic mb-2'>Skills</h1>

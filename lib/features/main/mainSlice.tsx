@@ -1,15 +1,14 @@
 // src/Redux/counterSlice.js
-import { createSlice, PayloadAction , createAsyncThunk } from '@reduxjs/toolkit';
-import { BlobOptions } from 'buffer';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const patchHealthData = createAsyncThunk(
-    'main/patchHealthData',
-    async (partial: Partial<healthData>, { rejectWithValue }) => {
+export const patchPostData = createAsyncThunk(
+    'main/patchPostData ',
+    async (postData: { health?: Partial<healthData>, basics?: Partial<basicsData> } ,{ rejectWithValue }) => {
         try {
-            const res = await fetch('/api/health', {
+            const res = await fetch('/api/post', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(partial),
+                body: JSON.stringify(postData),
             });
 
             if (!res.ok) {
@@ -25,8 +24,10 @@ export const patchHealthData = createAsyncThunk(
 );
 
 
+
 interface MainState {
     healthData: healthData;
+    basicsData: basicsData;
     locks: locks;
 }
 
@@ -44,8 +45,19 @@ const initialState: MainState = {
         acLabel: "AC",
         stressLabel: "Stress",
     },
+    basicsData: {
+        imageUrl: "0",
+        name: "0",
+        desc: "0",
+        level: "0",
+        xp: "0",
+        levelLabel: "Level",
+        xpLabel: "XP",
+    },
     locks: {
+        inputLock: true,
         labelLock: true,
+        deleteLock: true,
     }
 
 };
@@ -64,8 +76,20 @@ interface healthData {
     stressLabel: string;
 }
 
-interface locks{
+interface basicsData {
+    imageUrl: string;
+    name: string;
+    desc: string;
+    level: string;
+    xp: string;
+    levelLabel: string;
+    xpLabel: string;
+}
+
+interface locks {
+    inputLock: boolean;
     labelLock: boolean;
+    deleteLock: boolean;
 }
 
 const mainSlice = createSlice({
@@ -75,20 +99,25 @@ const mainSlice = createSlice({
         updateHealthData: (state, action: PayloadAction<{ key: string, value: string }>) => {
             state.healthData[action.payload.key as keyof typeof state.healthData] = action.payload.value;
         },
+        updateBasicsData: (state, action: PayloadAction<{ key: string, value: string }>) => {
+            state.basicsData[action.payload.key as keyof typeof state.basicsData] = action.payload.value;
+        },
         updateLocks: (state, action: PayloadAction<{ key: keyof locks, value: boolean }>) => {
-            state.locks[action.payload.key ] = action.payload.value;
+            state.locks[action.payload.key] = action.payload.value;
         }
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
-            .addCase(patchHealthData.fulfilled, (state, action) => {
-                console.log('Posted successfully:', action.payload);
+            .addCase(patchPostData.fulfilled, (state, action) => {
+                const post = action.payload.data;
+                if (post.health) state.healthData = post.health;
+                if (post.basics) state.basicsData = post.basics;
             })
     }
 });
 
 // Export the actions to be used in components
-export const { updateHealthData, updateLocks } = mainSlice.actions;
+export const { updateHealthData, updateBasicsData, updateLocks } = mainSlice.actions;
 
 // Export the reducer to be used in the store
 export default mainSlice.reducer;

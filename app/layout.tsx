@@ -8,6 +8,7 @@ import { getSession } from "./actions/getCurrentUser";
 import Navbar from "./components/Navbar/Navbar";
 import InitDataLoader from "./components/DataGet/DataGet";
 
+
 const rubik = Rubik({ subsets: ["latin"] });  // Loading the font which we first imported
 
 export const metadata = {
@@ -48,9 +49,8 @@ export default async function RootLayout({ children }: { children: ReactNode; })
       <body className={rubik.className}>
         <Providers>
           <StoreProvider>
+            {session && <InitDataLoader />}
             <LayoutWrapper>
-              {session && <Navbar />}
-              <InitDataLoader />
               {children}
             </LayoutWrapper>
           </StoreProvider>
