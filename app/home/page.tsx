@@ -147,7 +147,7 @@ const Home = () => {
                         }
                       }}
                       spellCheck={false}
-                      className="card-label text-2xl italic w-10 h-10 "
+                      className="card-label text-2xl italic w-10 h-10"
                     />
                     <textarea
                       value={post?.healthData.ac}
@@ -162,7 +162,7 @@ const Home = () => {
                         }
                       }}
                       spellCheck={false}
-                      className="card-textarea w-14 h-10 text-center "
+                      className="card-textarea w-14 h-10 text-center"
                     />
 
                     <input
@@ -182,7 +182,7 @@ const Home = () => {
                         }
                       }}
                       spellCheck={false}
-                      className="card-label text-lg w-[68] h-7"
+                      className="card-label text-lg w-[68px] h-7"
                     />
                     <textarea
                       value={post?.healthData.stressCurrent}
@@ -282,7 +282,7 @@ const Home = () => {
                       }
                     }}
                     spellCheck={false}
-                    className="card-label text-2xl w-[63] h-7"
+                    className="card-label text-2xl w-[63px] h-7"
                   />
                   <textarea
                     value={post?.basicsData.level}
@@ -318,7 +318,7 @@ const Home = () => {
                       }
                     }}
                     spellCheck={false}
-                    className="card-label text-lg italic w-[27] h-7"
+                    className="card-label text-lg italic w-[27px] h-7"
                   />
                   <textarea
                     value={post?.basicsData.xp}
