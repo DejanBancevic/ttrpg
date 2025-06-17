@@ -2,6 +2,9 @@ import React from "react";
 import "./Sidebar.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
+import { Trash2, Plus } from "@deemlol/next-icons";
+import { fetchPosts } from "@/lib/features/main/mainSlice";
+import { deletePost as deletePostAction } from "@/lib/features/main/mainSlice";
 
 type SidebarProps = {
     sidebarMove: boolean;
@@ -10,25 +13,88 @@ type SidebarProps = {
 }
 
 
-const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce }: SidebarProps) => {
+const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps) => {
+
     //Redux
     const dispatch: AppDispatch = useDispatch();
-    const basicsData = useSelector((state: RootState) => state.mainData.basicsData);
+    const posts = useSelector((state: RootState) => state.mainData.posts);
+
+    const addPost = async () => {
+
+        const newPostData = {
+            createNew: true,
+        };
+
+        const res = await fetch('/api/post', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newPostData),
+        });
+
+        const json = await res.json();
+        if (res.ok) {
+            console.log('New post created:', json.data);
+        } else {
+            console.error('Error creating post:', json.error);
+        }
+
+        dispatch(fetchPosts());
+
+    }
+
+    const deletePost = async (id: any) => {
+        await dispatch(deletePostAction({ postId: id }));
+
+        dispatch(fetchPosts());
+
+    }
 
     return (
-        <nav className={` ${sidebarMove ? "sidebarExp" : "sidebar"}`}>
+        <nav className={`navSidebar ${sidebarMove ? "sidebarExp" : "sidebar"}`}>
             <div className="sidebarContent">
-                <button
-                    onMouseOver={sidebarExpanded}
-                    onMouseOut={sidebarReduce}
-                    className="sidebarButton"
-                >
-                    <img
-                        src={basicsData.imageUrl}
-                        alt="Custom Icon"
-                        className="size-10"
-                    />
-                </button>
+                <div>
+                    {
+                        posts.map((post, index) => (
+
+                            <div key={post.id} className='flex items-center gap-1'>
+                                <Trash2
+                                    onClick={()=> deletePost(post.id)}
+                                    className='size-4 text-gray'
+                                />
+                                <button
+                                    key={post.id}
+                                    onMouseOver={sidebarExpanded}
+                                    onMouseOut={sidebarReduce}
+                                    className="sidebarButton"
+                                >
+                                    {sidebarMove ? (
+                                        <div className="flex items-center gap-2 ">
+                                            <img
+                                                src={post?.basicsData.imageUrl}
+                                                alt="Custom Icon"
+                                                className="size-12 border border-gray rounded-md"
+                                            />
+                                            <h1>{post.basicsData.name}</h1>
+                                        </div>
+                                    ) : (
+                                        <img
+                                            src={post.basicsData.imageUrl}
+                                            alt="Custom Icon"
+                                            className="size-12 rounded-md"
+                                        />
+                                    )
+                                    }
+                                </button></div>
+                        )
+                        )
+                    }
+                </div>
+
+                <Plus
+                    onClick={addPost}
+                    className='size-8 text-sec'
+                />
+
             </div>
         </nav>
     );

@@ -1,7 +1,5 @@
 import { redirect } from "next/navigation";
-import Home from "./home/page";
 import { getSession } from "./actions/getCurrentUser";
-import Login from "./login/page";
 
 const Landing = async () => {
 
@@ -9,14 +7,10 @@ const Landing = async () => {
   const session = await getSession();
 
   if (session) {
-    return (
-      <Home />
-    )
+    redirect("/home")
+  } else {
+    redirect("/login")
   }
-
-  return (
-    <Login />
-  );
 }
 
 export default Landing;

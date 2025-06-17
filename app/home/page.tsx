@@ -12,7 +12,10 @@ const Home = () => {
 
   //Redux
   const dispatch: AppDispatch = useDispatch();
-  const healthData = useSelector((state: RootState) => state.mainData.healthData);
+  const activePostId = useSelector((state: RootState) => state.mainData.activePostId);
+  const post = useSelector((state: RootState) =>
+    state.mainData.posts.find(post => post.id === activePostId)
+  )
   const locks = useSelector((state: RootState) => state.mainData.locks);
 
 
@@ -39,7 +42,7 @@ const Home = () => {
                   {/*Top Row*/}
                   <div className='flex items-center gap-3 '>
                     <input
-                      value={healthData.hpLabel}
+                      value={post?.healthData.hpLabel}
                       readOnly={locks.labelLock}
                       onChange={(e) => {
                         if (!locks.labelLock) {
@@ -55,15 +58,18 @@ const Home = () => {
                       className="card-label text-2xl italic h-8 w-10"
                     />
                     <textarea
-                      value={healthData.hpCurrent}
+                      value={post?.healthData.hpCurrent}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpCurrent', value: e.target.value }))}
-                      onBlur={(e) => dispatch(patchPostData({ health: { hpCurrent: e.target.value } }))}
+                      onBlur={(e) => dispatch(patchPostData({
+                        postId: activePostId,
+                        health: { hpCurrent: e.target.value }
+                      }))}
                       spellCheck={false}
                       className="card-textarea-hp w-14 h-10 text-sec text-center "
                     />
                     <div className='border-l border-gray h-full'></div>
                     <textarea
-                      value={healthData.hpMax}
+                      value={post?.healthData.hpMax}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpMax', value: e.target.value }))}
                       onBlur={(e) => dispatch(patchPostData({ health: { hpMax: e.target.value } }))}
                       spellCheck={false}
@@ -71,7 +77,7 @@ const Home = () => {
                     />
 
                     <input
-                      value={healthData.hpTempLabel}
+                      value={post?.healthData.hpTempLabel}
                       readOnly={locks.labelLock}
                       onChange={(e) => {
                         if (!locks.labelLock) {
@@ -87,7 +93,7 @@ const Home = () => {
                       className="card-label text-lg italic h-8 w-14"
                     />
                     <textarea
-                      value={healthData.hpTemp}
+                      value={post?.healthData.hpTemp}
                       onChange={(e) => dispatch(updateHealthData({ key: 'hpTemp', value: e.target.value }))}
                       onBlur={(e) => dispatch(patchPostData({ health: { hpTemp: e.target.value } }))}
                       spellCheck={false}
@@ -98,7 +104,7 @@ const Home = () => {
                   {/*Bottow Row*/}
                   <div className='flex items-center gap-3'>
                     <input
-                      value={healthData.acLabel}
+                      value={post?.healthData.acLabel}
                       readOnly={locks.labelLock}
                       onChange={(e) => {
                         if (!locks.labelLock) {
@@ -114,7 +120,7 @@ const Home = () => {
                       className="card-label text-2xl italic w-10 h-10 "
                     />
                     <textarea
-                      value={healthData.ac}
+                      value={post?.healthData.ac}
                       onChange={(e) => dispatch(updateHealthData({ key: 'ac', value: e.target.value }))}
                       onBlur={(e) => dispatch(patchPostData({ health: { ac: e.target.value } }))}
                       spellCheck={false}
@@ -122,7 +128,7 @@ const Home = () => {
                     />
 
                     <input
-                      value={healthData.stressLabel}
+                      value={post?.healthData.stressLabel}
                       readOnly={locks.labelLock}
                       onChange={(e) => {
                         if (!locks.labelLock) {
@@ -138,7 +144,7 @@ const Home = () => {
                       className="card-label text-lg w-[68] h-7"
                     />
                     <textarea
-                      value={healthData.stressCurrent}
+                      value={post?.healthData.stressCurrent}
                       onChange={(e) => dispatch(updateHealthData({ key: 'stressCurrent', value: e.target.value }))}
                       onBlur={(e) => dispatch(patchPostData({ health: { stressCurrent: e.target.value } }))}
                       spellCheck={false}
@@ -146,7 +152,7 @@ const Home = () => {
                     />
                     <div className='border-l border-gray h-full'></div>
                     <textarea
-                      value={healthData.stressMax}
+                      value={post?.healthData.stressMax}
                       onChange={(e) => dispatch(updateHealthData({ key: 'stressMax', value: e.target.value }))}
                       onBlur={(e) => dispatch(patchPostData({ health: { stressMax: e.target.value } }))}
                       spellCheck={false}

@@ -7,11 +7,9 @@ import { usePathname } from "next/navigation";
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
-    const [sidebarMove, useSidebarMove] = useState(false);
+    const [sidebarMove, setSidebarMove] = useState(false);
     const pathname = usePathname();
 
-    // Hide Sidebar on login page (and optionally other public pages)
-    const shouldHideSidebar = pathname === "/" || pathname === "/login";
     // Inside LayoutWrapper
     const shouldHideUI = pathname === "/" || pathname === "/login";
 
@@ -22,22 +20,24 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
                 {!shouldHideUI && (
                     <Sidebar
                         sidebarMove={sidebarMove}
-                        sidebarExpanded={() => useSidebarMove(true)}
-                        sidebarReduce={() => useSidebarMove(false)}
+                        sidebarExpanded={() => setSidebarMove(true)}
+                        sidebarReduce={() => setSidebarMove(false)}
                     />
                 )}
                 <div className="flex-1 relative">
                     {sidebarMove && (
                         <div
-                            className="fixed inset-0 bg-black bg-opacity-50 z-20"
-                            onClick={() => useSidebarMove(false)}
+                            className="fixed inset-0 bg-black bg-opacity-50 z-10"
+                            onClick={() => setSidebarMove(false)}
                         />
                     )}
+
                     {children}
+
                 </div>
             </div>
         </>
     );
 }
 
-    export default LayoutWrapper;
+export default LayoutWrapper;

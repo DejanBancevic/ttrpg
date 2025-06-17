@@ -18,10 +18,10 @@ generator client {
 model Post {
   id String @id @default(cuid())
 
-  health   Health @relation(fields: [healthId], references: [id])
+  health   Health @relation("PostHealth", fields: [healthId], references: [id], onDelete: Cascade)
   healthId String @unique
 
-  basics   Basics @relation(fields: [basicsId], references: [id])
+  basics   Basics @relation("PostBasics", fields: [basicsId], references: [id], onDelete: Cascade)
   basicsId String @unique
 
   author   User?   @relation(fields: [authorId], references: [id])
@@ -44,7 +44,7 @@ model Health {
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
 
-  post Post?
+  post Post? @relation("PostHealth")
 }
 
 model Basics {
@@ -60,7 +60,7 @@ model Basics {
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
 
-  post Post?
+  post Post? @relation("PostBasics")
 }
 
 model Account {

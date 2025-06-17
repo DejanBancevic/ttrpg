@@ -6,7 +6,7 @@ import StoreProvider from "./StoreProvider";
 import { Providers } from "./components/SessionProvider";
 import { getSession } from "./actions/getCurrentUser";
 import Navbar from "./components/Navbar/Navbar";
-import InitDataLoader from "./components/DataGet/DataGet";
+import InitDataLoader from "./components/InitDataLoader/InitDataLoader";
 
 
 const rubik = Rubik({ subsets: ["latin"] });  // Loading the font which we first imported

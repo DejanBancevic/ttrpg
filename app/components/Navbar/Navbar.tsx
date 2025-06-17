@@ -37,7 +37,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav>
+        <nav className="nav">
             <div className="flex justify-between w-full items-center gap-2 ml-2 md:ml-4 md:h-20 pr-10">
                 
                 {/*Left Side*/}
