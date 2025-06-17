@@ -79,12 +79,12 @@ const initialState: MainState = {
                 hpLabel: "HP",
                 hpTempLabel: "Temp",
                 acLabel: "AC",
-                stressLabel: "Stress",
+                stressLabel: "Addons",
             },
             basicsData: {
                 imageUrl: "0",
-                name: "0",
-                desc: "0",
+                name: "John Doe",
+                desc: "No description",
                 level: "0",
                 xp: "0",
                 levelLabel: "Level",
@@ -157,6 +157,9 @@ const mainSlice = createSlice({
         },
         updateLocks: (state, action: PayloadAction<{ key: keyof locks, value: boolean }>) => {
             state.locks[action.payload.key] = action.payload.value;
+        },
+        setActivePostId: (state, action: PayloadAction<string>) => {
+            state.activePostId = action.payload;
         }
     },
     extraReducers: (builder) => {  // za asinhrone akcije
@@ -202,7 +205,7 @@ const mainSlice = createSlice({
 
 
 // Export the actions to be used in components
-export const { updateHealthData, updateBasicsData, updateLocks } = mainSlice.actions;
+export const { updateHealthData, updateBasicsData, updateLocks, setActivePostId } = mainSlice.actions;
 
 // Export the reducer to be used in the store
 export default mainSlice.reducer;

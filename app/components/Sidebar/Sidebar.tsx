@@ -3,7 +3,7 @@ import "./Sidebar.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
 import { Trash2, Plus } from "@deemlol/next-icons";
-import { fetchPosts } from "@/lib/features/main/mainSlice";
+import { fetchPosts, setActivePostId } from "@/lib/features/main/mainSlice";
 import { deletePost as deletePostAction } from "@/lib/features/main/mainSlice";
 
 type SidebarProps = {
@@ -18,6 +18,12 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
     //Redux
     const dispatch: AppDispatch = useDispatch();
     const posts = useSelector((state: RootState) => state.mainData.posts);
+
+    const focusPost = async (id:string) => {
+
+        dispatch(setActivePostId(id));
+
+    }
 
     const addPost = async () => {
 
@@ -42,7 +48,7 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
 
     }
 
-    const deletePost = async (id: any) => {
+    const deletePost = async (id: string) => {
         await dispatch(deletePostAction({ postId: id }));
 
         dispatch(fetchPosts());
@@ -59,10 +65,11 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                             <div key={post.id} className='flex items-center gap-1'>
                                 <Trash2
                                     onClick={()=> deletePost(post.id)}
-                                    className='size-4 text-gray'
+                                    className='removeButton size-4'
                                 />
                                 <button
                                     key={post.id}
+                                    onClick={()=>focusPost(post.id!)}
                                     onMouseOver={sidebarExpanded}
                                     onMouseOut={sidebarReduce}
                                     className="sidebarButton"
@@ -92,7 +99,7 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
 
                 <Plus
                     onClick={addPost}
-                    className='size-8 text-sec'
+                    className='addButton size-8'
                 />
 
             </div>

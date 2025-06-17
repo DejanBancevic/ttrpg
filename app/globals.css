@@ -10,7 +10,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #F2F2F2;    
+    --foreground: #F2F2F2;
   }
 }
 
@@ -30,4 +30,28 @@ button {
 
 button:hover {
   @apply border-sec bg-blackButtonBackground
+}
+
+.addButton {
+  @apply text-ctext transition-all duration-300 ease-in-out transform
+}
+
+.addButton:hover {
+  @apply text-sec shadow-lg 
+}
+
+.addButton:active {
+  @apply text-sec shadow-lg opacity-80 scale-75
+}
+
+.removeButton {
+  @apply text-gray transition-all duration-300 ease-in-out transform
+}
+
+.removeButton:hover {
+  @apply text-sec shadow-lg
+}
+
+.removeButton:active {
+  @apply text-sec shadow-lg opacity-80 scale-75
 }

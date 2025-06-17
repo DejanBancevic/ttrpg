@@ -26,15 +26,15 @@ export async function POST(request: NextRequest) {
                         hpLabel: "HP",
                         hpTempLabel: "Temp",
                         acLabel: "AC",
-                        stressLabel: "Stress",
+                        stressLabel: "Addons",
                     },
                 },
                 basics: {
                     create: body.basics ?? {
                         imageUrl: "https://ik-minis.com/cdn/shop/products/bk-square.jpg",
-                        name: "Unnamed",
+                        name: "John Doe",
                         desc: "No description",
-                        level: "1",
+                        level: "0",
                         xp: "0",
                         levelLabel: "Level",
                         xpLabel: "XP",
@@ -159,8 +159,8 @@ export async function GET(request: NextRequest) {
                 basics: {
                     create: {
                         imageUrl: "https://ik-minis.com/cdn/shop/products/bk-square.jpg",
-                        name: "0",
-                        desc: "0",
+                        name: "John Doe",
+                        desc: "No description",
                         level: "0",
                         xp: "0",
                         levelLabel: "Level",
