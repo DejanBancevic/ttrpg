@@ -222,7 +222,7 @@ const Home = () => {
           </div>
 
           {/*Name & Level */}
-          <div className='mainContainers w-full'>
+          <div className='mainContainers '>
             <div className='flex justify-center gap-2'>
               {/*Name*/}
               <div className='flex flex-col gap-2'>
@@ -342,7 +342,7 @@ const Home = () => {
           </div>
 
           {/*Skills */}
-          <div className='mainContainers max-h-[61vh] min-h-0 overflow-y-auto custom-scrollbar w-full '>
+          <div className='mainContainers max-h-[61vh] min-h-0 overflow-y-auto custom-scrollbar '>
             <div className='flex flex-col'>
               <div className='flex justify-between pr-8'>
                 <h1 className='text-2xl font-bold italic mb-2'>Skills</h1>
