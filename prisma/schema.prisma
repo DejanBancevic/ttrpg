@@ -24,8 +24,23 @@ model Post {
   basics   Basics @relation("PostBasics", fields: [basicsId], references: [id], onDelete: Cascade)
   basicsId String @unique
 
+  skills   Skill[] @relation("PostSkill")
+  skillsid String? @unique
+
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
+}
+
+model Skill {
+  id          String @id @default(cuid())
+  skillName   String
+  skillValue  String
+  skillProf   String
+  skillsLabel String
+  profsLabel  String
+
+  post   Post?  @relation("PostSkill", fields: [postId], references: [id], onDelete: Cascade)
+  postId String
 }
 
 model Health {
@@ -41,9 +56,6 @@ model Health {
   acLabel       String
   stressLabel   String
 
-  author   User?   @relation(fields: [authorId], references: [id])
-  authorId String?
-
   post Post? @relation("PostHealth")
 }
 
@@ -56,9 +68,6 @@ model Basics {
   xp         String
   levelLabel String
   xpLabel    String
-
-  author   User?   @relation(fields: [authorId], references: [id])
-  authorId String?
 
   post Post? @relation("PostBasics")
 }
@@ -101,6 +110,4 @@ model User {
   posts         Post[]
   accounts      Account[]
   sessions      Session[]
-  Health        Health[]
-  Basics        Basics[]
 }

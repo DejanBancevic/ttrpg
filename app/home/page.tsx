@@ -5,7 +5,7 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { patchPostData, updateHealthData, updateBasicsData } from '@/lib/features/main/mainSlice';
+import { patchPostData, updateHealthData, updateBasicsData, updateSkillById, fetchPosts } from '@/lib/features/main/mainSlice';
 
 
 const Home = () => {
@@ -18,6 +18,11 @@ const Home = () => {
   )
   const locks = useSelector((state: RootState) => state.mainData.locks);
 
+  const handleAddSkill = async () => {
+
+    
+
+  }
 
   return (
     <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
@@ -344,6 +349,7 @@ const Home = () => {
           {/*Skills */}
           <div className='mainContainers max-h-[61vh] min-h-0 overflow-y-auto custom-scrollbar '>
             <div className='flex flex-col'>
+
               <div className='flex justify-between pr-8'>
                 <h1 className='text-2xl font-bold italic mb-2'>Skills</h1>
                 <h1 className='text-lg font-bold mt-1 mb-2'>Profs</h1>
@@ -351,407 +357,73 @@ const Home = () => {
 
               <div className='flex flex-col gap-2 items-center'>
 
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                {/*Skill Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Animal Handling"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-skill"
-                  />
-                  <textarea
-                    value={"15"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-
-                  <div className='border-l border-gray h-full'></div>
-
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10 text-sec"
-                  />
-                  <Trash2 className='size-6 text-gray' />
-
-                </div>
-
-                <Plus className='size-6 text-sec' />
+                {/*Skill Instances */}
+                {
+                  post?.skillsData.map((post, index) => (
+                    <div key={post.id} className='flex items-center gap-2'>
+                      <textarea
+                        value={post.skillName}
+                        readOnly={locks.inputLock}
+                        onChange={(e) => dispatch(updateSkillById({ key: post.id, value: {skillName: e.target.value} }))}
+                        onBlur={(e) => {
+                          if (!locks.inputLock) {
+                            dispatch(patchPostData({
+                              postId: activePostId,
+                              skills: [{ id: post.id, skillName: e.target.value }]
+                            }));
+                          }
+                        }}
+                        placeholder={"Name"}
+                        spellCheck={false}
+                        className="card-textarea-skill"
+                      />
+                      <textarea
+                        value={post.skillValue}
+                        readOnly={locks.inputLock}
+                        onChange={(e) => dispatch(updateSkillById({ key: post.id, value: { skillValue: e.target.value } }))}
+                        onBlur={(e) => {
+                          if (!locks.inputLock) {
+                            dispatch(patchPostData({
+                              postId: activePostId,
+                              skills: [{ ...post, skillValue: e.target.value }]
+                            }));
+                          }
+                        }}
+                        placeholder={"0"}
+                        spellCheck={false}
+                        className="card-textarea w-11 h-10"
+                      />
+
+                      <div className='border-l border-gray h-full'></div>
+
+                      <textarea
+                        value={post.skillProf}
+                        readOnly={locks.inputLock}
+                        onChange={(e) => dispatch(updateSkillById({ key: post.id, value: { skillProf: e.target.value } }))}
+                        onBlur={(e) => {
+                          if (!locks.inputLock) {
+                            dispatch(patchPostData({
+                              postId: activePostId,
+                              skills: [{ id: post.id, skillProf: e.target.value }]
+                            }));
+                          }
+                        }}
+                        placeholder={"0"}
+                        spellCheck={false}
+                        className="card-textarea w-11 h-10 text-sec"
+                      />
+                    
+                      <Trash2 className='size-6 text-gray' />
+
+                    </div>
+                  ))
+                }
+
+                <Plus
+                  onClick={handleAddSkill}
+                  className='addButton size-6'
+                />
+          
               </div>
 
             </div>

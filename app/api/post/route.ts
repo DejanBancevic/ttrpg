@@ -40,8 +40,20 @@ export async function POST(request: NextRequest) {
                         xpLabel: "XP",
                     },
                 },
+                skills: {
+                    create: Array.isArray(body.skills) && body.skills.length > 0 ? body.skills :
+                        [
+                            {
+                                skillName: "Add Skill Name",
+                                skillValue: "0",
+                                skillProf: "0",
+                                skillsLabel: "Skills",
+                                profsLabel: "Profs",
+                            },
+                        ],
+                },
             },
-            include: { health: true, basics: true },
+            include: { health: true, basics: true, skills: true },
         });
 
         return NextResponse.json({ data: newPost });
@@ -54,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     const existingPost = await prisma.post.findUnique({
         where: { id: body.postId },
-        include: { health: true, basics: true },
+        include: { health: true, basics: true, skills: true },
     });
 
     if (!existingPost) {
@@ -64,7 +76,7 @@ export async function POST(request: NextRequest) {
     const updatedPost = await prisma.post.update({
         where: { id: body.postId },
         data: {
-            ...(body.health && {
+            ...(body.health && { // proveravas da li se request iz body slaze sa tim iz 
                 health: { update: body.health },
             }),
             ...(body.basics && {
@@ -74,10 +86,39 @@ export async function POST(request: NextRequest) {
         include: { health: true, basics: true },
     });
 
+    // Optional: Update individual skills
+    if (Array.isArray(body.skills) && body.skills.length > 0) {
+        for (const skill of body.skills) {
+            if (skill.id) {
+                // Update existing skill
+                await prisma.skill.update({
+                    where: { id: skill.id },
+                    data: {
+                        skillName: skill.skillName,
+                        skillValue: skill.skillValue,
+                        skillProf: skill.skillProf,
+                    },
+                });
+            } else {
+                // Create new skill and connect to post
+                await prisma.skill.create({
+                    data: {
+                        skillName: skill.skillName,
+                        skillValue: skill.skillValue,
+                        skillProf: skill.skillProf,
+                        skillsLabel: skill.skillsLabel,
+                        profsLabel: skill.profsLabel,
+                        post: { connect: { id: body.postId } },
+                    },
+                });
+            }
+        }
+    }
+
     return NextResponse.json({ data: updatedPost });
 }
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(request: NextRequest) { 
     try {
         const session = await getSession();
         const body = await request.json();
@@ -105,6 +146,7 @@ export async function DELETE(request: NextRequest) {
             // 2. Then delete the related records 
             await tx.health.delete({ where: { id: existing.healthId } });
             await tx.basics.delete({ where: { id: existing.basicsId } });
+            await tx.skill.deleteMany({ where: { postId: body.postId } });
 
             return deletedPost;
         });
@@ -122,6 +164,7 @@ export async function DELETE(request: NextRequest) {
         return NextResponse.json({ error: "Internal error" }, { status: 500 });
     }
 }
+
 export async function GET(request: NextRequest) {
     const session = await getSession();
 
@@ -133,7 +176,7 @@ export async function GET(request: NextRequest) {
         where: {
             author: { email: session.user.email },
         },
-        include: { health: true, basics: true },
+        include: { health: true, basics: true, skills: true },
     });
 
     // Create default if it doesn't exist
@@ -153,8 +196,7 @@ export async function GET(request: NextRequest) {
                         hpTempLabel: "Temp",
                         acLabel: "AC",
                         stressLabel: "Addons",
-                        author: { connect: { email: session.user.email } },
-                    }
+                    },
                 },
                 basics: {
                     create: {
@@ -165,14 +207,25 @@ export async function GET(request: NextRequest) {
                         xp: "0",
                         levelLabel: "Level",
                         xpLabel: "XP",
-                        author: { connect: { email: session.user.email } },
-                    }
+                    },
+                },
+                skills: {
+                    create:
+                        [
+                            {
+                                skillName: "Add Skill Name",
+                                skillValue: "0",
+                                skillProf: "0",
+                                skillsLabel: "Skills",
+                                profsLabel: "Profs",
+                            },
+                        ],
                 },
             },
-            include: { health: true, basics: true },
+            include: { health: true, basics: true, skills: true },
         });
 
-        posts = [createdPost]; 
+        posts = [createdPost];
     }
 
     return NextResponse.json({ data: posts });
