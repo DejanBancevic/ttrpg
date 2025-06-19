@@ -24,23 +24,31 @@ model Post {
   basics   Basics @relation("PostBasics", fields: [basicsId], references: [id], onDelete: Cascade)
   basicsId String @unique
 
-  skills   Skill[] @relation("PostSkill")
-  skillsid String? @unique
+  skills   Skills  @relation("PostSkill", fields: [skillsId], references: [id], onDelete: Cascade)
+  skillsId String @unique
 
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
 }
 
-model Skill {
+model Skills {
   id          String @id @default(cuid())
-  skillName   String
-  skillValue  String
-  skillProf   String
   skillsLabel String
   profsLabel  String
 
-  post   Post?  @relation("PostSkill", fields: [postId], references: [id], onDelete: Cascade)
-  postId String
+  skillInstance   SkillInstance[] @relation("SkillsSkill")
+
+  post Post? @relation("PostSkill")
+}
+
+model SkillInstance {
+  id         String @id @default(cuid())
+  skillName  String
+  skillValue String
+  skillProf  String
+
+  skills   Skills? @relation("SkillsSkill", fields: [skillsId], references: [id], onDelete: Cascade)
+  skillsId String
 }
 
 model Health {

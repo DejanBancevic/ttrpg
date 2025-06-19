@@ -3,7 +3,7 @@ import "./Sidebar.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
 import { Trash2, Plus } from "@deemlol/next-icons";
-import { fetchPosts, setActivePostId } from "@/lib/features/main/mainSlice";
+import { createPost, fetchPosts, setActivePostId } from "@/lib/features/main/mainSlice";
 import { deletePost as deletePostAction } from "@/lib/features/main/mainSlice";
 
 type SidebarProps = {
@@ -19,40 +19,21 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
     const dispatch: AppDispatch = useDispatch();
     const posts = useSelector((state: RootState) => state.mainData.posts);
 
-    const focusPost = async (id:string) => {
+    const handleFocusPost = async (id:string) => {
 
         dispatch(setActivePostId(id));
-
     }
 
-    const addPost = async () => {
+    const handleAddPost = async () => {
 
-        const newPostData = {
-            createNew: true,
-        };
-
-        const res = await fetch('/api/post', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newPostData),
-        });
-
-        const json = await res.json();
-        if (res.ok) {
-            console.log('New post created:', json.data);
-        } else {
-            console.error('Error creating post:', json.error);
-        }
-
+        dispatch(createPost());
         dispatch(fetchPosts());
-
     }
 
-    const deletePost = async (id: string) => {
+    const handleDeletePost = async (id: string) => {
+
         await dispatch(deletePostAction({ postId: id }));
-
         dispatch(fetchPosts());
-
     }
 
     return (
@@ -64,12 +45,12 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
 
                             <div key={post.id} className='flex items-center gap-1'>
                                 <Trash2
-                                    onClick={()=> deletePost(post.id)}
+                                    onClick={() => handleDeletePost(post.id)}
                                     className='removeButton size-4'
                                 />
                                 <button
                                     key={post.id}
-                                    onClick={()=>focusPost(post.id!)}
+                                    onClick={()=>handleFocusPost(post.id!)}
                                     onMouseOver={sidebarExpanded}
                                     onMouseOut={sidebarReduce}
                                     className="sidebarButton"
@@ -98,7 +79,7 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                 </div>
 
                 <Plus
-                    onClick={addPost}
+                    onClick={handleAddPost}
                     className='addButton size-8'
                 />
 

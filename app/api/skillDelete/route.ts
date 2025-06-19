@@ -11,27 +11,31 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        if (!body.skillId) {
-            return NextResponse.json({ error: "Missing skillId" }, { status: 400 });
+        if (!body.skillInstanceId) {
+            return NextResponse.json({ error: "Missing skillInstanceId" }, { status: 400 });
         }
 
-        const skill = await prisma.skill.findUnique({
-            where: { id: body.skillId },
+        const skillInstance = await prisma.skillInstance.findUnique({
+            where: { id: body.skillInstanceId },
             include: {
-                post: {
-                    select: {
-                        author: { select: { email: true } },
-                    },
-                },
+                skills: {
+                    include: {
+                        post: {
+                            select: {
+                                author: { select: { email: true } },
+                            },
+                        },
+                   }
+               }
             },
         })
 
-        if (!skill || skill.post?.author?.email !== session.user.email) {
+        if (!skillInstance || skillInstance.skills?.post?.author?.email !== session.user.email) {
             return NextResponse.json({ error: "Not authorized to delete this skill" }, { status: 403 });
         }
 
-        await prisma.skill.delete({
-            where: { id: body.skillId },
+        await prisma.skillInstance.delete({
+            where: { id: body.skillInstanceId },
         });
 
         return NextResponse.json({ success: true });

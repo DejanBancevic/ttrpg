@@ -1,11 +1,13 @@
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
 import { patchPostData, updateHealthData, updateBasicsData, updateSkillById, fetchPosts } from '@/lib/features/main/mainSlice';
+import LabelComp from '../components/LabelComp/LabelComp';
+import InputComp from '../components/InputComp/InputComp';
 
 
 const Home = () => {
@@ -20,7 +22,6 @@ const Home = () => {
 
   const handleAddSkill = async () => {
 
-    
 
   }
 
@@ -46,180 +47,124 @@ const Home = () => {
 
                   {/*Top Row*/}
                   <div className='flex items-center gap-3 '>
-                    <input
+                    <LabelComp
                       value={post?.healthData.hpLabel}
-                      readOnly={locks.labelLock}
-                      onChange={(e) => {
-                        if (!locks.labelLock) {
-                          dispatch(updateHealthData({ key: 'hpLabel', value: e.target.value }));
-                        }
-                      }}
-                      onBlur={(e) => {
-                        if (!locks.labelLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { hpLabel: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-label text-2xl italic h-8 w-10"
-                    />
-                    <textarea
-                      value={post?.healthData.hpCurrent}
-                      readOnly={locks.inputLock}
-                      onChange={(e) => dispatch(updateHealthData({ key: 'hpCurrent', value: e.target.value }))}
-                      onBlur={(e) => {
-                        if (!locks.inputLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { hpCurrent: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-textarea-hp w-14 h-10 text-sec text-center "
-                    />
-                    <div className='border-l border-gray h-full'></div>
-                    <textarea
-                      value={post?.healthData.hpMax}
-                      readOnly={locks.inputLock}
-                      onChange={(e) => dispatch(updateHealthData({ key: 'hpMax', value: e.target.value }))}
-                      onBlur={(e) => {
-                        if (!locks.inputLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { hpMax: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-textarea-hp w-14 h-10 text-center "
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model="health"
+                      labelName='hpLabel'
+                      style="card-label text-2xl italic h-8 w-10"
                     />
 
-                    <input
+                    <InputComp
+                      value={post?.healthData.hpCurrent}
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model="health"
+                      inputName='hpCurrent'
+                      style="card-textarea-hp w-14 h-10 text-sec text-center"
+                    />
+
+                    <div className='border-l border-gray h-full'></div>
+
+                    <InputComp
+                      value={post?.healthData.hpMax}
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model="health"
+                      inputName='hpMax'
+                      style="card-textarea-hp w-14 h-10 text-center "
+                    />
+
+                    <LabelComp
                       value={post?.healthData.hpTempLabel}
-                      readOnly={locks.labelLock}
-                      onChange={(e) => {
-                        if (!locks.labelLock) {
-                          dispatch(updateHealthData({ key: 'hpTempLabel', value: e.target.value }));
-                        }
-                      }}
-                      onBlur={(e) => {
-                        if (!locks.labelLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { hpTempLabel: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-label text-lg italic h-8 w-14"
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model='health'
+                      labelName='hpTempLabel'
+                      style="card-label text-lg italic h-8 w-14"
                     />
-                    <textarea
+
+                    <InputComp
                       value={post?.healthData.hpTemp}
-                      readOnly={locks.inputLock}
-                      onChange={(e) => dispatch(updateHealthData({ key: 'hpTemp', value: e.target.value }))}
-                      onBlur={(e) => {
-                        if (!locks.inputLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { hpTemp: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center"
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model="health"
+                      inputName='hpTemp'
+                      style="card-textarea-hp w-11 h-10 text-center"
                     />
+
                   </div>
 
                   {/*Bottow Row*/}
                   <div className='flex items-center gap-3'>
-                    <input
+                    <LabelComp
                       value={post?.healthData.acLabel}
-                      readOnly={locks.labelLock}
-                      onChange={(e) => {
-                        if (!locks.labelLock) {
-                          dispatch(updateHealthData({ key: 'acLabel', value: e.target.value }));
-                        }
-                      }}
-                      onBlur={(e) => {
-                        if (!locks.labelLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { acLabel: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-label text-2xl italic w-10 h-10"
-                    />
-                    <textarea
-                      value={post?.healthData.ac}
-                      readOnly={locks.inputLock}
-                      onChange={(e) => dispatch(updateHealthData({ key: 'ac', value: e.target.value }))}
-                      onBlur={(e) => {
-                        if (!locks.inputLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { ac: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10 text-center"
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model='health'
+                      labelName='acLabel'
+                      style="card-label text-2xl italic w-10 h-10"
                     />
 
-                    <input
+                    <InputComp
+                      value={post?.healthData.ac}
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model="health"
+                      inputName='ac'
+                      style="card-textarea w-14 h-10 text-center"
+                    />
+
+                    <LabelComp
                       value={post?.healthData.stressLabel}
-                      readOnly={locks.labelLock}
-                      onChange={(e) => {
-                        if (!locks.labelLock) {
-                          dispatch(updateHealthData({ key: 'stressLabel', value: e.target.value }));
-                        }
-                      }}
-                      onBlur={(e) => {
-                        if (!locks.labelLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { stressLabel: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-label text-lg w-[68px] h-7"
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model='health'
+                      labelName='stressLabel'
+                      style="card-label text-lg w-[68px] h-7"
                     />
-                    <textarea
+
+                    <InputComp
                       value={post?.healthData.stressCurrent}
-                      readOnly={locks.inputLock}
-                      onChange={(e) => dispatch(updateHealthData({ key: 'stressCurrent', value: e.target.value }))}
-                      onBlur={(e) => {
-                        if (!locks.inputLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { stressCurrent: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center "
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model="health"
+                      inputName='stressCurrent'
+                      style="card-textarea-hp w-11 h-10 text-center "
                     />
+
                     <div className='border-l border-gray h-full'></div>
-                    <textarea
+
+                    <InputComp
                       value={post?.healthData.stressMax}
-                      readOnly={locks.inputLock}
-                      onChange={(e) => dispatch(updateHealthData({ key: 'stressMax', value: e.target.value }))}
-                      onBlur={(e) => {
-                        if (!locks.inputLock) {
-                          dispatch(patchPostData({
-                            postId: activePostId,
-                            health: { stressMax: e.target.value }
-                          }));
-                        }
-                      }}
-                      spellCheck={false}
-                      className="card-textarea-hp w-11 h-10 text-center "
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateHealthData}
+                      updatePostData={patchPostData}
+                      model="health"
+                      inputName='stressMax'
+                      style="card-textarea-hp w-11 h-10 text-center "
                     />
+
                   </div>
                 </div>
               </div>
@@ -231,38 +176,29 @@ const Home = () => {
             <div className='flex justify-center gap-2'>
               {/*Name*/}
               <div className='flex flex-col gap-2'>
-                <textarea
+
+                <InputComp
                   value={post?.basicsData.name}
-                  readOnly={locks.inputLock}
-                  onChange={(e) => dispatch(updateBasicsData({ key: 'name', value: e.target.value }))}
-                  onBlur={(e) => {
-                    if (!locks.inputLock) {
-                      dispatch(patchPostData({
-                        postId: activePostId,
-                        basics: { name: e.target.value }
-                      }));
-                    }
-                  }}
-                  placeholder={"Name"}
-                  spellCheck={false}
-                  className="card-textarea w-44 h-10 !text-start pl-2 text-sec placeholder-grayActive"
+                  locks={locks}
+                  activePostId={activePostId}
+                  updateLocalData={updateBasicsData}
+                  updatePostData={patchPostData}
+                  model="basics"
+                  inputName='name'
+                  style="card-textarea w-44 h-10 !text-start pl-2 text-sec placeholder-grayActive"
                 />
-                <textarea
+
+                <InputComp
                   value={post?.basicsData.desc}
-                  readOnly={locks.inputLock}
-                  onChange={(e) => dispatch(updateBasicsData({ key: 'desc', value: e.target.value }))}
-                  onBlur={(e) => {
-                    if (!locks.inputLock) {
-                      dispatch(patchPostData({
-                        postId: activePostId,
-                        basics: { desc: e.target.value }
-                      }));
-                    }
-                  }}
-                  placeholder={"Description"}
-                  spellCheck={false}
-                  className="card-textarea w-44 h-10 text-xs !text-start !pt-3 pl-2 placeholder-grayActive !overflow-y-auto custom-scrollbar"
+                  locks={locks}
+                  activePostId={activePostId}
+                  updateLocalData={updateBasicsData}
+                  updatePostData={patchPostData}
+                  model="basics"
+                  inputName='desc'
+                  style="card-textarea w-44 h-10 text-xs !text-start !pt-3 pl-2 placeholder-grayActive !overflow-y-auto custom-scrollbar"
                 />
+              
               </div>
 
               <div className='border-l border-gray h-full'></div>
@@ -270,76 +206,53 @@ const Home = () => {
               {/*XP*/}
               <div className='flex flex-col gap-2'>
                 <div className='flex items-center gap-2'>
-                  <input
+
+                  <LabelComp
                     value={post?.basicsData.levelLabel}
-                    readOnly={locks.labelLock}
-                    onChange={(e) => {
-                      if (!locks.labelLock) {
-                        dispatch(updateBasicsData({ key: 'levelLabel', value: e.target.value }));
-                      }
-                    }}
-                    onBlur={(e) => {
-                      if (!locks.labelLock) {
-                        dispatch(patchPostData({
-                          postId: activePostId,
-                          basics: { levelLabel: e.target.value }
-                        }));
-                      }
-                    }}
-                    spellCheck={false}
-                    className="card-label text-2xl w-[63px] h-7"
+                    locks={locks}
+                    activePostId={activePostId}
+                    updateLocalData={updateBasicsData}
+                    updatePostData={patchPostData}
+                    model='basics'
+                    labelName='levelLabel'
+                    style="card-label text-2xl w-[63px] h-7"
                   />
-                  <textarea
+
+                  <InputComp
                     value={post?.basicsData.level}
-                    readOnly={locks.inputLock}
-                    onChange={(e) => dispatch(updateBasicsData({ key: 'level', value: e.target.value }))}
-                    onBlur={(e) => {
-                      if (!locks.inputLock) {
-                        dispatch(patchPostData({
-                          postId: activePostId,
-                          basics: { level: e.target.value }
-                        }));
-                      }
-                    }}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-11 text-center"
+                    locks={locks}
+                    activePostId={activePostId}
+                    updateLocalData={updateBasicsData}
+                    updatePostData={patchPostData}
+                    model="basics"
+                    inputName='level'
+                    style="card-textarea w-11 h-11 text-center"
                   />
+                
                 </div>
                 <div className='flex justify-center items-center gap-2 '>
-                  <input
+
+                  <LabelComp
                     value={post?.basicsData.xpLabel}
-                    readOnly={locks.labelLock}
-                    onChange={(e) => {
-                      if (!locks.labelLock) {
-                        dispatch(updateBasicsData({ key: 'xpLabel', value: e.target.value }));
-                      }
-                    }}
-                    onBlur={(e) => {
-                      if (!locks.labelLock) {
-                        dispatch(patchPostData({
-                          postId: activePostId,
-                          basics: { xpLabel: e.target.value }
-                        }));
-                      }
-                    }}
-                    spellCheck={false}
-                    className="card-label text-lg italic w-[27px] h-7"
+                    locks={locks}
+                    activePostId={activePostId}
+                    updateLocalData={updateBasicsData}
+                    updatePostData={patchPostData}
+                    model='basics'
+                    labelName='xpLabel'
+                    style="card-label text-lg italic w-[27px] h-7"
                   />
-                  <textarea
+                  <InputComp
                     value={post?.basicsData.xp}
-                    readOnly={locks.inputLock}
-                    onChange={(e) => dispatch(updateBasicsData({ key: 'xp', value: e.target.value }))}
-                    onBlur={(e) => {
-                      if (!locks.inputLock) {
-                        dispatch(patchPostData({
-                          postId: activePostId,
-                          basics: { xp: e.target.value }
-                        }));
-                      }
-                    }}
-                    spellCheck={false}
-                    className="card-textarea w-20 h-10 text-center"
+                    locks={locks}
+                    activePostId={activePostId}
+                    updateLocalData={updateBasicsData}
+                    updatePostData={patchPostData}
+                    model="basics"
+                    inputName='xp'
+                    style="card-textarea w-20 h-10 text-center"
                   />
+                
                 </div>
               </div>
             </div>
@@ -359,17 +272,24 @@ const Home = () => {
 
                 {/*Skill Instances */}
                 {
-                  post?.skillsData.map((post, index) => (
-                    <div key={post.id} className='flex items-center gap-2'>
+                  post?.skillsData?.skills?.map((skill, index) => (
+                    <div key={skill.id} className='flex items-center gap-2'>
                       <textarea
-                        value={post.skillName}
+                        value={skill.skillName}
                         readOnly={locks.inputLock}
-                        onChange={(e) => dispatch(updateSkillById({ key: post.id, value: {skillName: e.target.value} }))}
+                        onChange={(e) => dispatch(updateSkillById({ key: skill.id!, value: { skillName: e.target.value } }))}
                         onBlur={(e) => {
                           if (!locks.inputLock) {
                             dispatch(patchPostData({
                               postId: activePostId,
-                              skills: [{ id: post.id, skillName: e.target.value }]
+                              skills: {
+                                skills: [
+                                  {
+                                    id: skill.id,
+                                    skillName: e.target.value
+                                  },
+                                ],
+                              },
                             }));
                           }
                         }}
@@ -378,17 +298,9 @@ const Home = () => {
                         className="card-textarea-skill"
                       />
                       <textarea
-                        value={post.skillValue}
+                       
                         readOnly={locks.inputLock}
-                        onChange={(e) => dispatch(updateSkillById({ key: post.id, value: { skillValue: e.target.value } }))}
-                        onBlur={(e) => {
-                          if (!locks.inputLock) {
-                            dispatch(patchPostData({
-                              postId: activePostId,
-                              skills: [{ ...post, skillValue: e.target.value }]
-                            }));
-                          }
-                        }}
+                       
                         placeholder={"0"}
                         spellCheck={false}
                         className="card-textarea w-11 h-10"
@@ -397,22 +309,14 @@ const Home = () => {
                       <div className='border-l border-gray h-full'></div>
 
                       <textarea
-                        value={post.skillProf}
+                       
                         readOnly={locks.inputLock}
-                        onChange={(e) => dispatch(updateSkillById({ key: post.id, value: { skillProf: e.target.value } }))}
-                        onBlur={(e) => {
-                          if (!locks.inputLock) {
-                            dispatch(patchPostData({
-                              postId: activePostId,
-                              skills: [{ id: post.id, skillProf: e.target.value }]
-                            }));
-                          }
-                        }}
+                       
                         placeholder={"0"}
                         spellCheck={false}
                         className="card-textarea w-11 h-10 text-sec"
                       />
-                    
+
                       <Trash2 className='size-6 text-gray' />
 
                     </div>
@@ -423,7 +327,7 @@ const Home = () => {
                   onClick={handleAddSkill}
                   className='addButton size-6'
                 />
-          
+
               </div>
 
             </div>

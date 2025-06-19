@@ -31,5 +31,5 @@
 }
 
 .activeSidebarButton {
-    @apply md:p-2 ml-2 md:text-2xl text-white rounded-lg md:w-full md:h-auto overflow-hidden
+    @apply md:p-2 md:ml-0 ml-1 md:text-lg text-white rounded-lg my-3 md:w-52 md:h-auto overflow-hidden
 }
