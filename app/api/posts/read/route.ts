@@ -1,6 +1,7 @@
-import prisma from '../../../lib/prisma';
+import prisma from '../../../../lib/prisma';
+import { getSession } from "../../../actions/getCurrentUser";
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "../../actions/getCurrentUser";
+
 
 export async function GET(request: NextRequest) {
     const session = await getSession();
@@ -85,6 +86,8 @@ export async function GET(request: NextRequest) {
 
         posts = [createdPost];
     }
-
-    return NextResponse.json({ data: posts });
+    
+    //console.log(JSON.stringify(posts, null, 2));
+    return (NextResponse.json({ data: posts }))
+    
 }

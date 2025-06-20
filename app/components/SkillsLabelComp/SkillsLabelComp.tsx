@@ -2,39 +2,38 @@ import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 
-interface InputCompProps {
+interface SkillsLabelCompProps {
     locks: Record<string, any>;
     activePostId: string;
     updateLocalData: Function;
     updatePostData: Function;
     model: string;
     value: any;
-    inputName: string;
+    labelName: string;
     style: string;
 }
 
-
-const InputComp: React.FC<InputCompProps> = (
-    { locks, activePostId, updateLocalData, updatePostData, model, value, inputName, style }
+const SkillsLabelComp: React.FC<SkillsLabelCompProps> = (
+    { locks, activePostId, updateLocalData, updatePostData, model, value, labelName, style }
 ) => {
 
     //Redux
     const dispatch: AppDispatch = useDispatch();
 
     return (
-        <textarea
+        <input
             value={value}
-            readOnly={locks.inputLock}
+            readOnly={locks.labelLock}
             onChange={(e) => {
-                if (!locks.inputLock) {
-                    dispatch(updateLocalData({ key: inputName, value: e.target.value }));
+                if (!locks.labelLock) {
+                    dispatch(updateLocalData({ key: labelName, value: e.target.value }));
                 }
             }}
             onBlur={(e) => {
-                if (!locks.inputLock) {
+                if (!locks.labelLock) {
                     dispatch(updatePostData({
                         postId: activePostId,
-                        [model]: { [inputName]: e.target.value }
+                        [model]: { [labelName]: e.target.value }
                     }));
                 }
             }}
@@ -44,4 +43,4 @@ const InputComp: React.FC<InputCompProps> = (
     )
 }
 
-export default InputComp
+export default SkillsLabelComp

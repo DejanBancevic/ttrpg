@@ -3,7 +3,7 @@ import "./Sidebar.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
 import { Trash2, Plus } from "@deemlol/next-icons";
-import { createPost, fetchPosts, setActivePostId } from "@/lib/features/main/mainSlice";
+import { createPost, readPosts, setActivePostId } from "@/lib/features/main/mainSlice";
 import { deletePost as deletePostAction } from "@/lib/features/main/mainSlice";
 
 type SidebarProps = {
@@ -19,7 +19,7 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
     const dispatch: AppDispatch = useDispatch();
     const posts = useSelector((state: RootState) => state.mainData.posts);
 
-    const handleFocusPost = async (id:string) => {
+    const handleFocusPost = async (id: string) => {
 
         dispatch(setActivePostId(id));
     }
@@ -27,13 +27,14 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
     const handleAddPost = async () => {
 
         dispatch(createPost());
-        dispatch(fetchPosts());
+        await new Promise(res => setTimeout(res, 1000)); 
+        dispatch(readPosts());
     }
 
     const handleDeletePost = async (id: string) => {
 
         await dispatch(deletePostAction({ postId: id }));
-        dispatch(fetchPosts());
+        dispatch(readPosts());
     }
 
     return (
@@ -50,7 +51,7 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                                 />
                                 <button
                                     key={post.id}
-                                    onClick={()=>handleFocusPost(post.id!)}
+                                    onClick={() => handleFocusPost(post.id!)}
                                     onMouseOver={sidebarExpanded}
                                     onMouseOut={sidebarReduce}
                                     className="sidebarButton"

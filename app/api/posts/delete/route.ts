@@ -1,6 +1,6 @@
-import prisma from '../../../lib/prisma';
+import prisma from '../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "../../actions/getCurrentUser";
+import { getSession } from "../../../actions/getCurrentUser";
 
 export async function DELETE(request: NextRequest) {
     try {
@@ -30,7 +30,7 @@ export async function DELETE(request: NextRequest) {
             // 2. Then delete the related records 
             await tx.health.delete({ where: { id: existing.healthId } });
             await tx.basics.delete({ where: { id: existing.basicsId } });
-            await tx.skills.deleteMany({ where: { post: body.postId } });
+            await tx.skills.delete({ where: { id: existing.skillsId } });
 
             return deletedPost;
         });

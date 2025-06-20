@@ -5,7 +5,7 @@ export const createPost = createAsyncThunk(
     'main/createPost',
     async (_, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/postCreate', {
+            const res = await fetch('/api/posts/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -22,11 +22,24 @@ export const createPost = createAsyncThunk(
     }
 );
 
-export const patchPostData = createAsyncThunk(
-    'main/patchPostData',
-    async (postData: { postId?: string, health?: Partial<healthData>, basics?: Partial<basicsData>, skills?: Partial<skillsData>}, { rejectWithValue }) => {
+export const readPosts = createAsyncThunk(
+    'main/fetchPosts',
+    async (_, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/postUpdate', {
+            const res = await fetch('api/posts/read');
+            if (!res.ok) return rejectWithValue(await res.json());
+            return await res.json();
+        } catch {
+            return rejectWithValue({ error: 'Fetch Failed' });
+        }
+    }
+);
+
+export const updatePost = createAsyncThunk(
+    'main/patchPostData',
+    async (postData: { postId?: string, health?: Partial<healthData>, basics?: Partial<basicsData>, skills?: Partial<skillsData> }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/posts/update', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(postData),
@@ -48,7 +61,7 @@ export const deletePost = createAsyncThunk(
     'main/deletePost',
     async (postData: { postId?: string }, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/postDelete', {
+            const res = await fetch('/api/posts/delete', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(postData),
@@ -66,14 +79,71 @@ export const deletePost = createAsyncThunk(
     }
 );
 
-export const deleteSkill = createAsyncThunk(
-    'main/deleteSkill',
-    async (skillData: { skillId?: string }, { rejectWithValue }) => {
+export const createSkillInstance = createAsyncThunk(
+    'main/createSkillInstance',
+    async (skillsId: string, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/skillDelete', {
+            const res = await fetch('/api/skills/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ skillsId }),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Create failed' });
+        }
+    }
+);
+
+export const updateSkils = createAsyncThunk(
+    'main/updateSkillData',
+    async (postData: { postId: string, skills: Partial<skillsData> }, { rejectWithValue }) => {
+        try {
+
+            const { postId, skills } = postData;
+
+            // Fix the structure
+            const skillPayload = {
+                ...skills,
+                skillInstance: skills.skills, // ✅ rename 'skills' to 'skillInstance'
+            };
+            delete skillPayload.skills;
+
+            const res = await fetch('/api/skills/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    postId,
+                    skills: skillPayload,
+                }),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Skill patch failed' });
+        }
+    }
+);
+
+export const deleteSkillInstance = createAsyncThunk(
+    'main/deleteSkill',
+    async (skillInstanceData: { skillInstanceId: string }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/skills/delete', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(skillData),
+                body: JSON.stringify(skillInstanceData),
             });
 
             if (!res.ok) {
@@ -87,20 +157,6 @@ export const deleteSkill = createAsyncThunk(
         }
     }
 );
-
-export const fetchPosts = createAsyncThunk(
-    'main/fetchPosts',
-    async (_, { rejectWithValue }) => {
-        try {
-            const res = await fetch('api/postGet');
-            if (!res.ok) return rejectWithValue(await res.json());
-            return await res.json();
-        } catch {
-            return rejectWithValue({ error: 'Fetch Failed' });
-        }
-    }
-);
-
 
 
 interface MainState {
@@ -135,6 +191,7 @@ const initialState: MainState = {
                 xpLabel: "XP",
             },
             skillsData: {
+                skillsId: "0",
                 skillsLabel: "Skills",
                 profsLabel: "Profs",
                 skills: [
@@ -164,6 +221,7 @@ interface post {
 };
 
 interface skillsData {
+    skillsId: string;
     skillsLabel: string;
     profsLabel: string;
     skills: Partial<skillInstanceData>[]
@@ -235,17 +293,27 @@ const mainSlice = createSlice({
             if (!skill) return;
 
             Object.assign(skill, action.payload.value);
+        },
+        updateSkillsLabel: (
+            state,
+            action: PayloadAction<{ key: 'skillsLabel' | 'profsLabel'; value: string }>
+        ) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId);
+            if (!activePost) return;
+
+            activePost.skillsData[action.payload.key] = action.payload.value;
         }
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
-            .addCase(fetchPosts.fulfilled, (state, action) => {
+            .addCase(readPosts.fulfilled, (state, action) => {
                 const posts = action.payload.data;
                 state.posts = posts.map((post: any): post => ({
                     id: post.id,
                     healthData: post.health,
                     basicsData: post.basics,
                     skillsData: {
+                        skillsId: post.skills.id, // ✅ Add this line
                         skillsLabel: post.skills.skillsLabel,
                         profsLabel: post.skills.profsLabel,
                         skills: post.skills.skillInstance ?? [],
@@ -256,15 +324,23 @@ const mainSlice = createSlice({
             .addCase(createPost.fulfilled, (state, action) => {
                 const newPost = action.payload.data;
 
-                state.posts.push({
+                const normalizedPost = {
                     id: newPost.id,
                     healthData: newPost.health,
                     basicsData: newPost.basics,
-                    skillsData: newPost.skills,
-                });
+                    skillsData: {
+                        skillsId: newPost.skills.id,
+                        skillsLabel: newPost.skills.skillsLabel,
+                        profsLabel: newPost.skills.profsLabel,
+                        skills: newPost.skills.skillInstance,
+                    },
+                };
+
+                state.posts.push(normalizedPost);
+                state.activePostId = newPost.id;
 
             })
-            .addCase(patchPostData.fulfilled, (state, action) => {
+            .addCase(updatePost.fulfilled, (state, action) => {
                 const updatedPost = action.payload.data;
                 const index = state.posts.findIndex(p => p.id === updatedPost.id)
                 if (index === -1) return;
@@ -283,20 +359,41 @@ const mainSlice = createSlice({
                     existingPost.skillsData.skillsLabel = updatedPost.skills.skillsLabel ?? existingPost.skillsData.skillsLabel;
                     existingPost.skillsData.profsLabel = updatedPost.skills.profsLabel ?? existingPost.skillsData.profsLabel;
 
-                    // Merge updated skill instances:
-                    if (updatedPost.skills.skills && updatedPost.skills.skills.length > 0) {
-                        updatedPost.skills.skills.forEach((updatedSkill: skillInstanceData) => {
-                            const existingSkill = existingPost.skillsData.skills.find(s => s.id === updatedSkill.id);
-                            if (existingSkill) {
-                                Object.assign(existingSkill, updatedSkill);
-                            } else {
-                                existingPost.skillsData.skills.push(updatedSkill);
-                            }
-                        });
+                    if (updatedPost.skills.skillInstance?.length) {
+                        // Replace all instances (or merge by ID if preferred)
+                        existingPost.skillsData.skills = updatedPost.skills.skillInstance;
                     }
                 }
 
                 state.activePostId = updatedPost.id;
+            })
+            .addCase(updateSkils.fulfilled, (state, action) => {
+                const updated = action.meta.arg; // sent input
+                const activePost = state.posts.find(p => p.id === updated.postId);
+                if (!activePost) return;
+
+                const updatedSkills = updated.skills;
+
+                if (updatedSkills.skillsLabel !== undefined) {
+                    activePost.skillsData.skillsLabel = updatedSkills.skillsLabel;
+                }
+
+                if (updatedSkills.profsLabel !== undefined) {
+                    activePost.skillsData.profsLabel = updatedSkills.profsLabel;
+                }
+
+                if (Array.isArray(updatedSkills.skills)) {
+                    updatedSkills.skills.forEach((updatedSkill: Partial<skillInstanceData>) => {
+                        if (!updatedSkill.id) return;
+
+                        const existingSkill = activePost.skillsData.skills.find(s => s.id === updatedSkill.id);
+                        if (existingSkill) {
+                            Object.assign(existingSkill, updatedSkill);
+                        } else {
+                            activePost.skillsData.skills.push(updatedSkill as skillInstanceData);
+                        }
+                    });
+                }
             })
             .addCase(deletePost.fulfilled, (state, action) => {
                 const deletedId = action.payload.id;
@@ -308,7 +405,7 @@ const mainSlice = createSlice({
                     state.activePostId = '';
                 }
             })
-            .addCase(deleteSkill.fulfilled, (state, action) => {
+            .addCase(deleteSkillInstance.fulfilled, (state, action) => {
                 const deletedId = action.payload.id;
                 const activePost = state.posts.find(p => p.id === state.activePostId)
                 if (!activePost) return;
@@ -324,6 +421,7 @@ export const { updateHealthData,
     updateBasicsData,
     updateSkillById,
     updateLocks,
+    updateSkillsLabel,
     setActivePostId } = mainSlice.actions;
 
 // Export the reducer to be used in the store

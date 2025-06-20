@@ -1,6 +1,6 @@
-import prisma from '../../../lib/prisma';
+import prisma from '../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "../../actions/getCurrentUser";
+import { getSession } from "../../../actions/getCurrentUser";
 
 export async function DELETE(request: NextRequest) { 
     try {

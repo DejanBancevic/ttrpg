@@ -5,9 +5,10 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { patchPostData, updateHealthData, updateBasicsData, updateSkillById, fetchPosts } from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData, updateSkillById, readPosts, updateSkils, createSkillInstance, deleteSkillInstance, updateSkillsLabel } from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/LabelComp/LabelComp';
 import InputComp from '../components/InputComp/InputComp';
+import SkillInputComp from '../components/SkillInputComp/SkillInputComp';
 
 
 const Home = () => {
@@ -20,8 +21,17 @@ const Home = () => {
   )
   const locks = useSelector((state: RootState) => state.mainData.locks);
 
-  const handleAddSkill = async () => {
+  const handleAddSkillInstance = async () => {
+    dispatch(createSkillInstance(post!.skillsData.skillsId))
+    await new Promise(res => setTimeout(res, 1000));
+    dispatch(readPosts());
+  }
 
+  const handleDeleteSkillInstance = async (skillIdToDelete: string) => {
+    console.log(skillIdToDelete)
+    dispatch(deleteSkillInstance({ skillInstanceId: skillIdToDelete }));
+    await new Promise(res => setTimeout(res, 1000));
+    dispatch(readPosts());
 
   }
 
@@ -52,7 +62,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model="health"
                       labelName='hpLabel'
                       style="card-label text-2xl italic h-8 w-10"
@@ -63,7 +73,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model="health"
                       inputName='hpCurrent'
                       style="card-textarea-hp w-14 h-10 text-sec text-center"
@@ -76,7 +86,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model="health"
                       inputName='hpMax'
                       style="card-textarea-hp w-14 h-10 text-center "
@@ -87,7 +97,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model='health'
                       labelName='hpTempLabel'
                       style="card-label text-lg italic h-8 w-14"
@@ -98,7 +108,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model="health"
                       inputName='hpTemp'
                       style="card-textarea-hp w-11 h-10 text-center"
@@ -113,7 +123,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model='health'
                       labelName='acLabel'
                       style="card-label text-2xl italic w-10 h-10"
@@ -124,7 +134,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model="health"
                       inputName='ac'
                       style="card-textarea w-14 h-10 text-center"
@@ -135,7 +145,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model='health'
                       labelName='stressLabel'
                       style="card-label text-lg w-[68px] h-7"
@@ -146,7 +156,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model="health"
                       inputName='stressCurrent'
                       style="card-textarea-hp w-11 h-10 text-center "
@@ -159,7 +169,7 @@ const Home = () => {
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
-                      updatePostData={patchPostData}
+                      updatePostData={updatePost}
                       model="health"
                       inputName='stressMax'
                       style="card-textarea-hp w-11 h-10 text-center "
@@ -182,7 +192,7 @@ const Home = () => {
                   locks={locks}
                   activePostId={activePostId}
                   updateLocalData={updateBasicsData}
-                  updatePostData={patchPostData}
+                  updatePostData={updatePost}
                   model="basics"
                   inputName='name'
                   style="card-textarea w-44 h-10 !text-start pl-2 text-sec placeholder-grayActive"
@@ -193,12 +203,12 @@ const Home = () => {
                   locks={locks}
                   activePostId={activePostId}
                   updateLocalData={updateBasicsData}
-                  updatePostData={patchPostData}
+                  updatePostData={updatePost}
                   model="basics"
                   inputName='desc'
                   style="card-textarea w-44 h-10 text-xs !text-start !pt-3 pl-2 placeholder-grayActive !overflow-y-auto custom-scrollbar"
                 />
-              
+
               </div>
 
               <div className='border-l border-gray h-full'></div>
@@ -212,7 +222,7 @@ const Home = () => {
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
-                    updatePostData={patchPostData}
+                    updatePostData={updatePost}
                     model='basics'
                     labelName='levelLabel'
                     style="card-label text-2xl w-[63px] h-7"
@@ -223,12 +233,12 @@ const Home = () => {
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
-                    updatePostData={patchPostData}
+                    updatePostData={updatePost}
                     model="basics"
                     inputName='level'
                     style="card-textarea w-11 h-11 text-center"
                   />
-                
+
                 </div>
                 <div className='flex justify-center items-center gap-2 '>
 
@@ -237,7 +247,7 @@ const Home = () => {
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
-                    updatePostData={patchPostData}
+                    updatePostData={updatePost}
                     model='basics'
                     labelName='xpLabel'
                     style="card-label text-lg italic w-[27px] h-7"
@@ -247,12 +257,12 @@ const Home = () => {
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
-                    updatePostData={patchPostData}
+                    updatePostData={updatePost}
                     model="basics"
                     inputName='xp'
                     style="card-textarea w-20 h-10 text-center"
                   />
-                
+
                 </div>
               </div>
             </div>
@@ -264,8 +274,29 @@ const Home = () => {
             <div className='flex flex-col'>
 
               <div className='flex justify-between pr-8'>
-                <h1 className='text-2xl font-bold italic mb-2'>Skills</h1>
-                <h1 className='text-lg font-bold mt-1 mb-2'>Profs</h1>
+
+                <LabelComp
+                  value={post?.skillsData.skillsLabel}
+                  locks={locks}
+                  activePostId={activePostId}
+                  updateLocalData={updateSkillsLabel} 
+                  updatePostData={updateSkils}
+                  model="skills"
+                  labelName="skillsLabel"
+                  style="card-label w-[67px] text-2xl italic mb-2"
+                />
+
+                <LabelComp
+                  value={post?.skillsData.profsLabel}
+                  locks={locks}
+                  activePostId={activePostId}
+                  updateLocalData={updateSkillsLabel}
+                  updatePostData={updateSkils}
+                  model="skills"
+                  labelName="profsLabel"
+                  style="card-label w-14 text-lg  mb-2"
+                />
+                
               </div>
 
               <div className='flex flex-col gap-2 items-center'>
@@ -273,63 +304,31 @@ const Home = () => {
                 {/*Skill Instances */}
                 {
                   post?.skillsData?.skills?.map((skill, index) => (
-                    <div key={skill.id} className='flex items-center gap-2'>
-                      <textarea
-                        value={skill.skillName}
-                        readOnly={locks.inputLock}
-                        onChange={(e) => dispatch(updateSkillById({ key: skill.id!, value: { skillName: e.target.value } }))}
-                        onBlur={(e) => {
-                          if (!locks.inputLock) {
-                            dispatch(patchPostData({
-                              postId: activePostId,
-                              skills: {
-                                skills: [
-                                  {
-                                    id: skill.id,
-                                    skillName: e.target.value
-                                  },
-                                ],
-                              },
-                            }));
-                          }
-                        }}
-                        placeholder={"Name"}
-                        spellCheck={false}
-                        className="card-textarea-skill"
-                      />
-                      <textarea
-                       
-                        readOnly={locks.inputLock}
-                       
-                        placeholder={"0"}
-                        spellCheck={false}
-                        className="card-textarea w-11 h-10"
-                      />
-
-                      <div className='border-l border-gray h-full'></div>
-
-                      <textarea
-                       
-                        readOnly={locks.inputLock}
-                       
-                        placeholder={"0"}
-                        spellCheck={false}
-                        className="card-textarea w-11 h-10 text-sec"
-                      />
-
-                      <Trash2 className='size-6 text-gray' />
-
-                    </div>
+                    <SkillInputComp
+                      key={index}
+                      valueName={skill.skillName}
+                      valueBonus={skill.skillValue}
+                      valueProfs={skill.skillProf}
+                      fieldName="skillName"
+                      fieldBonus="skillValue"
+                      fieldProfs="skillProf"
+                      locks={locks}
+                      activePostId={activePostId}
+                      styleName="card-textarea-skill"
+                      styleBonus="card-textarea w-11 h-10"
+                      styleProfs="card-textarea w-11 h-10 text-sec"
+                      skillId={skill.id!}
+                      deleteFunction={handleDeleteSkillInstance}
+                    />
                   ))
                 }
 
                 <Plus
-                  onClick={handleAddSkill}
+                  onClick={() => handleAddSkillInstance()}
                   className='addButton size-6'
                 />
 
               </div>
-
             </div>
           </div>
         </div>
