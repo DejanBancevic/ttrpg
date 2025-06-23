@@ -40,7 +40,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                         dispatch(updateSkills({
                             postId: activePostId,
                             skills: {
-                                skills: [
+                                skillInstance: [
                                     {
                                         id: skillId,
                                         [fieldName]: e.target.value
@@ -63,7 +63,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                         dispatch(updateSkills({
                             postId: activePostId,
                             skills: {
-                                skills: [
+                                skillInstance: [
                                     {
                                         id: skillId,
                                         [fieldBonus]: e.target.value
@@ -88,7 +88,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                         dispatch(updateSkills({
                             postId: activePostId,
                             skills: {
-                                skills: [
+                                skillInstance: [
                                     {
                                         id: skillId,
                                         [fieldProfs]: e.target.value

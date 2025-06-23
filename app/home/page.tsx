@@ -35,7 +35,7 @@ const Home = () => {
     dispatch(readPosts());
     dispatch(setActivePostId(post!.id));
   }
-
+  console.log("Rendering home page");
   return (
     <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
       <div className='md:flex justify-between md:justify-center md:gap-4 '>
@@ -304,7 +304,7 @@ const Home = () => {
 
                 {/*Skill Instances */}
                 {
-                  post?.skillsData?.skills?.map((skill, index) => (
+                  post?.skillsData?.skillInstance?.map((skill, index) => (
                     <SkillInputComp
                       key={index}
                       valueName={skill.skillName}

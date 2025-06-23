@@ -26,10 +26,11 @@ export const createPost = createAsyncThunk(
 );
 
 export const readPosts = createAsyncThunk(
-    'main/fetchPosts',
+    'main/readPosts',
     async (_, { rejectWithValue }) => {
         try {
             const res = await fetch('api/posts/read');
+
             if (!res.ok) return rejectWithValue(await res.json());
             return await res.json();
         } catch {
@@ -39,8 +40,8 @@ export const readPosts = createAsyncThunk(
 );
 
 export const updatePost = createAsyncThunk(
-    'main/patchPostData',
-    async (postData: { postId?: string, health?: Partial<healthData>, basics?: Partial<basicsData>, skills?: Partial<skillsData> }, { rejectWithValue }) => {
+    'main/updatePost',
+    async (postData: { postId?: string, health?: Partial<healthData>, basics?: Partial<basicsData>, }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/posts/update', {
                 method: 'POST',
@@ -130,26 +131,13 @@ export const readSkills = createAsyncThunk(
 );
 
 export const updateSkills = createAsyncThunk(
-    'main/updateSkillData',
+    'main/updateSkills',
     async (postData: { postId: string, skills: Partial<skillsData> }, { rejectWithValue }) => {
         try {
-
-            const { postId, skills } = postData;
-
-            // Fix the structure
-            const skillPayload = {
-                ...skills,
-                skillInstance: skills.skills, // ✅ rename 'skills' to 'skillInstance'
-            };
-            delete skillPayload.skills;
-
             const res = await fetch('/api/skills/update', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    postId,
-                    skills: skillPayload,
-                }),
+                body: JSON.stringify(postData),
             });
 
             if (!res.ok) {
@@ -225,7 +213,7 @@ const initialState: MainState = {
                 skillsId: "0",
                 skillsLabel: "Skills",
                 profsLabel: "Profs",
-                skills: [
+                skillInstance: [
                     {
                         id: "0",
                         skillName: "Add Skill Name",
@@ -255,7 +243,7 @@ interface skillsData {
     skillsId: string;
     skillsLabel: string;
     profsLabel: string;
-    skills: Partial<skillInstanceData>[]
+    skillInstance: Partial<skillInstanceData>[]
 }
 
 interface skillInstanceData {
@@ -322,12 +310,12 @@ const mainSlice = createSlice({
             const activePost = state.posts.find(p => p.id === state.activePostId)
             if (!activePost) return;
 
-            const skill = activePost.skillsData.skills.find((s) => s.id === action.payload.key)
+            const skill = activePost.skillsData.skillInstance.find((s) => s.id === action.payload.key)
             if (!skill) return;
 
             Object.assign(skill, action.payload.value);
         },
-        updateSkillsLabel: (state,action: PayloadAction<{ key: 'skillsLabel' | 'profsLabel'; value: string }>) => {
+        updateSkillsLabel: (state, action: PayloadAction<{ key: 'skillsLabel' | 'profsLabel'; value: string }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId);
             if (!activePost) return;
 
@@ -338,20 +326,6 @@ const mainSlice = createSlice({
         builder
             .addCase(createPost.fulfilled, (state, action) => {
                 const newPost = action.payload.data;
-
-                const normalizedPost = {
-                    id: newPost.id,
-                    healthData: newPost.health,
-                    basicsData: newPost.basics,
-                    skillsData: {
-                        skillsId: newPost.skills.id,
-                        skillsLabel: newPost.skills.skillsLabel,
-                        profsLabel: newPost.skills.profsLabel,
-                        skills: newPost.skills.skillInstance,
-                    },
-                };
-
-                state.posts.push(normalizedPost);
                 state.activePostId = newPost.id;
 
             })
@@ -362,20 +336,19 @@ const mainSlice = createSlice({
                     healthData: post.health,
                     basicsData: post.basics,
                     skillsData: {
-                        skillsId: post.skills.id, 
+                        skillsId: post.skills.id,
                         skillsLabel: post.skills.skillsLabel,
                         profsLabel: post.skills.profsLabel,
-                        skills: post.skills.skillInstance ?? [],
+                        skillInstance: post.skills.skillInstance ?? [],
                     },
                 }));
-                // Check if current activePostId exists in the new posts array
-                const activePostStillExists = posts.some((post:any) => post.id === state.activePostId);
+
+                const activePostStillExists = posts.some((post: any) =>
+                    post.id === state.activePostId);
 
                 if (!state.activePostId || !activePostStillExists) {
-                    // If no active post or active post deleted, set to first post's id or null
                     state.activePostId = posts[0]?.id ?? null;
                 }
-  // else: keep the existing activePostId
             })
             .addCase(updatePost.fulfilled, (state, action) => {
                 const updatedPost = action.payload.data;
@@ -390,16 +363,6 @@ const mainSlice = createSlice({
 
                 if (updatedPost.basics) {
                     existingPost.basicsData = updatedPost.basics;
-                }
-
-                if (updatedPost.skills) {
-                    existingPost.skillsData.skillsLabel = updatedPost.skills.skillsLabel ?? existingPost.skillsData.skillsLabel;
-                    existingPost.skillsData.profsLabel = updatedPost.skills.profsLabel ?? existingPost.skillsData.profsLabel;
-
-                    if (updatedPost.skills.skillInstance?.length) {
-                        // Replace all instances (or merge by ID if preferred)
-                        existingPost.skillsData.skills = updatedPost.skills.skillInstance;
-                    }
                 }
 
                 state.activePostId = updatedPost.id;
@@ -420,44 +383,27 @@ const mainSlice = createSlice({
 
                 const skillsPayload = action.payload;
 
-                activePost.skillsData.skills = Array.isArray(skillsPayload.skillInstance)
+                activePost.skillsData.skillInstance = Array.isArray(skillsPayload.skillInstance)
                     ? skillsPayload.skillInstance
                     : [];
             })
             .addCase(updateSkills.fulfilled, (state, action) => {
-                const updated = action.meta.arg; // sent input
-                const activePost = state.posts.find(p => p.id === updated.postId);
+                const updated = action.payload.data; 
+                const activePost = state.posts.find(p =>
+                    p.skillsData.skillsId === updated.id 
+                );
                 if (!activePost) return;
 
-                const updatedSkills = updated.skills;
-
-                if (updatedSkills.skillsLabel !== undefined) {
-                    activePost.skillsData.skillsLabel = updatedSkills.skillsLabel;
-                }
-
-                if (updatedSkills.profsLabel !== undefined) {
-                    activePost.skillsData.profsLabel = updatedSkills.profsLabel;
-                }
-
-                if (Array.isArray(updatedSkills.skills)) {
-                    updatedSkills.skills.forEach((updatedSkill: Partial<skillInstanceData>) => {
-                        if (!updatedSkill.id) return;
-
-                        const existingSkill = activePost.skillsData.skills.find(s => s.id === updatedSkill.id);
-                        if (existingSkill) {
-                            Object.assign(existingSkill, updatedSkill);
-                        } else {
-                            activePost.skillsData.skills.push(updatedSkill as skillInstanceData);
-                        }
-                    });
-                }
+                activePost.skillsData.skillsLabel = updated.skillsLabel;
+                activePost.skillsData.profsLabel = updated.profsLabel;
+                activePost.skillsData.skillInstance = updated.skillInstance ?? [];
             })
             .addCase(deleteSkillInstance.fulfilled, (state, action) => {
                 const deletedId = action.payload.id;
                 const activePost = state.posts.find(p => p.id === state.activePostId)
                 if (!activePost) return;
 
-                activePost.skillsData.skills = activePost.skillsData.skills.filter(skill => skill.id !== deletedId);
+                activePost.skillsData.skillInstance = activePost.skillsData.skillInstance.filter(skill => skill.id !== deletedId);
             })
     }
 });

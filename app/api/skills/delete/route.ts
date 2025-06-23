@@ -41,7 +41,7 @@ export async function DELETE(request: NextRequest) {
         return NextResponse.json({ success: true });
 
     } catch (err: any) {
-        console.error("❌ DELETE /api/skill error:", err?.message ?? err);
+        console.error(" DELETE /api/skill error:", err?.message ?? err);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }

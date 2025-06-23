@@ -24,6 +24,9 @@ export async function DELETE(request: NextRequest) {
         }
 
         const deleted = await prisma.$transaction(async (tx) => {
+            // lets you execute multiple database operations as a single atomic unit
+            // meaning either all of them succeed, or none of them do.
+            
             // 1. Delete the post first
             const deletedPost = await tx.post.delete({ where: { id: body.postId } });
 
@@ -35,16 +38,15 @@ export async function DELETE(request: NextRequest) {
             return deletedPost;
         });
 
-        // ✅ SAFETY CHECK
         if (!deleted || typeof deleted !== "object") {
-            console.error("❌ Transaction returned unexpected value:", deleted);
+            console.error("Transaction returned unexpected value:", deleted);
             return NextResponse.json({ error: "Deletion failed" }, { status: 500 });
         }
 
         return NextResponse.json({ id: deleted.id }); // success
 
     } catch (err: any) {
-        console.error("🔥 DELETE /api/post error:", err?.message ?? err);
+        console.error("DELETE /api/post error:", err?.message ?? err);
         return NextResponse.json({ error: "Internal error" }, { status: 500 });
     }
 }

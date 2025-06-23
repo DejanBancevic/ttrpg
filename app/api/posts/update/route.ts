@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
     const existingPost = await prisma.post.findUnique({
         where: { id: body.postId },
-        include: { health: true, basics: true, skills: true },
+        include: { health: true, basics: true,  },
     });
 
     if (!existingPost) {
