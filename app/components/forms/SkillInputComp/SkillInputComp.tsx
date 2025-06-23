@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateSkillById, updateSkils } from '@/lib/features/main/mainSlice';
+import { updateSkillById, updateSkills } from '@/lib/features/main/mainSlice';
 import { Trash2 } from '@deemlol/next-icons';
 
 interface SkillInputCompProps {
@@ -37,7 +37,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                 onChange={(e) => dispatch(updateSkillById({ key: skillId, value: { [fieldName]: e.target.value } }))}
                 onBlur={(e) => {
                     if (!locks.inputLock) {
-                        dispatch(updateSkils({
+                        dispatch(updateSkills({
                             postId: activePostId,
                             skills: {
                                 skills: [
@@ -60,7 +60,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                 onChange={(e) => dispatch(updateSkillById({ key: skillId, value: { [fieldBonus]: e.target.value } }))}
                 onBlur={(e) => {
                     if (!locks.inputLock) {
-                        dispatch(updateSkils({
+                        dispatch(updateSkills({
                             postId: activePostId,
                             skills: {
                                 skills: [
@@ -85,7 +85,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                 onChange={(e) => dispatch(updateSkillById({ key: skillId, value: { [fieldProfs]: e.target.value } }))}
                 onBlur={(e) => {
                     if (!locks.inputLock) {
-                        dispatch(updateSkils({
+                        dispatch(updateSkills({
                             postId: activePostId,
                             skills: {
                                 skills: [

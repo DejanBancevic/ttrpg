@@ -1,5 +1,8 @@
-// src/Redux/counterSlice.js
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+
+//#region Thunks
+
+// Posts 
 
 export const createPost = createAsyncThunk(
     'main/createPost',
@@ -79,6 +82,8 @@ export const deletePost = createAsyncThunk(
     }
 );
 
+// Skills
+
 export const createSkillInstance = createAsyncThunk(
     'main/createSkillInstance',
     async (skillsId: string, { rejectWithValue }) => {
@@ -101,7 +106,30 @@ export const createSkillInstance = createAsyncThunk(
     }
 );
 
-export const updateSkils = createAsyncThunk(
+export const readSkills = createAsyncThunk(
+    'main/readSkills',
+    async (postId: string, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/skills/read', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(postId)
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            const json = await res.json();
+            return json.skills;
+        } catch (err) {
+            return rejectWithValue({ error: 'Skills read failed' });
+        }
+    }
+);
+
+export const updateSkills = createAsyncThunk(
     'main/updateSkillData',
     async (postData: { postId: string, skills: Partial<skillsData> }, { rejectWithValue }) => {
         try {
@@ -158,6 +186,9 @@ export const deleteSkillInstance = createAsyncThunk(
     }
 );
 
+//#endregion 
+
+//#region Interfaces
 
 interface MainState {
     posts: post[];
@@ -263,6 +294,8 @@ interface locks {
     deleteLock: boolean;
 };
 
+//#endregion
+
 const mainSlice = createSlice({
     name: 'main',
     initialState,
@@ -294,33 +327,15 @@ const mainSlice = createSlice({
 
             Object.assign(skill, action.payload.value);
         },
-        updateSkillsLabel: (
-            state,
-            action: PayloadAction<{ key: 'skillsLabel' | 'profsLabel'; value: string }>
-        ) => {
+        updateSkillsLabel: (state,action: PayloadAction<{ key: 'skillsLabel' | 'profsLabel'; value: string }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId);
             if (!activePost) return;
 
             activePost.skillsData[action.payload.key] = action.payload.value;
-        }
+        },
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
-            .addCase(readPosts.fulfilled, (state, action) => {
-                const posts = action.payload.data;
-                state.posts = posts.map((post: any): post => ({
-                    id: post.id,
-                    healthData: post.health,
-                    basicsData: post.basics,
-                    skillsData: {
-                        skillsId: post.skills.id, // ✅ Add this line
-                        skillsLabel: post.skills.skillsLabel,
-                        profsLabel: post.skills.profsLabel,
-                        skills: post.skills.skillInstance ?? [],
-                    },
-                }));
-                state.activePostId = posts[0]?.id ?? null;
-            })
             .addCase(createPost.fulfilled, (state, action) => {
                 const newPost = action.payload.data;
 
@@ -339,6 +354,28 @@ const mainSlice = createSlice({
                 state.posts.push(normalizedPost);
                 state.activePostId = newPost.id;
 
+            })
+            .addCase(readPosts.fulfilled, (state, action) => {
+                const posts = action.payload.data;
+                state.posts = posts.map((post: any): post => ({
+                    id: post.id,
+                    healthData: post.health,
+                    basicsData: post.basics,
+                    skillsData: {
+                        skillsId: post.skills.id, 
+                        skillsLabel: post.skills.skillsLabel,
+                        profsLabel: post.skills.profsLabel,
+                        skills: post.skills.skillInstance ?? [],
+                    },
+                }));
+                // Check if current activePostId exists in the new posts array
+                const activePostStillExists = posts.some((post:any) => post.id === state.activePostId);
+
+                if (!state.activePostId || !activePostStillExists) {
+                    // If no active post or active post deleted, set to first post's id or null
+                    state.activePostId = posts[0]?.id ?? null;
+                }
+  // else: keep the existing activePostId
             })
             .addCase(updatePost.fulfilled, (state, action) => {
                 const updatedPost = action.payload.data;
@@ -367,7 +404,27 @@ const mainSlice = createSlice({
 
                 state.activePostId = updatedPost.id;
             })
-            .addCase(updateSkils.fulfilled, (state, action) => {
+            .addCase(deletePost.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                state.posts = state.posts.filter(post => post.id !== deletedId)
+
+                if (state.posts.length > 0) {
+                    state.activePostId = state.posts[0].id;
+                } else {
+                    state.activePostId = '';
+                }
+            })
+            .addCase(readSkills.fulfilled, (state, action) => {
+                const activePost = state.posts.find(p => p.id === state.activePostId);
+                if (!activePost) return;
+
+                const skillsPayload = action.payload;
+
+                activePost.skillsData.skills = Array.isArray(skillsPayload.skillInstance)
+                    ? skillsPayload.skillInstance
+                    : [];
+            })
+            .addCase(updateSkills.fulfilled, (state, action) => {
                 const updated = action.meta.arg; // sent input
                 const activePost = state.posts.find(p => p.id === updated.postId);
                 if (!activePost) return;
@@ -393,16 +450,6 @@ const mainSlice = createSlice({
                             activePost.skillsData.skills.push(updatedSkill as skillInstanceData);
                         }
                     });
-                }
-            })
-            .addCase(deletePost.fulfilled, (state, action) => {
-                const deletedId = action.payload.id;
-                state.posts = state.posts.filter(post => post.id !== deletedId)
-
-                if (state.posts.length > 0) {
-                    state.activePostId = state.posts[0].id;
-                } else {
-                    state.activePostId = '';
                 }
             })
             .addCase(deleteSkillInstance.fulfilled, (state, action) => {

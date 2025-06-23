@@ -5,10 +5,10 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, updateSkillById, readPosts, updateSkils, createSkillInstance, deleteSkillInstance, updateSkillsLabel } from '@/lib/features/main/mainSlice';
-import LabelComp from '../components/LabelComp/LabelComp';
-import InputComp from '../components/InputComp/InputComp';
-import SkillInputComp from '../components/SkillInputComp/SkillInputComp';
+import { updatePost, updateHealthData, updateBasicsData, updateSkillById, readPosts, updateSkills, createSkillInstance, deleteSkillInstance, updateSkillsLabel, setActivePostId } from '@/lib/features/main/mainSlice';
+import LabelComp from '../components/forms/LabelComp/LabelComp';
+import InputComp from '../components/forms/InputComp/InputComp';
+import SkillInputComp from '../components/forms/SkillInputComp/SkillInputComp';
 
 
 const Home = () => {
@@ -25,6 +25,7 @@ const Home = () => {
     dispatch(createSkillInstance(post!.skillsData.skillsId))
     await new Promise(res => setTimeout(res, 1000));
     dispatch(readPosts());
+    dispatch(setActivePostId(post!.id));
   }
 
   const handleDeleteSkillInstance = async (skillIdToDelete: string) => {
@@ -32,7 +33,7 @@ const Home = () => {
     dispatch(deleteSkillInstance({ skillInstanceId: skillIdToDelete }));
     await new Promise(res => setTimeout(res, 1000));
     dispatch(readPosts());
-
+    dispatch(setActivePostId(post!.id));
   }
 
   return (
@@ -279,8 +280,8 @@ const Home = () => {
                   value={post?.skillsData.skillsLabel}
                   locks={locks}
                   activePostId={activePostId}
-                  updateLocalData={updateSkillsLabel} 
-                  updatePostData={updateSkils}
+                  updateLocalData={updateSkillsLabel}
+                  updatePostData={updateSkills}
                   model="skills"
                   labelName="skillsLabel"
                   style="card-label w-[67px] text-2xl italic mb-2"
@@ -291,12 +292,12 @@ const Home = () => {
                   locks={locks}
                   activePostId={activePostId}
                   updateLocalData={updateSkillsLabel}
-                  updatePostData={updateSkils}
+                  updatePostData={updateSkills}
                   model="skills"
                   labelName="profsLabel"
                   style="card-label w-14 text-lg  mb-2"
                 />
-                
+
               </div>
 
               <div className='flex flex-col gap-2 items-center'>
