@@ -77,7 +77,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                 className={styleBonus}
             />
 
-            <div className='border-l border-gray h-full'></div>
+            <div className='border-l border-gray h-[38px]'></div>
 
             <textarea
                 value={valueProfs}

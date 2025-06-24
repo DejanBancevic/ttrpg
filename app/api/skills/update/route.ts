@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
         for (const skill of skillData.skillInstance) {
 
             if (skill.id) {
-                const updated = await prisma.skillInstance.update({
+                await prisma.skillInstance.update({
                     where: { id: skill.id },
                     data: {
                         skillName: skill.skillName,
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
                 });
 
             } else {
-                const created = await prisma.skillInstance.create({
+                await prisma.skillInstance.create({
                     data: {
                         skillName: skill.skillName,
                         skillValue: skill.skillValue,

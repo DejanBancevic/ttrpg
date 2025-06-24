@@ -53,6 +53,21 @@ export async function POST(request: NextRequest) {
                     },
                 },
             },
+            attributes: {
+                create: {
+                    attributeInstance: {
+                        create: [
+                            {
+                                attributeName: "Attribute",
+                                attributeValue: "0",
+                                attributeMod: "0",
+                                attributeSave: "0",
+                                attributeColor: "0",
+                            },
+                        ],
+                    },
+                },
+            },
         },
         include: {
             health: true,
@@ -60,6 +75,11 @@ export async function POST(request: NextRequest) {
             skills: {
                 include: {
                     skillInstance: true,
+                },
+            },
+            attributes: {
+                include: {
+                    attributeInstance: true,
                 },
             },
         },

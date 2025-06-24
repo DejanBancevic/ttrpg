@@ -31,6 +31,15 @@ export async function GET(request: NextRequest) {
                     },
                 },
             },
+            attributes: {
+                include: {
+                    attributeInstance: {
+                        orderBy: {
+                            attributeName: 'asc',
+                        },
+                    },
+                },
+            },
         },
     });
 
@@ -81,6 +90,22 @@ export async function GET(request: NextRequest) {
                         },
                     },
                 },
+                attributes: {
+                    create: {
+                        attributeInstance: {
+                            create: [
+                                {
+                                    id: "0",
+                                    attributeName: "Attribute",
+                                    attributeValue: "0",
+                                    attributeMod: "0",
+                                    attributeSave: "0",
+                                    attributeColor: "0",
+                                },
+                            ],
+                        },
+                    },
+                },
             },
             include: {
                 health: true,
@@ -90,13 +115,18 @@ export async function GET(request: NextRequest) {
                         skillInstance: true,
                     },
                 },
+                attributes: {
+                    include: {
+                        attributeInstance: true,
+                    },
+                },
             },
         });
 
         posts = [createdPost];
     }
-    
+
     //console.log(JSON.stringify(posts, null, 2));
     return (NextResponse.json({ data: posts }))
-    
+
 }

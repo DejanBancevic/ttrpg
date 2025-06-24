@@ -24,11 +24,34 @@ model Post {
   basics   Basics @relation("PostBasics", fields: [basicsId], references: [id], onDelete: Cascade)
   basicsId String @unique
 
-  skills   Skills  @relation("PostSkill", fields: [skillsId], references: [id], onDelete: Cascade)
+  skills   Skills @relation("PostSkill", fields: [skillsId], references: [id], onDelete: Cascade)
   skillsId String @unique
+
+  attributes   Attributes @relation("PostAttributes", fields: [attributesId], references: [id], onDelete: Cascade)
+  attributesId String     @unique
 
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
+}
+
+model Attributes {
+  id String @id @default(cuid())
+
+  attributeInstance AttributeInstance[] @relation("AttributesAttributeInstance")
+
+  post Post? @relation("PostAttributes")
+}
+
+model AttributeInstance {
+  id             String @id @default(cuid())
+  attributeName  String
+  attributeValue String
+  attributeMod   String
+  attributeSave  String
+  attributeColor String
+
+  attributes   Attributes? @relation("AttributesAttributeInstance", fields: [attributesId], references: [id], onDelete: Cascade)
+  attributesId String
 }
 
 model Skills {
@@ -36,7 +59,7 @@ model Skills {
   skillsLabel String
   profsLabel  String
 
-  skillInstance   SkillInstance[] @relation("SkillsSkill")
+  skillInstance SkillInstance[] @relation("SkillsSkill")
 
   post Post? @relation("PostSkill")
 }

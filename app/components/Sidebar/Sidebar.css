@@ -4,7 +4,7 @@
 
 .navSidebar{
     z-index: 800;
-    @apply  fixed md:static md:fixed font-bold text-2xl flex items-center justify-between  border-sec shadow-lg shadow-sec
+    @apply  fixed md:fixed font-bold text-2xl flex items-center justify-between  border-sec shadow-lg shadow-sec
 }
 
 .sidebar {

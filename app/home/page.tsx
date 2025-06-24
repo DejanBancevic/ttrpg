@@ -5,10 +5,11 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, updateSkillById, readPosts, updateSkills, createSkillInstance, deleteSkillInstance, updateSkillsLabel, setActivePostId } from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData, updateSkillById, readPosts, updateSkills, createSkillInstance, deleteSkillInstance, updateSkillsLabel, setActivePostId, createAttributeInstance, deleteAttributeInstance } from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/forms/LabelComp/LabelComp';
 import InputComp from '../components/forms/InputComp/InputComp';
 import SkillInputComp from '../components/forms/SkillInputComp/SkillInputComp';
+import AttributeComp from '../components/forms/AttributeComp/AttributeComp';
 
 
 const Home = () => {
@@ -29,16 +30,34 @@ const Home = () => {
   }
 
   const handleDeleteSkillInstance = async (skillIdToDelete: string) => {
-    if (post?.skillsData.skillInstance.length! > 1 ){
-    dispatch(deleteSkillInstance({ skillInstanceId: skillIdToDelete }));
-    await new Promise(res => setTimeout(res, 1000));
-    dispatch(readPosts());
+    if (post?.skillsData.skillInstance.length! > 1) {
+      dispatch(deleteSkillInstance({ skillInstanceId: skillIdToDelete }));
+      await new Promise(res => setTimeout(res, 1000));
+      dispatch(readPosts());
       dispatch(setActivePostId(post!.id));
     } else (
       alert("You can't delete the last skill. \nFirst create a new one and then delete the one you want.")
     )
   }
-  console.log("Rendering home page");
+
+  const handleAddAttributeInstance = async () => {
+    dispatch(createAttributeInstance(post!.attributesData.id))
+    await new Promise(res => setTimeout(res, 1000));
+    dispatch(readPosts());
+    dispatch(setActivePostId(post!.id));
+  }
+
+  const handleDeleteAttributeInstance = async (id: string) => {
+    if (post?.attributesData.attributeInstance.length! > 1) {
+      dispatch(deleteAttributeInstance({ id: id }));
+      await new Promise(res => setTimeout(res, 1000));
+      dispatch(readPosts());
+      dispatch(setActivePostId(post!.id));
+    } else (
+      alert("You can't delete the last attribute. \nFirst create a new one and then delete the one you want.")
+    )
+  }
+
   return (
     <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
       <div className='md:flex justify-between md:justify-center md:gap-4 '>
@@ -345,294 +364,35 @@ const Home = () => {
             <div className='mainContainersAtrib max-w-[90vh] min-w-0 overflow-x-auto custom-scrollbar'>
               <div className='flex items-center gap-3 min-w-max'>
 
-                {/*Atribute Instance */}
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>ST</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-full'></div>
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-full'></div>
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-full'></div>
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-full'></div>
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-full'></div>
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-full'></div>
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/*Atribute Instance */}
-                <div className='border-l border-gray h-full'></div>
-                <div className='flex justify-center items-start gap-2 h-30'> {/* Force height and align to top */}
-                  <div className='flex flex-col items-center gap-2'>
-                    <div className='flex justify-between gap-2 items-center'>
-                      <h1 className='text-lg font-bold'>Strength</h1>
-                      <Trash2 className='size-6 text-gray' />
-                    </div>
-                    <div className='flex justify-center items-start gap-2 h-full'> {/* <-- Key change here */}
-                      {/* Left Column */}
-                      <div className='flex flex-col items-center h-full'> {/* Ensure it can grow */}
-                        <textarea
-                          value={"19"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                        <h1 className='text-lg font-bold mt-3'>SV</h1>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className='flex flex-col justify-center items-center gap-2'>
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center text-sec"
-                        />
-                        <textarea
-                          value={"+4"}
-                          spellCheck={false}
-                          className="card-textarea w-11 h-10 text-center"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <Plus className='size-6 text-sec' />
-
+                {/*Attribute Instance */}
+                {
+                  post?.attributesData?.attributeInstance?.map((attribute, index) => (
+                    <AttributeComp
+                      key={attribute.id}
+                      valueName={attribute.attributeName}
+                      valueBonus={attribute.attributeValue}
+                      valueMod={attribute.attributeMod}
+                      valueSave={attribute.attributeSave}
+                      fieldName="attributeName"
+                      fieldBonus="attributeValue"
+                      fieldMod="attributeMod"
+                      fieldSave='attributeSave'
+                      locks={locks}
+                      activePostId={activePostId}
+                      styleName="card-label w-[120px] text-lg "
+                      styleBonus="card-textarea w-11 h-10 text-center"
+                      styleMod="card-textarea w-11 h-10 text-center text-sec"
+                      styleSave='card-textarea w-11 h-10 text-center'
+                      id={attribute.id!}
+                      deleteFunction={handleDeleteAttributeInstance}
+                    />
+                  ))
+                }
+              
+                <Plus
+                  onClick={() => handleAddAttributeInstance()}
+                  className='addButton size-6'
+                />
               </div>
             </div>
           </div>

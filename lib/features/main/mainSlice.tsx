@@ -174,6 +174,75 @@ export const deleteSkillInstance = createAsyncThunk(
     }
 );
 
+// Attributes
+
+export const createAttributeInstance = createAsyncThunk(
+    'main/createAttributeInstance',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/attributes/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id }),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Create failed' });
+        }
+    }
+);
+
+export const updateAttributes = createAsyncThunk(
+    'main/updateAttribute',
+    async (postData: { postId: string, attributes: Partial<attributesData> }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/attributes/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(postData),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Skill patch failed' });
+        }
+    }
+);
+
+export const deleteAttributeInstance = createAsyncThunk(
+    'main/deleteAttributeInstance',
+    async (attributeInstanceData: { id: string }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/attributes/delete', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(attributeInstanceData),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Patch failed' });
+        }
+    }
+);``
+
+
 //#endregion 
 
 //#region Interfaces
@@ -222,6 +291,19 @@ const initialState: MainState = {
                     },
                 ],
             },
+            attributesData: {
+                id: "0",
+                attributeInstance: [
+                    {
+                        id: "0",
+                        attributeName: "Attribute",
+                        attributeValue: "0",
+                        attributeMod: "0",
+                        attributeSave: "0",
+                        attributeColor: "0",
+                    },
+                ],
+            },
         },
     ],
     activePostId: "0",
@@ -237,6 +319,21 @@ interface post {
     healthData: healthData;
     basicsData: basicsData;
     skillsData: skillsData;
+    attributesData: attributesData;
+};
+
+interface attributesData {
+    id: string;
+    attributeInstance: Partial<attributeInstanceData>[]
+}
+
+interface attributeInstanceData {
+    id: string;
+    attributeName: string;
+    attributeValue: String;
+    attributeMod: String;
+    attributeSave: String;
+    attributeColor: String;
 };
 
 interface skillsData {
@@ -321,6 +418,15 @@ const mainSlice = createSlice({
 
             activePost.skillsData[action.payload.key] = action.payload.value;
         },
+        updateAttributesById: (state, action: PayloadAction<{ key: string; value: Partial<attributeInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            const attribute = activePost.attributesData.attributeInstance.find((a) => a.id === action.payload.key)
+            if (!attribute) return;
+
+            Object.assign(attribute, action.payload.value);
+        },
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
@@ -335,6 +441,10 @@ const mainSlice = createSlice({
                         skillsLabel: newPost.skills.skillsLabel,
                         profsLabel: newPost.skills.profsLabel,
                         skillInstance: newPost.skills.skillInstance ?? [],
+                    },
+                    attributesData: {
+                        id: newPost.attributes.id,
+                        attributeInstance: newPost.attributes.attributeInstance ?? [],
                     },
                 });
                 state.activePostId = newPost.id;
@@ -351,6 +461,10 @@ const mainSlice = createSlice({
                         skillsLabel: post.skills.skillsLabel,
                         profsLabel: post.skills.profsLabel,
                         skillInstance: post.skills.skillInstance ?? [],
+                    },
+                    attributesData: {
+                        id: post.attributes.id,
+                        attributeInstance: post.attributes.attributeInstance ?? [],
                     },
                 }));
 
@@ -399,9 +513,9 @@ const mainSlice = createSlice({
                     : [];
             })
             .addCase(updateSkills.fulfilled, (state, action) => {
-                const updated = action.payload.data; 
+                const updated = action.payload.data;
                 const activePost = state.posts.find(p =>
-                    p.skillsData.skillsId === updated.id 
+                    p.skillsData.skillsId === updated.id
                 );
                 if (!activePost) return;
 
@@ -416,6 +530,22 @@ const mainSlice = createSlice({
 
                 activePost.skillsData.skillInstance = activePost.skillsData.skillInstance.filter(skill => skill.id !== deletedId);
             })
+            .addCase(updateAttributes.fulfilled, (state, action) => {
+                const updated = action.payload.data;
+                const activePost = state.posts.find(p =>
+                    p.attributesData.attributeInstance === updated.id
+                );
+                if (!activePost) return;
+
+                activePost.attributesData.attributeInstance = updated.attributeInstance ?? [];
+            })
+            .addCase(deleteAttributeInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                const activePost = state.posts.find(p => p.id === state.activePostId)
+                if (!activePost) return;
+
+                activePost.attributesData.attributeInstance = activePost.attributesData.attributeInstance.filter(a => a.id !== deletedId);
+            })
     }
 });
 
@@ -426,6 +556,7 @@ export const { updateHealthData,
     updateSkillById,
     updateLocks,
     updateSkillsLabel,
+    updateAttributesById,
     setActivePostId } = mainSlice.actions;
 
 // Export the reducer to be used in the store
