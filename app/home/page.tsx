@@ -29,11 +29,14 @@ const Home = () => {
   }
 
   const handleDeleteSkillInstance = async (skillIdToDelete: string) => {
-    console.log(skillIdToDelete)
+    if (post?.skillsData.skillInstance.length! > 1 ){
     dispatch(deleteSkillInstance({ skillInstanceId: skillIdToDelete }));
     await new Promise(res => setTimeout(res, 1000));
     dispatch(readPosts());
-    dispatch(setActivePostId(post!.id));
+      dispatch(setActivePostId(post!.id));
+    } else (
+      alert("You can't delete the last skill. \nFirst create a new one and then delete the one you want.")
+    )
   }
   console.log("Rendering home page");
   return (
@@ -306,7 +309,7 @@ const Home = () => {
                 {
                   post?.skillsData?.skillInstance?.map((skill, index) => (
                     <SkillInputComp
-                      key={index}
+                      key={skill.id}
                       valueName={skill.skillName}
                       valueBonus={skill.skillValue}
                       valueProfs={skill.skillProf}

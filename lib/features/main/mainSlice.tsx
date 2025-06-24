@@ -201,7 +201,7 @@ const initialState: MainState = {
                 stressLabel: "Addons",
             },
             basicsData: {
-                imageUrl: "0",
+                imageUrl: "https://ik-minis.com/cdn/shop/products/bk-square.jpg",
                 name: "John Doe",
                 desc: "No description",
                 level: "0",
@@ -326,6 +326,17 @@ const mainSlice = createSlice({
         builder
             .addCase(createPost.fulfilled, (state, action) => {
                 const newPost = action.payload.data;
+                state.posts.unshift({
+                    id: newPost.id,
+                    healthData: newPost.health,
+                    basicsData: newPost.basics,
+                    skillsData: {
+                        skillsId: newPost.skills.id,
+                        skillsLabel: newPost.skills.skillsLabel,
+                        profsLabel: newPost.skills.profsLabel,
+                        skillInstance: newPost.skills.skillInstance ?? [],
+                    },
+                });
                 state.activePostId = newPost.id;
 
             })

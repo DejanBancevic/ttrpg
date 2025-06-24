@@ -11,6 +11,11 @@ export async function GET(request: NextRequest) {
     }
 
     let posts = await prisma.post.findMany({
+        orderBy: {
+            basics: {
+                name: 'asc'
+            },
+        },
         where: {
             author: { email: session.user.email },
         },
@@ -19,7 +24,11 @@ export async function GET(request: NextRequest) {
             basics: true,
             skills: {
                 include: {
-                    skillInstance: true,
+                    skillInstance: {
+                        orderBy: {
+                            skillName: 'asc',
+                        },
+                    },
                 },
             },
         },

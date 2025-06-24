@@ -65,7 +65,13 @@ export async function POST(request: NextRequest) {
 
     const updatedSkills = await prisma.skills.findUnique({
         where: { id: existingPost.skills.id },
-        include: { skillInstance: true },
+        include: {
+            skillInstance: {
+                orderBy: {
+                    skillName: 'asc',
+                },
+            },
+        },
     });
 
     return NextResponse.json({ data: updatedSkills });

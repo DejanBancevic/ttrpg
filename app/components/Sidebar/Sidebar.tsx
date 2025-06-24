@@ -29,16 +29,20 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
         dispatch(createPost());
         await new Promise(res => setTimeout(res, 1000)); 
         dispatch(readPosts());
+      
     }
 
     const handleDeletePost = async (id: string) => {
-
-        await dispatch(deletePostAction({ postId: id }));
-        dispatch(readPosts());
+        if (posts.length > 1) {
+            await dispatch(deletePostAction({ postId: id }));
+            dispatch(readPosts());
+        } else {
+            alert("You can't delete the last character sheet. \nFirst create a new one and then delete the one you want.")
+        }
     }
 
     return (
-        <nav className={`navSidebar ${sidebarMove ? "sidebarExp" : "sidebar"}`}>
+        <nav className={`navSidebar ${sidebarMove ? "sidebarExp" : "sidebar"}`} onMouseLeave={sidebarReduce}>
             <div className="sidebarContent">
                 <div>
                     {
@@ -53,7 +57,7 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                                     key={post.id}
                                     onClick={() => handleFocusPost(post.id!)}
                                     onMouseOver={sidebarExpanded}
-                                    onMouseOut={sidebarReduce}
+                                   
                                     className="sidebarButton"
                                 >
                                     {sidebarMove ? (

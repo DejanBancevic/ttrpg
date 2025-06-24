@@ -1,19 +1,19 @@
 
 .mainContainers{
-    @apply flex flex-col items-center bg-primary rounded-2xl shadow-lg p-3 
+    @apply flex flex-col items-center bg-primary rounded-2xl  p-3 
     border-2 border-sec shadow-md shadow-sec
 }
 
 .mainContainersAtrib {
-    @apply flex flex-col bg-primary rounded-2xl shadow-lg p-3 border-2 border-sec shadow-md shadow-sec
+    @apply flex flex-col bg-primary rounded-2xl p-3 border-2 border-sec shadow-md shadow-sec
 }
 
 .card-textarea {
-    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 relative whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive;
 }
 
 .card-label {
-    @apply bg-primary outline-none rounded-md text-center overflow-hidden font-bold resize-none
+    @apply bg-primary outline-none rounded-md text-center whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none
 }
 
 .card-label:focus{
@@ -21,23 +21,23 @@
 }
 
 .card-textarea-skill {
-    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md w-40 h-10 text-start p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md w-40 h-10 text-start p-2 relative whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive;
 }
 
 .card-textarea-item {
-    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md w-48 h-10 text-start p-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md w-48 h-10 text-start p-2 relative whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive;
 }
 
 .card-textarea-hp {
-    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center pt-2 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center pt-2 relative whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive;
 }
 
 .card-textarea-spellbox {
-    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center size-8 pt-1 relative overflow-hidden font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center size-8 pt-1 relative whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive;
 }
 
 .card-bag {
-    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 overflow-hidden font-bold resize-none placeholder-grayActive whitespace-nowrap truncate;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive truncate;
 }
 
 
