@@ -3,6 +3,7 @@ import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateSkillById, updateSkills } from '@/lib/features/main/mainSlice';
 import { Trash2 } from '@deemlol/next-icons';
+import DeleteButton from '../../DeleteButton/DeleteButton';
 
 interface SkillInputCompProps {
     locks: Record<string, any>;
@@ -102,9 +103,9 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                 className={styleProfs}
             />
 
-            <Trash2
-                className='removeButton size-6'
-                onClick={() => deleteFunction(skillId!)}
+            <DeleteButton
+                style=' size-6'
+                deleteFunction={() => deleteFunction(skillId!)}
             />
 
         </div>

@@ -30,8 +30,32 @@ model Post {
   attributes   Attributes @relation("PostAttributes", fields: [attributesId], references: [id], onDelete: Cascade)
   attributesId String     @unique
 
+  feats   Feats  @relation("PostFeats", fields: [featsId], references: [id], onDelete: Cascade)
+  featsId String @unique
+
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
+}
+
+model Feats {
+  id         String @id @default(cuid())
+  featsLabel String
+
+  featInstance FeatInstance[] @relation("FeatsFeatInstance")
+
+  post Post? @relation("PostFeats")
+}
+
+model FeatInstance {
+  id                String @id @default(cuid())
+  featName          String
+  featChargeLabel   String
+  featChargeCurrent String
+  featChargeMax     String
+  featText          String
+
+  feats   Feats? @relation("FeatsFeatInstance", fields: [featsId], references: [id], onDelete: Cascade)
+  featsId String
 }
 
 model Attributes {

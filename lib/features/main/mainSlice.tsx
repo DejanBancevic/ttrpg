@@ -240,8 +240,75 @@ export const deleteAttributeInstance = createAsyncThunk(
             return rejectWithValue({ error: 'Patch failed' });
         }
     }
-);``
+); 
 
+// Feats
+
+export const createFeatInstance = createAsyncThunk(
+    'main/createFeatInstance',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/feats/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id }),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Feat create failed' });
+        }
+    }
+);
+
+export const updateFeats = createAsyncThunk(
+    'main/updateFeats',
+    async (postData: { postId: string, feats: Partial<featsData> }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/feats/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(postData),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Feat patch failed' });
+        }
+    }
+);
+
+export const deleteFeatInstance = createAsyncThunk(
+    'main/deleteFeatInstance',
+    async (featInstanceData: { id: string }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/feats/delete', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(featInstanceData),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Patch failed' });
+        }
+    }
+); 
 
 //#endregion 
 
@@ -304,6 +371,20 @@ const initialState: MainState = {
                     },
                 ],
             },
+            featsData: {
+                id: "0",
+                featsLabel: "Features & Traits",
+                featInstance: [
+                    {
+                        id: "0",
+                        featName: "Feat Name",
+                        featChargeLabel: "Charges",
+                        featChargeCurrent: "0",
+                        featChargeMax: "0",
+                        featText: "Feat Description",
+                    },
+                ],
+            },
         },
     ],
     activePostId: "0",
@@ -320,6 +401,22 @@ interface post {
     basicsData: basicsData;
     skillsData: skillsData;
     attributesData: attributesData;
+    featsData: featsData;
+};
+
+interface featsData {
+    id: string;
+    featsLabel: string;
+    featInstance: Partial<featInstanceData>[]
+}
+
+interface featInstanceData {
+    id: string;
+    featName: string;
+    featChargeLabel: string;
+    featChargeCurrent: string;
+    featChargeMax: string;
+    featText: string;
 };
 
 interface attributesData {
@@ -427,6 +524,21 @@ const mainSlice = createSlice({
 
             Object.assign(attribute, action.payload.value);
         },
+        updateFeatsById: (state, action: PayloadAction<{ key: string; value: Partial<featInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            const feat = activePost.featsData.featInstance.find((a) => a.id === action.payload.key)
+            if (!feat) return;
+
+            Object.assign(feat, action.payload.value);
+        },
+        updateFeatsLabel: (state, action: PayloadAction<{ key: 'featsLabel'; value: string }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId);
+            if (!activePost) return;
+
+            activePost.featsData[action.payload.key] = action.payload.value;
+        },
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
@@ -445,6 +557,11 @@ const mainSlice = createSlice({
                     attributesData: {
                         id: newPost.attributes.id,
                         attributeInstance: newPost.attributes.attributeInstance ?? [],
+                    },
+                    featsData: {
+                        id: newPost.feats.id,
+                        featsLabel: newPost.featsLabel,
+                        featInstance: newPost.feats.featInstance ?? [],
                     },
                 });
                 state.activePostId = newPost.id;
@@ -465,6 +582,11 @@ const mainSlice = createSlice({
                     attributesData: {
                         id: post.attributes.id,
                         attributeInstance: post.attributes.attributeInstance ?? [],
+                    },
+                    featsData: {
+                        id: post.feats.id,
+                        featsLabel: post.feats.featsLabel,
+                        featInstance: post.feats.featInstance ?? [],
                     },
                 }));
 
@@ -546,18 +668,38 @@ const mainSlice = createSlice({
 
                 activePost.attributesData.attributeInstance = activePost.attributesData.attributeInstance.filter(a => a.id !== deletedId);
             })
+            .addCase(updateFeats.fulfilled, (state, action) => {
+                const updated = action.payload.data;
+                const activePost = state.posts.find(p =>
+                    p.featsData.featInstance === updated.id
+                );
+                if (!activePost) return;
+
+                activePost.featsData.featInstance = updated.featInstance ?? [];
+            })
+            .addCase(deleteFeatInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                const activePost = state.posts.find(p => p.id === state.activePostId)
+                if (!activePost) return;
+
+                activePost.featsData.featInstance = activePost.featsData.featInstance.filter(a => a.id !== deletedId);
+            })
     }
 });
 
 
 // Export the actions to be used in components
-export const { updateHealthData,
+export const {
+    setActivePostId,
+    updateLocks,
+    updateHealthData,
     updateBasicsData,
     updateSkillById,
-    updateLocks,
     updateSkillsLabel,
     updateAttributesById,
-    setActivePostId } = mainSlice.actions;
+    updateFeatsById,
+    updateFeatsLabel,
+} = mainSlice.actions;
 
 // Export the reducer to be used in the store
 export default mainSlice.reducer;

@@ -2,9 +2,9 @@ import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateAttributes, updateAttributesById,} from '@/lib/features/main/mainSlice';
-import { Trash2 } from '@deemlol/next-icons';
+import DeleteButton from '../../DeleteButton/DeleteButton';
 
-interface AttributeCompCompProps {
+interface AttributeCompProps {
     locks: Record<string, any>;
     activePostId: string;
     valueName: any;
@@ -24,7 +24,7 @@ interface AttributeCompCompProps {
 }
 
 
-const AttributeComp: React.FC<AttributeCompCompProps> = (
+const AttributeComp: React.FC<AttributeCompProps> = (
     { locks, activePostId, valueName, valueBonus, valueMod, valueSave, fieldName, fieldBonus, fieldMod,
         styleName, fieldSave, styleBonus, styleMod, styleSave, id, deleteFunction }
 ) => {
@@ -65,9 +65,9 @@ const AttributeComp: React.FC<AttributeCompCompProps> = (
                         className={styleName}
                     />
 
-                    <Trash2
-                        className='removeButton size-6'
-                        onClick={() => deleteFunction(id!)}
+                    <DeleteButton
+                        style=' size-6'
+                        deleteFunction={() => deleteFunction(id!)}
                     />
 
                 </div>

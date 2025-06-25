@@ -27,9 +27,9 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
     const handleAddPost = async () => {
 
         dispatch(createPost());
-        await new Promise(res => setTimeout(res, 1000)); 
+        await new Promise(res => setTimeout(res, 1000));
         dispatch(readPosts());
-      
+
     }
 
     const handleDeletePost = async (id: string) => {
@@ -57,8 +57,8 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                                     key={post.id}
                                     onClick={() => handleFocusPost(post.id!)}
                                     onMouseOver={sidebarExpanded}
-                                   
-                                    className="sidebarButton"
+
+                                    className={`${sidebarMove ? "activeSidebarButton" : "sidebarButton"}`}
                                 >
                                     {sidebarMove ? (
                                         <div className="flex items-center gap-2 ">
@@ -67,7 +67,9 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                                                 alt="Custom Icon"
                                                 className="size-12 border border-gray rounded-md"
                                             />
-                                            <h1>{post.basicsData.name}</h1>
+                                            <div className="w-[130px]">
+                                                <h1 className=" overflow-hidden line-clamp-2">{post.basicsData.name}</h1>
+                                            </div>
                                         </div>
                                     ) : (
                                         <img

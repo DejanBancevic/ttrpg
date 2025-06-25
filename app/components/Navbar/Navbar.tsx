@@ -37,11 +37,11 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="nav">
-            <div className="flex justify-between w-full items-center gap-2 ml-2 md:ml-4 md:h-20 pr-10">
+        <nav className="nav overflow-x-auto whitespace-nowrap custom-scrollbar">
+            <div className="flex justify-between w-full items-center gap-2 ml-4 h-20 pr-4 ">
                 
                 {/*Left Side*/}
-                <div className="flex items-center">
+                <div className="flex items-center flex-shrink-0 flex-wrap gap-4 min-w-[300px]">
                     <Link href="/">
                         <img src={logo.src} alt="" className="mr-2 w-10 h-10 md:w-16 md:h-16" />
                     </Link>
@@ -53,19 +53,19 @@ const Navbar = () => {
                     <div className="flex items-center gap-5">
                         <button
                             onClick={() => window.open('https://5e.tools/', '_blank')}
-                            className="p-3">
+                            className=" p-2 shrink-0">
                             {
                                 <img
                                     src="https://gitlab.com/uploads/-/system/project/avatar/41385849/favicon-256x256.png"
                                     alt="Custom Icon"
-                                    className="size-10"
+                                    className="size-12"
                                 />
                             }
                         </button>
 
                         <button
                             onClick={() => window.open('https://tesera.ru/images/items/2287258/stars-without-number-revised_free_edition.pdf', '_blank')}
-                            className="p-3">
+                            className="p-3 shrink-0">
                             {
                                 <img
                                     src={swn.src}
@@ -77,7 +77,7 @@ const Navbar = () => {
 
                         <button
                             onClick={() => window.open('https://www.daggerheart.com/wp-content/uploads/2025/05/DH-SRD-May202025.pdf', '_blank')}
-                            className="p-2">
+                            className="p-2 shrink-0">
                             {
                                 <img
                                     src={dh.src}
@@ -91,7 +91,7 @@ const Navbar = () => {
                 </div>
 
                 {/*Right Side*/}
-                <div className="flex items-center gap-5">
+                <div className="flex items-center flex-shrink-0 flex-wrap min-w-[300px] gap-5">
 
                     <button
                         className="text-lg px-2 pb-1 ">
@@ -150,11 +150,13 @@ const Navbar = () => {
                                 <div className="relative w-8 h-7">
                                     <Lock
                                         size={26}
-                                        className={`absolute inset-0 transition-all duration-300 ${locks.labelLock ? 'opacity-100 scale-100 text-white' : 'opacity-0 scale-75 text-sec'}`}
+                                        className={`absolute inset-0 transition-all duration-300 
+                                        ${locks.labelLock ? 'opacity-100 scale-100 text-white' : 'opacity-0 scale-75 text-sec'}`}
                                     />
                                     <Unlock
                                         size={26}
-                                        className={`absolute inset-0 transition-all duration-300 ${locks.labelLock ? 'opacity-0 scale-75 text-sec' : 'opacity-100 scale-100 text-sec'}`}
+                                        className={`absolute inset-0 transition-all duration-300
+                                         ${locks.labelLock ? 'opacity-0 scale-75 text-sec' : 'opacity-100 scale-100 text-sec'}`}
                                     />
                                 </div>
                             </div>

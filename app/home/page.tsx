@@ -5,11 +5,12 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, updateSkillById, readPosts, updateSkills, createSkillInstance, deleteSkillInstance, updateSkillsLabel, setActivePostId, createAttributeInstance, deleteAttributeInstance } from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData, updateSkillById, readPosts, updateSkills, createSkillInstance, deleteSkillInstance, updateSkillsLabel, setActivePostId, createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance } from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/forms/LabelComp/LabelComp';
 import InputComp from '../components/forms/InputComp/InputComp';
 import SkillInputComp from '../components/forms/SkillInputComp/SkillInputComp';
 import AttributeComp from '../components/forms/AttributeComp/AttributeComp';
+import FeatComp from '../components/forms/FeatComp/FeatComp';
 
 
 const Home = () => {
@@ -30,14 +31,14 @@ const Home = () => {
   }
 
   const handleDeleteSkillInstance = async (skillIdToDelete: string) => {
-    if (post?.skillsData.skillInstance.length! > 1) {
-      dispatch(deleteSkillInstance({ skillInstanceId: skillIdToDelete }));
-      await new Promise(res => setTimeout(res, 1000));
-      dispatch(readPosts());
-      dispatch(setActivePostId(post!.id));
-    } else (
-      alert("You can't delete the last skill. \nFirst create a new one and then delete the one you want.")
-    )
+      if (post?.skillsData.skillInstance.length! > 1) {
+        dispatch(deleteSkillInstance({ skillInstanceId: skillIdToDelete }));
+        await new Promise(res => setTimeout(res, 1000));
+        dispatch(readPosts());
+        dispatch(setActivePostId(post!.id));
+      } else (
+        alert("You can't delete the last node. \nFirst create a new one and then delete the one you want.")
+      )
   }
 
   const handleAddAttributeInstance = async () => {
@@ -54,7 +55,25 @@ const Home = () => {
       dispatch(readPosts());
       dispatch(setActivePostId(post!.id));
     } else (
-      alert("You can't delete the last attribute. \nFirst create a new one and then delete the one you want.")
+      alert("You can't delete the last node. \nFirst create a new one and then delete the one you want.")
+    )
+  }
+
+  const handleAddFeatInstance = async () => {
+    dispatch(createFeatInstance(post!.featsData.id))
+    await new Promise(res => setTimeout(res, 1000));
+    dispatch(readPosts());
+    dispatch(setActivePostId(post!.id));
+  }
+
+  const handleDeleteFeatInstance = async (id: string) => {
+    if (post?.featsData.featInstance.length! > 1) {
+      dispatch(deleteFeatInstance({ id: id }));
+      await new Promise(res => setTimeout(res, 1000));
+      dispatch(readPosts());
+      dispatch(setActivePostId(post!.id));
+    } else (
+      alert("You can't delete the last node. \nFirst create a new one and then delete the one you want.")
     )
   }
 
@@ -361,7 +380,7 @@ const Home = () => {
 
           {/*Atributes */}
           <div className='flex justify-between gap-4'>
-            <div className='mainContainersAtrib max-w-[90vh] min-w-0 overflow-x-auto custom-scrollbar'>
+            <div className='mainContainersAtrib w-[90vh] min-w-0 overflow-x-auto custom-scrollbar'>
               <div className='flex items-center gap-3 min-w-max'>
 
                 {/*Attribute Instance */}
@@ -401,142 +420,46 @@ const Home = () => {
           <div className='flex gap-4'>
 
             {/*Feats */}
-            <div className='mainContainers !items-stretch w-full max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar '>
+            <div className='mainContainers !items-stretch w-[450px] max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar '>
               <div className='flex flex-col '>
 
                 <h1 className='text-2xl font-bold italic mb-2'>Features & Traits</h1>
 
                 <div className='flex flex-col gap-2'>
+                 
                   {/*Feat Instance */}
-                  <div className='flex flex-col gap-1'>
-                    <div className='flex justify-between items-center'>
-                      <div className='flex items-center gap-3'>
-                        <h1 className='text-lg font-bold'>Sneak Attack</h1>
-                        <Trash2 className='size-6 text-gray' />
-                      </div>
-                      <div className='flex items-center gap-1'>
-                        <h1 className='text-md font-bold'>Charges</h1>
-                        <textarea
-                          value={"6"}
-                          spellCheck={false}
-                          className="card-textarea w-10 h-10 text-sec"
-                        />
-                        <div className='border border-gray h-10 w-px' />
-                        <textarea
-                          value={"16"}
-                          spellCheck={false}
-                          className="card-textarea w-10 h-10 "
-                        />
-                      </div>
-                    </div>
-
-                    <textarea
-                      value={"You know how to strike subtly and exploit a foes distraction Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attackroll if you have Advantage on the roll and the attack uses a Finesse or a Ranged weapon"}
-                      spellCheck={false}
-                      placeholder={"Description"}
-                      className="card-textarea text-sm !font-normal !w-full h-40 !text-start !overflow-auto custom-scrollbar"
-                    />
-
-                  </div>
-
-                  {/*Feat Instance */}
-                  <div className='flex flex-col gap-1'>
-                    <div className='flex justify-between items-center'>
-                      <div className='flex items-center gap-3'>
-                        <h1 className='text-lg font-bold'>Sneak Attack</h1>
-                        <Trash2 className='size-6 text-gray' />
-                      </div>
-                      <div className='flex items-center gap-1'>
-                        <h1 className='text-md font-bold'>Charges</h1>
-                        <textarea
-                          value={"6"}
-                          spellCheck={false}
-                          className="card-textarea w-10 h-10 text-sec"
-                        />
-                        <div className='border border-gray h-10 w-px' />
-                        <textarea
-                          value={"16"}
-                          spellCheck={false}
-                          className="card-textarea w-10 h-10 "
-                        />
-                      </div>
-                    </div>
-
-                    <textarea
-                      value={"You know how to strike subtly and exploit a foes distraction Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attackroll if you have Advantage on the roll and the attack uses a Finesse or a Ranged weapon"}
-                      spellCheck={false}
-                      placeholder={"Description"}
-                      className="card-textarea text-sm !font-normal !w-full h-40 !text-start !overflow-auto custom-scrollbar"
-                    />
-
-                  </div>
-
-                  {/*Feat Instance */}
-                  <div className='flex flex-col gap-1'>
-                    <div className='flex justify-between items-center'>
-                      <div className='flex items-center gap-3'>
-                        <h1 className='text-lg font-bold'>Sneak Attack</h1>
-                        <Trash2 className='size-6 text-gray' />
-                      </div>
-                      <div className='flex items-center gap-1'>
-                        <h1 className='text-md font-bold'>Charges</h1>
-                        <textarea
-                          value={"6"}
-                          spellCheck={false}
-                          className="card-textarea w-10 h-10 text-sec"
-                        />
-                        <div className='border border-gray h-10 w-px' />
-                        <textarea
-                          value={"16"}
-                          spellCheck={false}
-                          className="card-textarea w-10 h-10 "
-                        />
-                      </div>
-                    </div>
-
-                    <textarea
-                      value={"You know how to strike subtly and exploit a foes distraction Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attackroll if you have Advantage on the roll and the attack uses a Finesse or a Ranged weapon"}
-                      spellCheck={false}
-                      placeholder={"Description"}
-                      className="card-textarea text-sm !font-normal !w-full h-40 !text-start !overflow-auto custom-scrollbar"
-                    />
-
-                  </div>
-
-                  {/*Feat Instance */}
-                  <div className='flex flex-col gap-1'>
-                    <div className='flex justify-between items-center'>
-                      <div className='flex items-center gap-3'>
-                        <h1 className='text-lg font-bold'>Sneak Attack</h1>
-                        <Trash2 className='size-6 text-gray' />
-                      </div>
-                      <div className='flex items-center gap-1'>
-                        <h1 className='text-md font-bold'>Charges</h1>
-                        <textarea
-                          value={"6"}
-                          spellCheck={false}
-                          className="card-textarea w-10 h-10 text-sec"
-                        />
-                        <div className='border border-gray h-10 w-px' />
-                        <textarea
-                          value={"16"}
-                          spellCheck={false}
-                          className="card-textarea w-10 h-10 "
-                        />
-                      </div>
-                    </div>
-
-                    <textarea
-                      value={"You know how to strike subtly and exploit a foes distraction Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attackroll if you have Advantage on the roll and the attack uses a Finesse or a Ranged weapon"}
-                      spellCheck={false}
-                      placeholder={"Description"}
-                      className="card-textarea text-sm !font-normal !w-full h-40 !text-start !overflow-auto custom-scrollbar"
-                    />
-
-                  </div>
+                  {
+                    post?.featsData?.featInstance?.map((feat, index) => (
+                      <FeatComp
+                        key={feat.id}
+                        valueName={feat.featName}
+                        valueCharges={feat.featChargeLabel}
+                        valueChargesCurrent={feat.featChargeCurrent}
+                        valueChargesMax={feat.featChargeMax}
+                        valueText={feat.featText}
+                        fieldName="featName"
+                        fieldCharges="featChargeLabel"
+                        fieldChargesCurrent="featChargeCurrent"
+                        fieldChargesMax='featChargeMax'
+                        fieldText='featText'
+                        locks={locks}
+                        activePostId={activePostId}
+                        styleName="card-label !text-start text-lg w-52"
+                        styleCharges="card-label !text-end text-md w-20"
+                        styleChargesCurrent="card-textarea w-10 h-10 text-sec"
+                        styleChargesMax='card-textarea w-10 h-10'
+                        styleText='card-textarea text-sm !font-normal !w-full h-40 !text-start !overflow-auto custom-scrollbar'
+                        id={feat.id!}
+                        deleteFunction={handleDeleteFeatInstance}
+                      />
+                    ))
+                  }
 
                   <div className="flex justify-center">
-                    <Plus className='size-6 text-sec' />
+                    <Plus
+                      onClick={() => handleAddFeatInstance()}
+                      className='addButton size-6'
+                    />
                   </div>
                 </div>
               </div>

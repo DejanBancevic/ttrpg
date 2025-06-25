@@ -27,9 +27,9 @@
 }
 
 .sidebarButton {
-    @apply md:p-2 md:ml-0 ml-1 md:text-lg text-white rounded-lg my-3 md:w-auto md:h-auto overflow-hidden
+    @apply md:p-2 md:ml-0 ml-1 md:text-lg text-white rounded-lg my-3 md:w-auto md:h-auto whitespace-nowrap overflow-hidden text-ellipsis
 }
 
 .activeSidebarButton {
-    @apply md:p-2 md:ml-0 ml-1 md:text-lg text-white rounded-lg my-3 md:w-52 md:h-auto overflow-hidden
+    @apply p-2 ml-0 text-lg text-white rounded-lg my-3 w-52 h-auto
 }

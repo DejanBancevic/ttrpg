@@ -40,6 +40,15 @@ export async function GET(request: NextRequest) {
                     },
                 },
             },
+            feats: {
+                include: {
+                    featInstance: {
+                        orderBy: {
+                            featName: 'asc',
+                        },
+                    },
+                },
+            },
         },
     });
 
@@ -106,6 +115,24 @@ export async function GET(request: NextRequest) {
                         },
                     },
                 },
+                feats: {
+                    create:
+                    {
+                        featsLabel: "Features & Traits",
+                        featInstance: {
+                            create: [
+                                {
+                                    id: "0",
+                                    featName: "Feat Name",
+                                    featChargeLabel: "Charges",
+                                    featChargeCurrent: "0",
+                                    featChargeMax: "0",
+                                    featText: "Feat Description",
+                                },
+                            ],
+                        },
+                    },
+                },
             },
             include: {
                 health: true,
@@ -118,6 +145,11 @@ export async function GET(request: NextRequest) {
                 attributes: {
                     include: {
                         attributeInstance: true,
+                    },
+                },
+                feats: {
+                    include: {
+                        featInstance: true,
                     },
                 },
             },

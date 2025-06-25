@@ -68,6 +68,22 @@ export async function POST(request: NextRequest) {
                     },
                 },
             },
+            feats: {
+                create: {
+                    featsLabel: "Features & Traits",
+                    featInstance: {
+                        create: [
+                            {
+                                featName: "Feat Name",
+                                featChargeLabel: "Charges",
+                                featChargeCurrent: "0",
+                                featChargeMax: "0",
+                                featText: "Feat Description",
+                            },
+                        ],
+                    },
+                },
+            },
         },
         include: {
             health: true,
@@ -80,6 +96,11 @@ export async function POST(request: NextRequest) {
             attributes: {
                 include: {
                     attributeInstance: true,
+                },
+            },
+            feats: {
+                include: {
+                    featInstance: true,
                 },
             },
         },
