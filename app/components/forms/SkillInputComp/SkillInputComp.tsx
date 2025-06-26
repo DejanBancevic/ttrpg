@@ -2,7 +2,6 @@ import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateSkillById, updateSkills } from '@/lib/features/main/mainSlice';
-import { Trash2 } from '@deemlol/next-icons';
 import DeleteButton from '../../DeleteButton/DeleteButton';
 
 interface SkillInputCompProps {
@@ -17,13 +16,17 @@ interface SkillInputCompProps {
     styleName: string;
     styleBonus: string;
     styleProfs: string;
-    skillId: string;
+    id: string;
     deleteFunction: Function;
 }
 
 
 const SkillInputComp: React.FC<SkillInputCompProps> = (
-    { locks, activePostId, valueName, valueBonus, valueProfs, fieldName, fieldBonus, fieldProfs, styleName, styleBonus, styleProfs, skillId, deleteFunction }
+    { locks, id, activePostId,
+        valueName, valueBonus, valueProfs,
+        fieldName, fieldBonus, fieldProfs,
+        styleName, styleBonus, styleProfs, 
+        deleteFunction }
 ) => {
 
     //Redux
@@ -31,11 +34,12 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
 
     return (
 
-        <div key={skillId} className='flex items-center gap-2'>
+        <div key={id} className='flex items-center gap-2'>
+
             <textarea
                 value={valueName}
                 readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateSkillById({ key: skillId, value: { [fieldName]: e.target.value } }))}
+                onChange={(e) => dispatch(updateSkillById({ key: id, value: { [fieldName]: e.target.value } }))}
                 onBlur={(e) => {
                     if (!locks.inputLock) {
                         dispatch(updateSkills({
@@ -43,7 +47,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                             skills: {
                                 skillInstance: [
                                     {
-                                        id: skillId,
+                                        id: id,
                                         [fieldName]: e.target.value
                                     },
                                 ],
@@ -58,7 +62,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
             <textarea
                 value={valueBonus}
                 readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateSkillById({ key: skillId, value: { [fieldBonus]: e.target.value } }))}
+                onChange={(e) => dispatch(updateSkillById({ key: id, value: { [fieldBonus]: e.target.value } }))}
                 onBlur={(e) => {
                     if (!locks.inputLock) {
                         dispatch(updateSkills({
@@ -66,7 +70,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                             skills: {
                                 skillInstance: [
                                     {
-                                        id: skillId,
+                                        id: id,
                                         [fieldBonus]: e.target.value
                                     },
                                 ],
@@ -83,7 +87,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
             <textarea
                 value={valueProfs}
                 readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateSkillById({ key: skillId, value: { [fieldProfs]: e.target.value } }))}
+                onChange={(e) => dispatch(updateSkillById({ key: id, value: { [fieldProfs]: e.target.value } }))}
                 onBlur={(e) => {
                     if (!locks.inputLock) {
                         dispatch(updateSkills({
@@ -91,7 +95,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
                             skills: {
                                 skillInstance: [
                                     {
-                                        id: skillId,
+                                        id: id,
                                         [fieldProfs]: e.target.value
                                     },
                                 ],
@@ -105,7 +109,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
 
             <DeleteButton
                 style=' size-6'
-                deleteFunction={() => deleteFunction(skillId!)}
+                deleteFunction={() => deleteFunction(id!)}
             />
 
         </div>

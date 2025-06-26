@@ -5,12 +5,16 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, updateSkillById, readPosts, updateSkills, createSkillInstance, deleteSkillInstance, updateSkillsLabel, setActivePostId, createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance } from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData,  createSkillInstance, deleteSkillInstance,  createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance } from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/forms/LabelComp/LabelComp';
 import InputComp from '../components/forms/InputComp/InputComp';
 import SkillInputComp from '../components/forms/SkillInputComp/SkillInputComp';
 import AttributeComp from '../components/forms/AttributeComp/AttributeComp';
 import FeatComp from '../components/forms/FeatComp/FeatComp';
+import FeatsLabelComp from '../components/forms/FeatsLabelComp/FeatsLabelComp';
+import { addInstance } from '../components/AddInstance/AddInstance';
+import { deleteInstance } from '../components/DeleteInstance/DeleteInstance';
+import SkillsLabelComp from '../components/forms/SkillsLabelComp/SkillsLabelComp';
 
 
 const Home = () => {
@@ -23,59 +27,39 @@ const Home = () => {
   )
   const locks = useSelector((state: RootState) => state.mainData.locks);
 
+
+  //#region Handles
   const handleAddSkillInstance = async () => {
-    dispatch(createSkillInstance(post!.skillsData.skillsId))
-    await new Promise(res => setTimeout(res, 1000));
-    dispatch(readPosts());
-    dispatch(setActivePostId(post!.id));
+
+    dispatch(addInstance(createSkillInstance(post!.skillsData.id)))
   }
 
-  const handleDeleteSkillInstance = async (skillIdToDelete: string) => {
-      if (post?.skillsData.skillInstance.length! > 1) {
-        dispatch(deleteSkillInstance({ skillInstanceId: skillIdToDelete }));
-        await new Promise(res => setTimeout(res, 1000));
-        dispatch(readPosts());
-        dispatch(setActivePostId(post!.id));
-      } else (
-        alert("You can't delete the last node. \nFirst create a new one and then delete the one you want.")
-      )
+  const handleDeleteSkillInstance = async (id: string) => {
+
+    dispatch(deleteInstance(deleteSkillInstance({ id }), 'skillsData', 'skillInstance'))
   }
 
   const handleAddAttributeInstance = async () => {
-    dispatch(createAttributeInstance(post!.attributesData.id))
-    await new Promise(res => setTimeout(res, 1000));
-    dispatch(readPosts());
-    dispatch(setActivePostId(post!.id));
+    dispatch(addInstance(createAttributeInstance(post!.attributesData.id)))
+
   }
 
   const handleDeleteAttributeInstance = async (id: string) => {
-    if (post?.attributesData.attributeInstance.length! > 1) {
-      dispatch(deleteAttributeInstance({ id: id }));
-      await new Promise(res => setTimeout(res, 1000));
-      dispatch(readPosts());
-      dispatch(setActivePostId(post!.id));
-    } else (
-      alert("You can't delete the last node. \nFirst create a new one and then delete the one you want.")
-    )
+
+    dispatch(deleteInstance(deleteAttributeInstance({ id: id }), 'featsData', 'featInstance'))
   }
 
   const handleAddFeatInstance = async () => {
-    dispatch(createFeatInstance(post!.featsData.id))
-    await new Promise(res => setTimeout(res, 1000));
-    dispatch(readPosts());
-    dispatch(setActivePostId(post!.id));
+
+    dispatch(addInstance(createFeatInstance(post!.featsData.id)))
   }
 
   const handleDeleteFeatInstance = async (id: string) => {
-    if (post?.featsData.featInstance.length! > 1) {
-      dispatch(deleteFeatInstance({ id: id }));
-      await new Promise(res => setTimeout(res, 1000));
-      dispatch(readPosts());
-      dispatch(setActivePostId(post!.id));
-    } else (
-      alert("You can't delete the last node. \nFirst create a new one and then delete the one you want.")
-    )
+
+    dispatch(deleteInstance(deleteFeatInstance({ id: id }), 'featsData', 'featInstance'))
   }
+
+  //#endregion
 
   return (
     <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
@@ -317,24 +301,18 @@ const Home = () => {
 
               <div className='flex justify-between pr-8'>
 
-                <LabelComp
-                  value={post?.skillsData.skillsLabel}
+                <SkillsLabelComp
+                  valueLabel={post?.skillsData.skillsLabel}
                   locks={locks}
                   activePostId={activePostId}
-                  updateLocalData={updateSkillsLabel}
-                  updatePostData={updateSkills}
-                  model="skills"
                   labelName="skillsLabel"
                   style="card-label w-[67px] text-2xl italic mb-2"
                 />
 
-                <LabelComp
-                  value={post?.skillsData.profsLabel}
+                <SkillsLabelComp
+                  valueLabel={post?.skillsData.profsLabel}
                   locks={locks}
                   activePostId={activePostId}
-                  updateLocalData={updateSkillsLabel}
-                  updatePostData={updateSkills}
-                  model="skills"
                   labelName="profsLabel"
                   style="card-label w-14 text-lg  mb-2"
                 />
@@ -359,7 +337,7 @@ const Home = () => {
                       styleName="card-textarea-skill"
                       styleBonus="card-textarea w-11 h-10"
                       styleProfs="card-textarea w-11 h-10 text-sec"
-                      skillId={skill.id!}
+                      id={skill.id!}
                       deleteFunction={handleDeleteSkillInstance}
                     />
                   ))
@@ -407,7 +385,7 @@ const Home = () => {
                     />
                   ))
                 }
-              
+
                 <Plus
                   onClick={() => handleAddAttributeInstance()}
                   className='addButton size-6'
@@ -423,10 +401,17 @@ const Home = () => {
             <div className='mainContainers !items-stretch w-[450px] max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar '>
               <div className='flex flex-col '>
 
-                <h1 className='text-2xl font-bold italic mb-2'>Features & Traits</h1>
+                <FeatsLabelComp
+                  locks={locks}
+                  activePostId={activePostId}
+                  valueLabel={post?.featsData.featsLabel!}
+                  fieldLabel={'featsLabel'}
+                  styleLabel={'card-label !text-start text-2xl italic mb-2'}
+
+                />
 
                 <div className='flex flex-col gap-2'>
-                 
+
                   {/*Feat Instance */}
                   {
                     post?.featsData?.featInstance?.map((feat, index) => (

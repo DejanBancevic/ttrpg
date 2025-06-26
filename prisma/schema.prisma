@@ -33,8 +33,56 @@ model Post {
   feats   Feats  @relation("PostFeats", fields: [featsId], references: [id], onDelete: Cascade)
   featsId String @unique
 
+  spells   Spells @relation("PostSpells", fields: [spellsId], references: [id], onDelete: Cascade)
+  spellsId String @unique
+
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
+}
+
+model Spells {
+  id                  String @id @default(cuid())
+  spellsLabel         String
+  spellsModifierLabel String
+  spellsAttackLabel   String
+  spellsSaveLabel     String
+  spellsModifier      String
+  spellsAttack        String
+  spellsSave          String
+
+  spellSlotInstance SpellSlotInstance[] @relation("SpellsSpellSlotInstance")
+
+  post Post? @relation("PostSpells")
+}
+
+model SpellSlotInstance {
+  id                String @id @default(cuid())
+  spellSlotBoxLabel String
+  spellSlotLabel    String
+  spellSlotCurrent  String
+  spellSlotMax      String
+  spellNameLabel    String
+  spellLabel1       String
+  spellLabel2       String
+  spellLabel3       String
+  spellLabel4       String
+
+  spellInstance SpellInstance[] @relation("SpellSlotInstanceSpellInstance")
+
+  spells   Spells? @relation("SpellsSpellSlotInstance", fields: [spellsId], references: [id], onDelete: Cascade)
+  spellsId String
+}
+
+model SpellInstance {
+  id             String @id @default(cuid())
+  spellNameValue String
+  spellValue1    String
+  spellValue2    String
+  spellValue3    String
+  spellValue4    String
+
+  spellSlotInstance   SpellSlotInstance? @relation("SpellSlotInstanceSpellInstance", fields: [spellSlotInstanceId], references: [id], onDelete: Cascade)
+  spellSlotInstanceId String
 }
 
 model Feats {

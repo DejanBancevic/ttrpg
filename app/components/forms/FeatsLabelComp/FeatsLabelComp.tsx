@@ -1,18 +1,18 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateSkills, updateSkillsLabel } from '@/lib/features/main/mainSlice';
+import { updateFeats, updateFeatsLabel } from '@/lib/features/main/mainSlice';
 
-interface SkillsLabelCompProps {
+interface FeatsLabelCompProps {
     locks: Record<string, any>;
-    activePostId: string;
-    valueLabel: any;
-    labelName: any;
-    style: string;
+    activePostId: any;
+    valueLabel: string;
+    fieldLabel: any;
+    styleLabel: string;
 }
 
-const SkillsLabelComp: React.FC<SkillsLabelCompProps> = (
-    { locks, activePostId, valueLabel, labelName, style }
+const FeatsLabelComp: React.FC<FeatsLabelCompProps> = (
+    { locks,  activePostId, valueLabel, fieldLabel, styleLabel }
 ) => {
 
     //Redux
@@ -24,21 +24,21 @@ const SkillsLabelComp: React.FC<SkillsLabelCompProps> = (
             readOnly={locks.labelLock}
             onChange={(e) => {
                 if (!locks.labelLock) {
-                    dispatch(updateSkillsLabel({ key: labelName, value: e.target.value }));
+                    dispatch(updateFeatsLabel({ key: fieldLabel, value: e.target.value }));
                 }
             }}
             onBlur={(e) => {
                 if (!locks.labelLock) {
-                    dispatch(updateSkills({
+                    dispatch(updateFeats({
                         postId: activePostId,
-                        skills: { [labelName]: e.target.value }
+                        feats: { [fieldLabel]: e.target.value }
                     }));
                 }
             }}
             spellCheck={false}
-            className={style}
+            className={styleLabel}
         />
     )
 }
 
-export default SkillsLabelComp
+export default FeatsLabelComp

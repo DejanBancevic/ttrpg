@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { createPost, readPosts, setActivePostId } from "@/lib/features/main/mainSlice";
 import { deletePost as deletePostAction } from "@/lib/features/main/mainSlice";
+import DeleteButton from "../DeleteButton/DeleteButton";
 
 type SidebarProps = {
     sidebarMove: boolean;
@@ -49,10 +50,12 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                         posts.map((post, index) => (
 
                             <div key={post.id} className='flex items-center gap-1'>
-                                <Trash2
-                                    onClick={() => handleDeletePost(post.id)}
-                                    className='removeButton size-4'
+
+                                <DeleteButton
+                                    style=' size-4'
+                                    deleteFunction={() => handleDeletePost(post.id)}
                                 />
+                               
                                 <button
                                     key={post.id}
                                     onClick={() => handleFocusPost(post.id!)}

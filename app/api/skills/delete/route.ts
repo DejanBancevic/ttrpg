@@ -11,12 +11,12 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        if (!body.skillInstanceId) {
+        if (!body.id) {
             return NextResponse.json({ error: "Missing skillInstanceId" }, { status: 400 });
         }
 
         const skillInstance = await prisma.skillInstance.findUnique({
-            where: { id: body.skillInstanceId },
+            where: { id: body.id },
             include: {
                 skills: {
                     include: {
@@ -35,7 +35,7 @@ export async function DELETE(request: NextRequest) {
         }
 
         await prisma.skillInstance.delete({
-            where: { id: body.skillInstanceId },
+            where: { id: body.id },
         });
 
         return NextResponse.json({ success: true });

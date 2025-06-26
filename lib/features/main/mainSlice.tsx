@@ -87,12 +87,12 @@ export const deletePost = createAsyncThunk(
 
 export const createSkillInstance = createAsyncThunk(
     'main/createSkillInstance',
-    async (skillsId: string, { rejectWithValue }) => {
+    async (id: string , { rejectWithValue }) => {
         try {
             const res = await fetch('/api/skills/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ skillsId }),
+                body: JSON.stringify({id}),
             });
 
             if (!res.ok) {
@@ -154,12 +154,12 @@ export const updateSkills = createAsyncThunk(
 
 export const deleteSkillInstance = createAsyncThunk(
     'main/deleteSkill',
-    async (skillInstanceData: { skillInstanceId: string }, { rejectWithValue }) => {
+    async (id: { id: string }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/skills/delete', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(skillInstanceData),
+                body: JSON.stringify(id),
             });
 
             if (!res.ok) {
@@ -240,7 +240,7 @@ export const deleteAttributeInstance = createAsyncThunk(
             return rejectWithValue({ error: 'Patch failed' });
         }
     }
-); 
+);
 
 // Feats
 
@@ -308,7 +308,7 @@ export const deleteFeatInstance = createAsyncThunk(
             return rejectWithValue({ error: 'Patch failed' });
         }
     }
-); 
+);
 
 //#endregion 
 
@@ -346,7 +346,7 @@ const initialState: MainState = {
                 xpLabel: "XP",
             },
             skillsData: {
-                skillsId: "0",
+                id: "0",
                 skillsLabel: "Skills",
                 profsLabel: "Profs",
                 skillInstance: [
@@ -434,7 +434,7 @@ interface attributeInstanceData {
 };
 
 interface skillsData {
-    skillsId: string;
+    id: string;
     skillsLabel: string;
     profsLabel: string;
     skillInstance: Partial<skillInstanceData>[]
@@ -549,7 +549,7 @@ const mainSlice = createSlice({
                     healthData: newPost.health,
                     basicsData: newPost.basics,
                     skillsData: {
-                        skillsId: newPost.skills.id,
+                        id: newPost.skills.id,
                         skillsLabel: newPost.skills.skillsLabel,
                         profsLabel: newPost.skills.profsLabel,
                         skillInstance: newPost.skills.skillInstance ?? [],
@@ -574,7 +574,7 @@ const mainSlice = createSlice({
                     healthData: post.health,
                     basicsData: post.basics,
                     skillsData: {
-                        skillsId: post.skills.id,
+                        id: post.skills.id,
                         skillsLabel: post.skills.skillsLabel,
                         profsLabel: post.skills.profsLabel,
                         skillInstance: post.skills.skillInstance ?? [],
@@ -637,7 +637,7 @@ const mainSlice = createSlice({
             .addCase(updateSkills.fulfilled, (state, action) => {
                 const updated = action.payload.data;
                 const activePost = state.posts.find(p =>
-                    p.skillsData.skillsId === updated.id
+                    p.skillsData.id === updated.id
                 );
                 if (!activePost) return;
 
@@ -675,6 +675,7 @@ const mainSlice = createSlice({
                 );
                 if (!activePost) return;
 
+                activePost.featsData.featsLabel = updated.featsLabel;
                 activePost.featsData.featInstance = updated.featInstance ?? [];
             })
             .addCase(deleteFeatInstance.fulfilled, (state, action) => {

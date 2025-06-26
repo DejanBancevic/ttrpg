@@ -26,7 +26,7 @@ interface FeatCompProps {
     deleteFunction: Function;
 }
 
-const AttributeComp: React.FC<FeatCompProps> = (
+const FeatComp: React.FC<FeatCompProps> = (
     { locks, activePostId, valueText, valueName, valueCharges, valueChargesCurrent, valueChargesMax,
         fieldName, fieldCharges, fieldChargesCurrent, fieldText,
         styleText, styleName, fieldChargesMax, styleCharges, styleChargesCurrent, styleChargesMax,
@@ -183,4 +183,4 @@ const AttributeComp: React.FC<FeatCompProps> = (
     )
 }
 
-export default AttributeComp
+export default FeatComp

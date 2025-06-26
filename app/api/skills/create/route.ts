@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!body.skillsId) {
+    if (!body.id) {
         return NextResponse.json({ error: "Missing skillsId" }, { status: 400 });
     }
 
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
             skillValue: "0",
             skillProf: "0",
             skills: {
-                connect: { id: body.skillsId },
+                connect: { id: body.id },
             },
             
         },
