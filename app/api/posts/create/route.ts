@@ -84,6 +84,43 @@ export async function POST(request: NextRequest) {
                     },
                 },
             },
+            spells: {
+                create: {
+                    spellsLabel: "Spells",
+                    spellsModifierLabel: "Modifier",
+                    spellsAttackLabel: "Spell Attack",
+                    spellsSaveLabel: "Save DC",
+                    spellsModifier: "0",
+                    spellsAttack: "0",
+                    spellsSave: "0",
+                    spellSlotInstance: {
+                        create: [
+                            {
+                                spellSlotBoxLabel: " ",
+                                spellSlotLabel: "Slots",
+                                spellSlotCurrent: "0",
+                                spellSlotMax: "0",
+                                spellNameLabel: "Name",
+                                spellLabel1: "Level",
+                                spellLabel2: "Conc",
+                                spellLabel3: "Range",
+                                spellLabel4: "Hit",
+                                spellInstance: {
+                                    create: [
+                                        {
+                                            spellNameValue: "Spell Name",
+                                            spellValue1: "0",
+                                            spellValue2: "0",
+                                            spellValue3: "0",
+                                            spellValue4: "0",
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
         },
         include: {
             health: true,
@@ -101,6 +138,15 @@ export async function POST(request: NextRequest) {
             feats: {
                 include: {
                     featInstance: true,
+                },
+            },
+            spells: {
+                include: {
+                    spellSlotInstance: {
+                        include: {
+                            spellInstance: true,
+                        }
+                    }
                 },
             },
         },

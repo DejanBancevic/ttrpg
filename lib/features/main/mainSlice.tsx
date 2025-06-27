@@ -63,12 +63,12 @@ export const updatePost = createAsyncThunk(
 
 export const deletePost = createAsyncThunk(
     'main/deletePost',
-    async (postData: { postId?: string }, { rejectWithValue }) => {
+    async (postId: { postId?: string }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/posts/delete', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(postData),
+                body: JSON.stringify(postId),
             });
 
             if (!res.ok) {
@@ -87,12 +87,12 @@ export const deletePost = createAsyncThunk(
 
 export const createSkillInstance = createAsyncThunk(
     'main/createSkillInstance',
-    async (id: string , { rejectWithValue }) => {
+    async (id: string, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/skills/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({id}),
+                body: JSON.stringify({ id }),
             });
 
             if (!res.ok) {
@@ -154,12 +154,12 @@ export const updateSkills = createAsyncThunk(
 
 export const deleteSkillInstance = createAsyncThunk(
     'main/deleteSkill',
-    async (id: { id: string }, { rejectWithValue }) => {
+    async (skillInstanceId: { id: string }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/skills/delete', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(id),
+                body: JSON.stringify(skillInstanceId),
             });
 
             if (!res.ok) {
@@ -222,12 +222,12 @@ export const updateAttributes = createAsyncThunk(
 
 export const deleteAttributeInstance = createAsyncThunk(
     'main/deleteAttributeInstance',
-    async (attributeInstanceData: { id: string }, { rejectWithValue }) => {
+    async (attributeInstanceId: { id: string }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/attributes/delete', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(attributeInstanceData),
+                body: JSON.stringify(attributeInstanceId),
             });
 
             if (!res.ok) {
@@ -290,12 +290,12 @@ export const updateFeats = createAsyncThunk(
 
 export const deleteFeatInstance = createAsyncThunk(
     'main/deleteFeatInstance',
-    async (featInstanceData: { id: string }, { rejectWithValue }) => {
+    async (featInstanceId: { id: string }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/feats/delete', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(featInstanceData),
+                body: JSON.stringify(featInstanceId),
             });
 
             if (!res.ok) {
@@ -309,6 +309,119 @@ export const deleteFeatInstance = createAsyncThunk(
         }
     }
 );
+
+// Spells
+
+export const createSpellSlotInstance = createAsyncThunk(
+    'main/createSpellSlotInstance',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/spells/spellSlotInstance/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id }),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'createSpellSlotInstance failed' });
+        }
+    }
+);
+
+export const createSpellInstance = createAsyncThunk(
+    'main/createSpellInstance',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/spells/spellInstance/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id }),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'createSpellInstance failed' });
+        }
+    }
+);
+
+export const updateSpells = createAsyncThunk(
+    'main/updateSpells',
+    async (postData: { postId: string, spells: Partial<spellsData> }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/spells/spellSlotInstance/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(postData),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'updateSpells failed' });
+        }
+    }
+);
+
+export const deleteSpellSlotInstance = createAsyncThunk(
+    'main/deleteSpellSlotInstance',
+    async (spellSlotInstanceId: { id: string }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/spells/spellSlotInstance/delete', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(spellSlotInstanceId),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'deleteSpellSlotInstance failed' });
+        }
+    }
+);
+
+export const deleteSpellInstance = createAsyncThunk(
+    'main/deleteSpellInstance',
+    async (spellInstanceId: { id: string }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/spells/spellInstance/delete', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(spellInstanceId),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'deleteSpellInstance failed' });
+        }
+    }
+);
+
 
 //#endregion 
 
@@ -385,6 +498,40 @@ const initialState: MainState = {
                     },
                 ],
             },
+            spellsData: {
+                id: "0",
+                spellsLabel: "Spells",
+                spellsModifierLabel: "Modifier",
+                spellsAttackLabel: "Spell Attack",
+                spellsSaveLabel: "Save DC",
+                spellsModifier: "0",
+                spellsAttack: "0",
+                spellsSave: "0",
+                spellSlotInstance: [
+                    {
+                        id: "0",
+                        spellSlotBoxLabel: " ",
+                        spellSlotLabel: "Slots",
+                        spellSlotCurrent: "0",
+                        spellSlotMax: "0",
+                        spellNameLabel: "Name",
+                        spellLabel1: "Level",
+                        spellLabel2: "Conc",
+                        spellLabel3: "Range",
+                        spellLabel4: "Hit",
+                        spellInstance: [
+                            {
+                                id: "0",
+                                spellNameValue: "Spell Name",
+                                spellValue1: "0",
+                                spellValue2: "0",
+                                spellValue3: "0",
+                                spellValue4: "0",
+                            },
+                        ],
+                    },
+                ],
+            },
         },
     ],
     activePostId: "0",
@@ -402,6 +549,42 @@ interface post {
     skillsData: skillsData;
     attributesData: attributesData;
     featsData: featsData;
+    spellsData: spellsData;
+};
+
+interface spellsData {
+    id: string;
+    spellsLabel: string;
+    spellsModifierLabel: string;
+    spellsAttackLabel: string;
+    spellsSaveLabel: string;
+    spellsModifier: string;
+    spellsAttack: string;
+    spellsSave: string;
+    spellSlotInstance: Partial<spellSlotInstanceData>[]
+}
+
+interface spellSlotInstanceData {
+    id: string;
+    spellSlotBoxLabel: string;
+    spellSlotLabel: string;
+    spellSlotCurrent: string;
+    spellSlotMax: string;
+    spellNameLabel: string;
+    spellLabel1: string;
+    spellLabel2: string;
+    spellLabel3: string;
+    spellLabel4: string;
+    spellInstance: Partial<spellInstanceData>[]
+};
+
+interface spellInstanceData {
+    id: string;
+    spellNameValue: string;
+    spellValue1: string;
+    spellValue2: string;
+    spellValue3: string;
+    spellValue4: string;
 };
 
 interface featsData {
@@ -563,6 +746,20 @@ const mainSlice = createSlice({
                         featsLabel: newPost.featsLabel,
                         featInstance: newPost.feats.featInstance ?? [],
                     },
+                    spellsData: {
+                        id: newPost.spells.id,
+                        spellsLabel: newPost.spellsLabel,
+                        spellsModifierLabel: newPost.spellsModifierLabel,
+                        spellsAttackLabel: newPost.spellsAttackLabel,
+                        spellsSaveLabel: newPost.spellsSaveLabel,
+                        spellsModifier: newPost.spellsModifier,
+                        spellsAttack: newPost.spellsAttack,
+                        spellsSave: newPost.spellsSave,
+                        spellSlotInstance: (newPost.spells.spellSlotInstance ?? []).map((slot: any) => ({
+                            ...slot,
+                            spellInstance: slot.spellInstance ?? [],
+                        })),
+                    },
                 });
                 state.activePostId = newPost.id;
 
@@ -587,6 +784,20 @@ const mainSlice = createSlice({
                         id: post.feats.id,
                         featsLabel: post.feats.featsLabel,
                         featInstance: post.feats.featInstance ?? [],
+                    },
+                    spellsData: {
+                        id: post.spells.id,
+                        spellsLabel: post.spells.spellsLabel,
+                        spellsModifierLabel: post.spells.spellsModifierLabel,
+                        spellsAttackLabel: post.spells.spellsAttackLabel,
+                        spellsSaveLabel: post.spells.spellsSaveLabel,
+                        spellsModifier: post.spells.spellsModifier,
+                        spellsAttack: post.spells.spellsAttack,
+                        spellsSave: post.spells.spellsSave,
+                        spellSlotInstance: (post.spells.spellSlotInstance ?? []).map((slot: any) => ({
+                            ...slot,
+                            spellInstance: slot.spellInstance ?? [],
+                        })),
                     },
                 }));
 

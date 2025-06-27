@@ -36,6 +36,7 @@ export async function DELETE(request: NextRequest) {
             await tx.skills.delete({ where: { id: existing.skillsId } });
             await tx.attributes.delete({ where: { id: existing.attributesId } });
             await tx.feats.delete({ where: { id: existing.featsId } });
+            await tx.spells.delete({ where: { id: existing.spellsId } });
 
             return deletedPost;
         });
