@@ -5,7 +5,7 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData,  createSkillInstance, deleteSkillInstance,  createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance } from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData, createSkillInstance, deleteSkillInstance, createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance, createSpellInstance, createSpellSlotInstance, updateSpells, updateSpellsLabel } from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/forms/LabelComp/LabelComp';
 import InputComp from '../components/forms/InputComp/InputComp';
 import SkillInputComp from '../components/forms/SkillInputComp/SkillInputComp';
@@ -15,6 +15,10 @@ import FeatsLabelComp from '../components/forms/FeatsLabelComp/FeatsLabelComp';
 import { addInstance } from '../components/AddInstance/AddInstance';
 import { deleteInstance } from '../components/DeleteInstance/DeleteInstance';
 import SkillsLabelComp from '../components/forms/SkillsLabelComp/SkillsLabelComp';
+import SpellModsComp from '../components/forms/SpellModsComp/SpellModsComp';
+import SpellSlotComp from '../components/forms/SpellSlotComp/SpellSlotComp';
+import SpellSlotChargesComp from '../components/forms/SpellSlotChargesComp/SpellSlotChargesComp';
+import SpellSlotLabelComp from '../components/forms/SpellSlotLabelComp/SpellSlotLabelComp';
 
 
 const Home = () => {
@@ -22,6 +26,7 @@ const Home = () => {
   //Redux
   const dispatch: AppDispatch = useDispatch();
   const activePostId = useSelector((state: RootState) => state.mainData.activePostId);
+  const activeSpellSlotId = useSelector((state: RootState) => state.mainData.activeSpellSlotId);
   const post = useSelector((state: RootState) =>
     state.mainData.posts.find(post => post.id === activePostId)
   )
@@ -57,6 +62,16 @@ const Home = () => {
   const handleDeleteFeatInstance = async (id: string) => {
 
     dispatch(deleteInstance(deleteFeatInstance({ id: id }), 'featsData', 'featInstance'))
+  }
+
+  const handleAddSpellSlotInstance = async () => {
+
+    dispatch(addInstance(createSpellSlotInstance(post!.spellsData.id)))
+  }
+
+  const handleAddSpellInstance = async () => {
+
+    dispatch(addInstance(createSpellInstance(activeSpellSlotId)))
   }
 
   //#endregion
@@ -454,80 +469,125 @@ const Home = () => {
             <div className='mainContainers shrink-0 w-fit max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar '>
               <div className='flex flex-col gap-2'>
 
-                <h1 className='text-2xl font-bold italic'>Spells</h1>
+                <LabelComp
+                  value={post?.spellsData.spellsLabel}
+                  locks={locks}
+                  activePostId={activePostId}
+                  updateLocalData={updateSpellsLabel}
+                  updatePostData={updateSpells}
+                  model="spells"
+                  labelName='spellsLabel'
+                  style="card-label !text-start text-2xl italic w-full"
+                />
 
                 {/*Mods */}
                 <div className='flex justify-between'>
-                  <div className='flex flex-col items-center gap-2'>
-                    <h1 className='text-lg font-bold'>Modifier</h1>
-                    <textarea
-                      value={"+10"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                  </div>
 
-                  <div className='flex flex-col items-center gap-2'>
-                    <h1 className='text-lg font-bold'>Spell Attack</h1>
-                    <textarea
-                      value={"+12"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                  </div>
+                  <SpellModsComp
+                    valueLabel={post?.spellsData.spellsModifierLabel!}
+                    fieldLabel={"spellsModifierLabel"}
+                    styleLabel="card-label max-w-32  text-lg"
+                    locks={locks}
+                    activePostId={activePostId}
+                    valueName={post?.spellsData.spellsModifier!}
+                    fieldName={"spellsModifier"}
+                    styleName="card-textarea w-12 h-10"
+                  />
 
-                  <div className='flex flex-col items-center gap-2'>
-                    <h1 className='text-lg font-bold'>Save DC</h1>
-                    <textarea
-                      value={"+15"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                  </div>
+                  <SpellModsComp
+                    valueLabel={post?.spellsData.spellsAttackLabel!}
+                    fieldLabel={"spellsAttackLabel"}
+                    styleLabel="card-label max-w-32  text-lg"
+                    locks={locks}
+                    activePostId={activePostId}
+                    valueName={post?.spellsData.spellsAttack!}
+                    fieldName={"spellsAttack"}
+                    styleName="card-textarea w-12 h-10"
+                  />
+
+                  <SpellModsComp
+                    valueLabel={post?.spellsData.spellsSaveLabel!}
+                    fieldLabel={"spellsSaveLabel"}
+                    styleLabel="card-label max-w-32  text-lg"
+                    locks={locks}
+                    activePostId={activePostId}
+                    valueName={post?.spellsData.spellsSave!}
+                    fieldName={"spellsSave"}
+                    styleName="card-textarea w-12 h-10"
+                  />
+
                 </div>
 
                 <div className='border-t-2 border-gray w-full'></div>
 
                 {/*Spell Levels */}
-                <div className='flex justify-between'>
-                  <button className="card-textarea-spellbox">C</button>
-                  <button className="card-textarea-spellbox">1</button>
-                  <button className="card-textarea-spellbox">2</button>
-                  <button className="card-textarea-spellbox">3</button>
-                  <button className="card-textarea-spellbox">4</button>
-                  <button className="card-textarea-spellbox">5</button>
-                  <button className="card-textarea-spellbox">6</button>
-                  <button className="card-textarea-spellbox">7</button>
-                  <button className="card-textarea-spellbox">8</button>
-                  <button className="card-textarea-spellbox">9+</button>
+                <div className='flex gap-2 justify-start items-center'>
+
+                  {/*Spell Slot Instance */}
+                  {
+                    post?.spellsData?.spellSlotInstance?.map((spellSlotInstance, index) => (
+
+                      <SpellSlotComp
+                        id={spellSlotInstance.id!}
+                        key={spellSlotInstance.id}
+                        locks={locks}
+                        activePostId={activePostId}
+                        valueText={spellSlotInstance.spellSlotBoxLabel!}
+                        fieldText={'spellSlotBoxLabel'}
+                        styleText={'card-textarea-spellbox'}
+                      />
+                    ))
+                  }
+
+                  <Plus
+                    onClick={() => handleAddSpellSlotInstance()}
+                    className='addButton size-6'
+                  />
+
                 </div>
 
                 {/*Slots */}
                 <div className='flex justify-start items-center gap-2 mt-2'>
-                  <h1 className='text-lg font-bold'>Slots</h1>
-                  <textarea
-                    value={"5"}
-                    spellCheck={false}
-                    className="card-textarea w-10 h-10 text-center text-sec"
+
+                  <SpellSlotChargesComp
+                    locks={locks}
+                    activePostId={activePostId}
+                    valueCharges={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotLabel || ''}   
+                    valueChargesCurrent={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotCurrent || ''}   
+                    valueChargesMax={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotMax || ''}
+                    fieldCharges={'spellSlotLabel'}
+                    fieldChargesCurrent={'spellSlotCurrent'}
+                    fieldChargesMax={'spellSlotMax'}
+                    styleCharges="card-label w-16 !text-start text-lg"
+                    styleChargesCurrent="card-textarea w-10 h-10 text-center text-sec"
+                    styleChargesMax="card-textarea w-10 h-10 text-center "
+                    id={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.id || ''}   
                   />
-                  <div className='border-l border-gray h-full'></div>
-                  <textarea
-                    value={"8"}
-                    spellCheck={false}
-                    className="card-textarea w-10 h-10 text-center "
-                  />
+                 
                 </div>
 
                 {/*Labels */}
-                <div className='flex justify-between'>
-                  <h1 className='text-lg font-bold'>Name</h1>
-                  <div className='flex gap-3 pr-2'>
-                    <h1 className='text-lg font-bold'>Time</h1>
-                    <h1 className='text-lg font-bold'>Conc</h1>
-                    <h1 className='text-lg font-bold'>Range</h1>
-                    <h1 className='text-lg font-bold'>Hit</h1>
-                  </div>
-                </div>
+                <SpellSlotLabelComp
+                  locks={locks}
+                  activePostId={activePostId}
+                  valueName={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellNameLabel || ''}   
+                  value1={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel1 || ''}   
+                  value2={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel2 || ''}   
+                  value3={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel3 || ''}   
+                  value4={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel4 || ''}   
+                  fieldName={'spellNameLabel'}
+                  field1={'spellLabel1'}
+                  field2={'spellLabel2'}
+                  field3={'spellLabel3'}
+                  field4={'spellLabel4'}
+                  styleName={'card-label w-16 !text-start text-lg'}
+                  style1={'card-label w-11 !text-start text-lg'}
+                  style2={'card-label w-12 !text-start text-lg'}
+                  style3={'card-label w-14 !text-start text-lg'}
+                  style4={'card-label w-7 !text-start text-lg'}
+                  id={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.id || ''}                   
+                
+                />
 
                 <div className='border-t-2 border-gray w-full'></div>
 
@@ -565,304 +625,10 @@ const Home = () => {
                     />
                   </div>
 
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
-
-                  <Plus className='size-6 text-sec' />
+                  <Plus
+                    onClick={() => handleAddSpellInstance()}
+                    className='addButton size-6'
+                  />
                 </div>
 
               </div>

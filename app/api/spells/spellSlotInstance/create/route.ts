@@ -11,23 +11,32 @@ export async function POST(request: NextRequest) {
     }
 
     if (!body.id) {
-        return NextResponse.json({ error: "Missing spell id" }, { status: 400 });
+        return NextResponse.json({ error: "Missing spellSlotInstance id" }, { status: 400 });
     }
 
-    const newSpellInstance = await prisma.spellInstance.create({
+    const newSpellSlotInstance = await prisma.spellSlotInstance.create({
         data: {
-            skillName: "Add Skill Name",
-            skillValue: "0",
-            skillProf: "0",
-            skills: {
+            spellSlotBoxLabel: " ",
+            spellSlotLabel: "Slots",
+            spellSlotCurrent: "0",
+            spellSlotMax: "0",
+            spellNameLabel: "Name",
+            spellLabel1: "Time",
+            spellLabel2: "Conc",
+            spellLabel3: "Range",
+            spellLabel4: "Hit",
+            spellInstance: {
+                create:[],
+            },
+            spells: {
                 connect: { id: body.id },
             },
 
         },
         include: {
-            skills: true,
+            spells: true,
         }
     },);
 
-    return NextResponse.json({ body: newSkillInstance });
+    return NextResponse.json({ body: newSpellSlotInstance });
 }

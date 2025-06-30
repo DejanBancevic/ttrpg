@@ -11,23 +11,25 @@ export async function POST(request: NextRequest) {
     }
 
     if (!body.id) {
-        return NextResponse.json({ error: "Missing spell id" }, { status: 400 });
+        return NextResponse.json({ error: "Missing SpellInstance id" }, { status: 400 });
     }
 
     const newSpellInstance = await prisma.spellInstance.create({
         data: {
-            skillName: "Add Skill Name",
-            skillValue: "0",
-            skillProf: "0",
-            skills: {
+            spellNameValue: "Spell Name",
+            spellValue1: "0",
+            spellValue2: "0",
+            spellValue3: "0",
+            spellValue4: "0",
+            spellSlotInstance: {
                 connect: { id: body.id },
             },
 
         },
         include: {
-            skills: true,
+            spellSlotInstance: true,
         }
     },);
 
-    return NextResponse.json({ body: newSkillInstance });
+    return NextResponse.json({ body: newSpellInstance });
 }

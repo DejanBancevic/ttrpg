@@ -430,6 +430,7 @@ export const deleteSpellInstance = createAsyncThunk(
 interface MainState {
     posts: post[];
     activePostId: string;
+    activeSpellSlotId: string;
     locks: locks;
 };
 
@@ -515,7 +516,7 @@ const initialState: MainState = {
                         spellSlotCurrent: "0",
                         spellSlotMax: "0",
                         spellNameLabel: "Name",
-                        spellLabel1: "Level",
+                        spellLabel1: "Time",
                         spellLabel2: "Conc",
                         spellLabel3: "Range",
                         spellLabel4: "Hit",
@@ -535,6 +536,7 @@ const initialState: MainState = {
         },
     ],
     activePostId: "0",
+    activeSpellSlotId: "0",
     locks: {
         inputLock: false,
         labelLock: true,
@@ -722,6 +724,40 @@ const mainSlice = createSlice({
 
             activePost.featsData[action.payload.key] = action.payload.value;
         },
+        updateSpellSlotInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<spellSlotInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            const spellSlotInstance = activePost.spellsData.spellSlotInstance.find((s) => s.id === action.payload.key)
+            if (!spellSlotInstance) return;
+
+            Object.assign(spellSlotInstance, action.payload.value);
+        },
+        updateSpellInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<spellInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            for (const spellSlot of activePost.spellsData.spellSlotInstance) {
+                const instance = spellSlot.spellInstance?.find(i => i.id === action.payload.key);
+                if (instance) {
+                    Object.assign(instance, action.payload.value);
+                    break; // exit loop once updated
+                }
+            }
+        },
+        updateSpellsLabel: (state, action: PayloadAction<{
+            key: 'spellsLabel' | 'spellsModifierLabel' | 'spellsAttackLabel' | 'spellsSaveLabel' |
+            'spellsModifier' | 'spellsAttack' | 'spellsSave'
+            value: string
+        }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId);
+            if (!activePost) return;
+
+            activePost.spellsData[action.payload.key] = action.payload.value;
+        },
+        setActiveSpellSlotId: (state, action: PayloadAction<string>) => {
+            state.activeSpellSlotId = action.payload;
+        },
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
@@ -896,13 +932,55 @@ const mainSlice = createSlice({
 
                 activePost.featsData.featInstance = activePost.featsData.featInstance.filter(a => a.id !== deletedId);
             })
+            .addCase(updateSpells.fulfilled, (state, action) => {
+                const updated = action.payload.data;
+                const activePost = state.posts.find(p =>
+                    p.spellsData.id === updated.id
+                );
+                if (!activePost) return;
+
+                activePost.spellsData = {
+                    ...activePost.spellsData,
+                    spellsLabel: updated.spellsLabel,
+                    spellsModifierLabel: updated.spellsModifierLabel,
+                    spellsAttackLabel: updated.spellsAttackLabel,
+                    spellsSaveLabel: updated.spellsSaveLabel,
+                    spellsModifier: updated.spellsModifier,
+                    spellsAttack: updated.spellsAttack,
+                    spellsSave: updated.spellsSave,
+                    spellSlotInstance: updated.spellSlotInstance ?? [],
+                };
+            })
+            .addCase(deleteSpellSlotInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                const activePost = state.posts.find(p => p.id === state.activePostId)
+                if (!activePost) return;
+
+                activePost.spellsData.spellSlotInstance = activePost.spellsData.spellSlotInstance.filter(a => a.id !== deletedId);
+            })
+            .addCase(deleteSpellInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                const activePost = state.posts.find(p => p.id === state.activePostId);
+                if (!activePost) return;
+
+                activePost.spellsData.spellSlotInstance = activePost.spellsData.spellSlotInstance.map(slot => {
+                    if (!slot.spellInstance) return slot;
+
+                    return {
+                        ...slot,
+                        spellInstance: slot.spellInstance.filter(spell => spell.id !== deletedId)
+                    };
+                });
+            })
     }
-});
+})
+
 
 
 // Export the actions to be used in components
 export const {
     setActivePostId,
+    setActiveSpellSlotId,
     updateLocks,
     updateHealthData,
     updateBasicsData,
@@ -911,6 +989,9 @@ export const {
     updateAttributesById,
     updateFeatsById,
     updateFeatsLabel,
+    updateSpellSlotInstanceById,
+    updateSpellInstanceById,
+    updateSpellsLabel,
 } = mainSlice.actions;
 
 // Export the reducer to be used in the store

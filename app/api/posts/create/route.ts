@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
                                 spellSlotCurrent: "0",
                                 spellSlotMax: "0",
                                 spellNameLabel: "Name",
-                                spellLabel1: "Level",
+                                spellLabel1: "Time",
                                 spellLabel2: "Conc",
                                 spellLabel3: "Range",
                                 spellLabel4: "Hit",
