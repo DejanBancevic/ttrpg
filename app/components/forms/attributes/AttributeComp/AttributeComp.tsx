@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateAttributes, updateAttributesById,} from '@/lib/features/main/mainSlice';
-import DeleteButton from '../../DeleteButton/DeleteButton';
+import { updateAttributes, updateAttributesById, } from '@/lib/features/main/mainSlice';
+import DeleteButton from '../../../DeleteButton/DeleteButton';
 
 interface AttributeCompProps {
     locks: Record<string, any>;
@@ -33,7 +33,7 @@ const AttributeComp: React.FC<AttributeCompProps> = (
     const dispatch: AppDispatch = useDispatch();
 
     return (
-        <div className='flex justify-center items-start gap-2 h-30'> 
+        <div className='flex justify-center items-start gap-2 h-30'>
             <div className='flex flex-col items-center gap-2'>
                 <div className='flex justify-between gap-2 items-center'>
 
@@ -149,7 +149,7 @@ const AttributeComp: React.FC<AttributeCompProps> = (
                         />
                     </div>
                 </div>
-          
+
             </div>
             <div className='border-l border-gray h-[123px]'></div>
         </div>

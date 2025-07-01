@@ -14,8 +14,8 @@ interface spellInstanceData {
 
 export async function POST(request: NextRequest) {
     const session = await getSession();
-    const body = await request.json(); 
-    
+    const body = await request.json();
+
 
     if (!session?.user?.email) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     if (!existingPost || !existingPost.spells?.id) {
         return NextResponse.json({ error: "Post or spells group not found" }, { status: 404 });
     }
-    
+
     const spellsData = body.spells;
 
     // Update or create spell slot instances
@@ -55,37 +55,14 @@ export async function POST(request: NextRequest) {
                         spellLabel4: spellSlot.spellLabel4,
                     },
                 });
-                console.log("UPDATED BABY")
-            } else {
-                const data: any = {
-                    spellSlotBoxLabel: spellSlot.spellSlotBoxLabel,
-                    spellSlotLabel: spellSlot.spellSlotLabel,
-                    spellSlotCurrent: spellSlot.spellSlotCurrent,
-                    spellSlotMax: spellSlot.spellSlotMax,
-                    spellNameLabel: spellSlot.spellNameLabel,
-                    spellLabel1: spellSlot.spellLabel1,
-                    spellLabel2: spellSlot.spellLabel2,
-                    spellLabel3: spellSlot.spellLabel3,
-                    spellLabel4: spellSlot.spellLabel4,
-                    spells: { connect: { id: existingPost.spells.id } },
-                };
-
-                if (Array.isArray(spellSlot.spellInstance)) {
-                    data.spellInstance = {
-                        create: spellSlot.spellInstance.map((instance: Partial<spellInstanceData>)  => ({
-                            spellNameValue: instance.spellNameValue ?? '',
-                            spellValue1: instance.spellValue1 ?? '',
-                            spellValue2: instance.spellValue2 ?? '',
-                            spellValue3: instance.spellValue3 ?? '',
-                            spellValue4: instance.spellValue4 ?? '',
-                        })),
-                    };
-                }
-
-                await prisma.spellSlotInstance.create({ data });
             }
         }
-    } else {  // Update labels & non-nested
+    }
+
+    if (spellsData.spellsLabel || spellsData.spellsModifierLabel ||
+        spellsData.spellsAttackLabel || spellsData.spellsSaveLabel ||
+        spellsData.spellsModifier || spellsData.spellsAttack ||
+        spellsData.spellsSave) {  // Update labels & non-nested
         await prisma.spells.update({
             where: { id: existingPost.spells.id },
             data: {
@@ -110,7 +87,7 @@ export async function POST(request: NextRequest) {
                 include: {
                     spellInstance: {
                         orderBy: {
-                            spellNameValue:"asc",
+                            spellNameValue: "asc",
                         },
                     },
                 },

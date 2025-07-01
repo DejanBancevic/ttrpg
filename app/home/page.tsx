@@ -5,20 +5,21 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, createSkillInstance, deleteSkillInstance, createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance, createSpellInstance, createSpellSlotInstance, updateSpells, updateSpellsLabel } from '@/lib/features/main/mainSlice';
-import LabelComp from '../components/forms/LabelComp/LabelComp';
-import InputComp from '../components/forms/InputComp/InputComp';
-import SkillInputComp from '../components/forms/SkillInputComp/SkillInputComp';
-import AttributeComp from '../components/forms/AttributeComp/AttributeComp';
-import FeatComp from '../components/forms/FeatComp/FeatComp';
-import FeatsLabelComp from '../components/forms/FeatsLabelComp/FeatsLabelComp';
+import { updatePost, updateHealthData, updateBasicsData, createSkillInstance, deleteSkillInstance, createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance, createSpellInstance, createSpellSlotInstance, updateSpells, updateSpellsLabel, deleteSpellInstance } from '@/lib/features/main/mainSlice';
+import LabelComp from '../components/forms/global/LabelComp/LabelComp';
+import InputComp from '../components/forms/global/InputComp/InputComp';
+import SkillInputComp from '../components/forms/skills/SkillInputComp/SkillInputComp';
+import AttributeComp from '../components/forms/attributes/AttributeComp/AttributeComp';
+import FeatComp from '../components/forms/feats/FeatComp/FeatComp';
+import FeatsLabelComp from '../components/forms/feats/FeatsLabelComp/FeatsLabelComp';
 import { addInstance } from '../components/AddInstance/AddInstance';
 import { deleteInstance } from '../components/DeleteInstance/DeleteInstance';
-import SkillsLabelComp from '../components/forms/SkillsLabelComp/SkillsLabelComp';
-import SpellModsComp from '../components/forms/SpellModsComp/SpellModsComp';
-import SpellSlotComp from '../components/forms/SpellSlotComp/SpellSlotComp';
-import SpellSlotChargesComp from '../components/forms/SpellSlotChargesComp/SpellSlotChargesComp';
-import SpellSlotLabelComp from '../components/forms/SpellSlotLabelComp/SpellSlotLabelComp';
+import SkillsLabelComp from '../components/forms/skills/SkillsLabelComp/SkillsLabelComp';
+import SpellModsComp from '../components/forms/spells/SpellModsComp/SpellModsComp';
+import SpellSlotComp from '../components/forms/spells/SpellSlotComp/SpellSlotComp';
+import SpellSlotChargesComp from '../components/forms/spells/SpellSlotChargesComp/SpellSlotChargesComp';
+import SpellSlotLabelComp from '../components/forms/spells/SpellSlotLabelComp/SpellSlotLabelComp';
+import SpellInstanceComp from '../components/forms/spells/SpellInstanceComp/SpellInstanceComp';
 
 
 const Home = () => {
@@ -34,6 +35,8 @@ const Home = () => {
 
 
   //#region Handles
+
+  {/*Skills */ }
   const handleAddSkillInstance = async () => {
 
     dispatch(addInstance(createSkillInstance(post!.skillsData.id)))
@@ -44,6 +47,7 @@ const Home = () => {
     dispatch(deleteInstance(deleteSkillInstance({ id }), 'skillsData', 'skillInstance'))
   }
 
+  {/*Attributes */ }
   const handleAddAttributeInstance = async () => {
     dispatch(addInstance(createAttributeInstance(post!.attributesData.id)))
 
@@ -51,9 +55,10 @@ const Home = () => {
 
   const handleDeleteAttributeInstance = async (id: string) => {
 
-    dispatch(deleteInstance(deleteAttributeInstance({ id: id }), 'featsData', 'featInstance'))
+    dispatch(deleteInstance(deleteAttributeInstance({ id: id }), 'attributesData', 'attributeInstance'))
   }
 
+  {/*Feats */ }
   const handleAddFeatInstance = async () => {
 
     dispatch(addInstance(createFeatInstance(post!.featsData.id)))
@@ -64,6 +69,7 @@ const Home = () => {
     dispatch(deleteInstance(deleteFeatInstance({ id: id }), 'featsData', 'featInstance'))
   }
 
+  {/*Spells */ }
   const handleAddSpellSlotInstance = async () => {
 
     dispatch(addInstance(createSpellSlotInstance(post!.spellsData.id)))
@@ -72,6 +78,11 @@ const Home = () => {
   const handleAddSpellInstance = async () => {
 
     dispatch(addInstance(createSpellInstance(activeSpellSlotId)))
+  }
+
+  const handleDeleteSpellInstance = async (id: string) => {
+
+    dispatch(deleteInstance(deleteSpellInstance({ id: id }), undefined, undefined, true))
   }
 
   //#endregion
@@ -552,8 +563,8 @@ const Home = () => {
                   <SpellSlotChargesComp
                     locks={locks}
                     activePostId={activePostId}
-                    valueCharges={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotLabel || ''}   
-                    valueChargesCurrent={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotCurrent || ''}   
+                    valueCharges={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotLabel || ''}
+                    valueChargesCurrent={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotCurrent || ''}
                     valueChargesMax={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotMax || ''}
                     fieldCharges={'spellSlotLabel'}
                     fieldChargesCurrent={'spellSlotCurrent'}
@@ -561,20 +572,20 @@ const Home = () => {
                     styleCharges="card-label w-16 !text-start text-lg"
                     styleChargesCurrent="card-textarea w-10 h-10 text-center text-sec"
                     styleChargesMax="card-textarea w-10 h-10 text-center "
-                    id={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.id || ''}   
+                    id={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.id || ''}
                   />
-                 
+
                 </div>
 
                 {/*Labels */}
                 <SpellSlotLabelComp
                   locks={locks}
                   activePostId={activePostId}
-                  valueName={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellNameLabel || ''}   
-                  value1={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel1 || ''}   
-                  value2={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel2 || ''}   
-                  value3={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel3 || ''}   
-                  value4={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel4 || ''}   
+                  valueName={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellNameLabel || ''}
+                  value1={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel1 || ''}
+                  value2={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel2 || ''}
+                  value3={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel3 || ''}
+                  value4={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel4 || ''}
                   fieldName={'spellNameLabel'}
                   field1={'spellLabel1'}
                   field2={'spellLabel2'}
@@ -585,56 +596,47 @@ const Home = () => {
                   style2={'card-label w-12 !text-start text-lg'}
                   style3={'card-label w-14 !text-start text-lg'}
                   style4={'card-label w-7 !text-start text-lg'}
-                  id={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.id || ''}                   
-                
+                  id={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.id!}
+
                 />
 
                 <div className='border-t-2 border-gray w-full'></div>
 
                 <div className='flex flex-col gap-2 items-center'>
-                  {/*Spell Instance */}
-                  <div className='flex items-center gap-2'>
-                    <textarea
-                      value={"Polymorph"}
-                      placeholder={"Name"}
-                      spellCheck={false}
-                      className="card-textarea-skill"
-                    />
-
-                    <Trash2 className='size-6 text-gray' />
-
-                    <textarea
-                      value={"4"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                    <textarea
-                      value={"Yes"}
-                      spellCheck={false}
-                      className="card-textarea w-12 h-10"
-                    />
-                    <textarea
-                      value={"120"}
-                      spellCheck={false}
-                      className="card-textarea w-14 h-10"
-                    />
-                    <textarea
-                      value={"6"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10"
-                    />
-                  </div>
+                  {
+                    post?.spellsData.spellSlotInstance?.find(s => s.id === activeSpellSlotId)?.spellInstance?.map((spell, index) => (
+                      <SpellInstanceComp
+                        key={spell.id}
+                        locks={locks}
+                        valueName={spell.spellNameValue || ''}
+                        value1={spell.spellValue1 || ''}
+                        value2={spell.spellValue2 || ''}
+                        value3={spell.spellValue3 || ''}
+                        value4={spell.spellValue4 || ''}
+                        fieldName={'spellNameValue'}
+                        field1={'spellValue1'}
+                        field2={'spellValue2'}
+                        field3={'spellValue3'}
+                        field4={'spellValue4'}
+                        styleName={'card-textarea-skill'}
+                        style1={'card-textarea w-11 h-10'}
+                        style2={'card-textarea w-12 h-10'}
+                        style3={'card-textarea w-14 h-10'}
+                        style4={'card-textarea w-11 h-10'}
+                        id={spell.id!}
+                        deleteFunction={handleDeleteSpellInstance}
+                      />
+                    ))
+                  }
 
                   <Plus
                     onClick={() => handleAddSpellInstance()}
                     className='addButton size-6'
                   />
                 </div>
-
               </div>
             </div>
           </div>
-
         </div>
 
         {/*Right Side */}

@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateFeats, updateFeatsById, updateSpells, updateSpellsLabel, } from '@/lib/features/main/mainSlice';
-import DeleteButton from '../../DeleteButton/DeleteButton';
+import DeleteButton from '../../../DeleteButton/DeleteButton';
 
 interface SpellModsCompProps {
     locks: Record<string, any>;
@@ -16,7 +16,7 @@ interface SpellModsCompProps {
 }
 
 const SpellModsComp: React.FC<SpellModsCompProps> = (
-    { locks, activePostId,  valueName, fieldName,  styleName,   valueLabel, fieldLabel, styleLabel }
+    { locks, activePostId, valueName, fieldName, styleName, valueLabel, fieldLabel, styleLabel }
 ) => {
 
     //Redux
@@ -47,7 +47,7 @@ const SpellModsComp: React.FC<SpellModsCompProps> = (
                 className={styleLabel}
             />
 
-            
+
             {/* Input */}
             <textarea
                 value={valueName}

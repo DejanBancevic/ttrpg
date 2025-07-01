@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateSkillById, updateSkills } from '@/lib/features/main/mainSlice';
-import DeleteButton from '../../DeleteButton/DeleteButton';
+import DeleteButton from '../../../DeleteButton/DeleteButton';
 
 interface SkillInputCompProps {
     locks: Record<string, any>;
@@ -25,7 +25,7 @@ const SkillInputComp: React.FC<SkillInputCompProps> = (
     { locks, id, activePostId,
         valueName, valueBonus, valueProfs,
         fieldName, fieldBonus, fieldProfs,
-        styleName, styleBonus, styleProfs, 
+        styleName, styleBonus, styleProfs,
         deleteFunction }
 ) => {
 

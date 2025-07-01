@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateFeats, updateFeatsById, updateSkillById, updateSkills, updateSpells, updateSpellSlotInstanceById, } from '@/lib/features/main/mainSlice';
-import DeleteButton from '../../DeleteButton/DeleteButton';
+import DeleteButton from '../../../DeleteButton/DeleteButton';
 
 interface SpellSlotChargesCompProps {
     locks: Record<string, any>;

@@ -378,6 +378,25 @@ export const updateSpells = createAsyncThunk(
     }
 );
 
+export const updateSpellInstance = createAsyncThunk(
+    'main/updateSpellInstance',
+    async (spellInstance: {id: string, spellInstance: Partial<spellInstanceData>}, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/spells/spellInstance/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(spellInstance),
+            });
+
+            if (!res.ok) return rejectWithValue(await res.json());
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'patchSpellInstance failed' });
+        }
+    }
+);
+
 export const deleteSpellSlotInstance = createAsyncThunk(
     'main/deleteSpellSlotInstance',
     async (spellSlotInstanceId: { id: string }, { rejectWithValue }) => {

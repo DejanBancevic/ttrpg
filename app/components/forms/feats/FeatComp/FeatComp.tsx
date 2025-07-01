@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateFeats, updateFeatsById, } from '@/lib/features/main/mainSlice';
-import DeleteButton from '../../DeleteButton/DeleteButton';
+import DeleteButton from '../../../DeleteButton/DeleteButton';
 
 interface FeatCompProps {
     locks: Record<string, any>;
@@ -44,9 +44,9 @@ const FeatComp: React.FC<FeatCompProps> = (
                 {/* Name */}
                 <input
                     value={valueName}
-                    readOnly={locks.TextLock}
+                    readOnly={locks.labelLock}
                     onChange={(e) => {
-                        if (!locks.TextLock) {
+                        if (!locks.labelLock) {
                             dispatch(updateFeatsById({ key: id, value: { [fieldName]: e.target.value } }));
                         }
                     }}
@@ -77,14 +77,14 @@ const FeatComp: React.FC<FeatCompProps> = (
                     {/* Charges Text */}
                     <input
                         value={valueCharges}
-                        readOnly={locks.TextLock}
+                        readOnly={locks.labelLock}
                         onChange={(e) => {
-                            if (!locks.TextLock) {
+                            if (!locks.labelLock) {
                                 dispatch(updateFeatsById({ key: id, value: { [fieldCharges]: e.target.value } }));
                             }
                         }}
                         onBlur={(e) => {
-                            if (!locks.TextLock) {
+                            if (!locks.labelLock) {
                                 dispatch(updateFeats({
                                     postId: activePostId,
                                     feats: {

@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateFeats, updateFeatsById, updateSkillById, updateSkills, updateSpells, updateSpellSlotInstanceById, } from '@/lib/features/main/mainSlice';
-import DeleteButton from '../../DeleteButton/DeleteButton';
+import DeleteButton from '../../../DeleteButton/DeleteButton';
 
 interface SpellSlotLabelCompProps {
     locks: Record<string, any>;
@@ -27,7 +27,7 @@ interface SpellSlotLabelCompProps {
 
 const SpellSlotLabelComp: React.FC<SpellSlotLabelCompProps> = (
     { locks, activePostId, valueName, value1, value2, value3, value4,
-        fieldName, field1, field2, field3, field4, 
+        fieldName, field1, field2, field3, field4,
         styleName, style1, style2, style3, style4,
         id, }
 ) => {
