@@ -18,11 +18,11 @@ const Login = () => {
             <div className="flex border border-black rounded-lg border-opacity-0 ">
 
                 <Image
-                    className="h-[450px] w-[600px] rounded-s-lg"
+                    className="h-[450px] w-[680px] rounded-s-lg"
                     src={loginVector}
                     alt="Login vector image"
                 />
-                <div className="flex flex-col rounded-r-lg bg-black border-opacity-0 w-[350px] py-6 px-6">
+                <div className="flex flex-col rounded-r-lg bg-black border-opacity-0 w-[350px] h-[450px] py-6 px-6">
                     <h1 className="text-xl text-white font-bold">
                         Greetings,
                     </h1>
@@ -30,14 +30,14 @@ const Login = () => {
                         Traveler
                     </h1>
                     <h1 className="text-md text-white font-bold mt-10">
-                        Welcome to the only TTRPG character sheet editor you'll ever need.
+                        Welcome to the only TTRPG character sheet editor you'll ever need, made to support almost any type of game.
                     </h1>
 
-                    <h1 className="text-sm text-grayActive text-center font-bold mt-28">
+                    <h1 className="text-sm text-grayActive text-center font-bold mt-24">
                         New here?
                     </h1>
                     <h1 className="text-sm text-grayActive text-center">
-                        Sign up and let the journy begin!
+                        Sign up and let the journey begin!
                     </h1>
                     <button className="text-xl p-3 mt-6" onClick={handleSignInGoogle}>
                         Sign in with Google

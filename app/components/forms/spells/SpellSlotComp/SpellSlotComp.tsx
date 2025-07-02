@@ -1,8 +1,7 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { setActiveSpellSlotId, updateFeats, updateFeatsById, updateSpells, updateSpellSlotInstanceById, } from '@/lib/features/main/mainSlice';
-import DeleteButton from '../../../DeleteButton/DeleteButton';
+import { setActiveSpellSlotId,  updateSpells, updateSpellSlotInstanceById, } from '@/lib/features/main/mainSlice';
 
 interface SpellSlotCompProps {
     locks: Record<string, any>;
@@ -11,13 +10,15 @@ interface SpellSlotCompProps {
     fieldText: string;
     styleText: string;
     id: string;
+    deleteFunction: Function;
 }
 
 const SpellSlotComp: React.FC<SpellSlotCompProps> = (
     { locks, activePostId, valueText,
         fieldText,
         styleText,
-        id, }
+        id,
+        deleteFunction ,}
 ) => {
 
     //Redux
@@ -27,7 +28,13 @@ const SpellSlotComp: React.FC<SpellSlotCompProps> = (
 
         <button
             onClick={() => dispatch(setActiveSpellSlotId(id))}
-        >{
+            onContextMenu={(e) => {
+                e.preventDefault(); 
+                deleteFunction(id!);
+            }}
+            className="bg-sec"
+        >
+            {
                 <textarea
                     value={valueText}
                     readOnly={locks.labelLock}

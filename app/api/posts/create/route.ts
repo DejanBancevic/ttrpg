@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
                     spellSlotInstance: {
                         create: [
                             {
-                                spellSlotBoxLabel: " ",
+                                spellSlotBoxLabel: "",
                                 spellSlotLabel: "Slots",
                                 spellSlotCurrent: "0",
                                 spellSlotMax: "0",

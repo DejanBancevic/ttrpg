@@ -5,7 +5,7 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, createSkillInstance, deleteSkillInstance, createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance, createSpellInstance, createSpellSlotInstance, updateSpells, updateSpellsLabel, deleteSpellInstance } from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData, createSkillInstance, deleteSkillInstance, createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance, createSpellInstance, createSpellSlotInstance, updateSpells, updateSpellsLabel, deleteSpellInstance, deleteSpellSlotInstance } from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/forms/global/LabelComp/LabelComp';
 import InputComp from '../components/forms/global/InputComp/InputComp';
 import SkillInputComp from '../components/forms/skills/SkillInputComp/SkillInputComp';
@@ -20,7 +20,7 @@ import SpellSlotComp from '../components/forms/spells/SpellSlotComp/SpellSlotCom
 import SpellSlotChargesComp from '../components/forms/spells/SpellSlotChargesComp/SpellSlotChargesComp';
 import SpellSlotLabelComp from '../components/forms/spells/SpellSlotLabelComp/SpellSlotLabelComp';
 import SpellInstanceComp from '../components/forms/spells/SpellInstanceComp/SpellInstanceComp';
-
+import HoverInfo from '../components/HoverInfo/HoverInfo';
 
 const Home = () => {
 
@@ -80,9 +80,16 @@ const Home = () => {
     dispatch(addInstance(createSpellInstance(activeSpellSlotId)))
   }
 
+  const handleDeleteSpellSlotInstance = async (id: string) => {
+
+    if (!locks.deleteLock) {
+      dispatch(deleteInstance(deleteSpellSlotInstance({ id: id }), 'spellsData', 'spellSlotInstance', "spellSlotInstance"))
+    }
+  }
+
   const handleDeleteSpellInstance = async (id: string) => {
 
-    dispatch(deleteInstance(deleteSpellInstance({ id: id }), undefined, undefined, true))
+    dispatch(deleteInstance(deleteSpellInstance({ id: id }), undefined, undefined, "spellInstance"))
   }
 
   //#endregion
@@ -110,7 +117,7 @@ const Home = () => {
                   {/*Top Row*/}
                   <div className='flex items-center gap-3 '>
                     <LabelComp
-                      value={post?.healthData.hpLabel}
+                      value={post?.healthData.hpLabel ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -121,7 +128,7 @@ const Home = () => {
                     />
 
                     <InputComp
-                      value={post?.healthData.hpCurrent}
+                      value={post?.healthData.hpCurrent ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -134,7 +141,7 @@ const Home = () => {
                     <div className='border-l border-gray h-full'></div>
 
                     <InputComp
-                      value={post?.healthData.hpMax}
+                      value={post?.healthData.hpMax ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -145,7 +152,7 @@ const Home = () => {
                     />
 
                     <LabelComp
-                      value={post?.healthData.hpTempLabel}
+                      value={post?.healthData.hpTempLabel ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -156,7 +163,7 @@ const Home = () => {
                     />
 
                     <InputComp
-                      value={post?.healthData.hpTemp}
+                      value={post?.healthData.hpTemp ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -171,7 +178,7 @@ const Home = () => {
                   {/*Bottow Row*/}
                   <div className='flex items-center gap-3'>
                     <LabelComp
-                      value={post?.healthData.acLabel}
+                      value={post?.healthData.acLabel ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -182,7 +189,7 @@ const Home = () => {
                     />
 
                     <InputComp
-                      value={post?.healthData.ac}
+                      value={post?.healthData.ac ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -193,7 +200,7 @@ const Home = () => {
                     />
 
                     <LabelComp
-                      value={post?.healthData.stressLabel}
+                      value={post?.healthData.stressLabel ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -204,7 +211,7 @@ const Home = () => {
                     />
 
                     <InputComp
-                      value={post?.healthData.stressCurrent}
+                      value={post?.healthData.stressCurrent ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -217,7 +224,7 @@ const Home = () => {
                     <div className='border-l border-gray h-full'></div>
 
                     <InputComp
-                      value={post?.healthData.stressMax}
+                      value={post?.healthData.stressMax ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -240,7 +247,7 @@ const Home = () => {
               <div className='flex flex-col gap-2'>
 
                 <InputComp
-                  value={post?.basicsData.name}
+                  value={post?.basicsData.name ?? ""}
                   locks={locks}
                   activePostId={activePostId}
                   updateLocalData={updateBasicsData}
@@ -251,7 +258,7 @@ const Home = () => {
                 />
 
                 <InputComp
-                  value={post?.basicsData.desc}
+                  value={post?.basicsData.desc ?? ""}
                   locks={locks}
                   activePostId={activePostId}
                   updateLocalData={updateBasicsData}
@@ -270,7 +277,7 @@ const Home = () => {
                 <div className='flex items-center gap-2'>
 
                   <LabelComp
-                    value={post?.basicsData.levelLabel}
+                    value={post?.basicsData.levelLabel ?? ""}
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
@@ -281,7 +288,7 @@ const Home = () => {
                   />
 
                   <InputComp
-                    value={post?.basicsData.level}
+                    value={post?.basicsData.level ?? ""}
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
@@ -295,7 +302,7 @@ const Home = () => {
                 <div className='flex justify-center items-center gap-2 '>
 
                   <LabelComp
-                    value={post?.basicsData.xpLabel}
+                    value={post?.basicsData.xpLabel ?? ""}
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
@@ -305,7 +312,7 @@ const Home = () => {
                     style="card-label text-lg italic w-[27px] h-7"
                   />
                   <InputComp
-                    value={post?.basicsData.xp}
+                    value={post?.basicsData.xp ?? ""}
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
@@ -325,10 +332,11 @@ const Home = () => {
           <div className='mainContainers max-h-[61vh] min-h-0 overflow-y-auto custom-scrollbar '>
             <div className='flex flex-col'>
 
+              {/*Labels */}
               <div className='flex justify-between pr-8'>
 
                 <SkillsLabelComp
-                  valueLabel={post?.skillsData.skillsLabel}
+                  valueLabel={post?.skillsData.skillsLabel ?? ""}
                   locks={locks}
                   activePostId={activePostId}
                   labelName="skillsLabel"
@@ -336,7 +344,7 @@ const Home = () => {
                 />
 
                 <SkillsLabelComp
-                  valueLabel={post?.skillsData.profsLabel}
+                  valueLabel={post?.skillsData.profsLabel ?? ""}
                   locks={locks}
                   activePostId={activePostId}
                   labelName="profsLabel"
@@ -352,9 +360,9 @@ const Home = () => {
                   post?.skillsData?.skillInstance?.map((skill, index) => (
                     <SkillInputComp
                       key={skill.id}
-                      valueName={skill.skillName}
-                      valueBonus={skill.skillValue}
-                      valueProfs={skill.skillProf}
+                      valueName={skill.skillName ?? ""}
+                      valueBonus={skill.skillValue ?? ""}
+                      valueProfs={skill.skillProf ?? ""}
                       fieldName="skillName"
                       fieldBonus="skillValue"
                       fieldProfs="skillProf"
@@ -392,10 +400,10 @@ const Home = () => {
                   post?.attributesData?.attributeInstance?.map((attribute, index) => (
                     <AttributeComp
                       key={attribute.id}
-                      valueName={attribute.attributeName}
-                      valueBonus={attribute.attributeValue}
-                      valueMod={attribute.attributeMod}
-                      valueSave={attribute.attributeSave}
+                      valueName={attribute.attributeName ?? ""}
+                      valueBonus={attribute.attributeValue ?? ""}
+                      valueMod={attribute.attributeMod ?? ""}
+                      valueSave={attribute.attributeSave ?? ""}
                       fieldName="attributeName"
                       fieldBonus="attributeValue"
                       fieldMod="attributeMod"
@@ -430,7 +438,7 @@ const Home = () => {
                 <FeatsLabelComp
                   locks={locks}
                   activePostId={activePostId}
-                  valueLabel={post?.featsData.featsLabel!}
+                  valueLabel={post?.featsData.featsLabel! ?? ""}
                   fieldLabel={'featsLabel'}
                   styleLabel={'card-label !text-start text-2xl italic mb-2'}
 
@@ -443,11 +451,11 @@ const Home = () => {
                     post?.featsData?.featInstance?.map((feat, index) => (
                       <FeatComp
                         key={feat.id}
-                        valueName={feat.featName}
-                        valueCharges={feat.featChargeLabel}
-                        valueChargesCurrent={feat.featChargeCurrent}
-                        valueChargesMax={feat.featChargeMax}
-                        valueText={feat.featText}
+                        valueName={feat.featName ?? ""}
+                        valueCharges={feat.featChargeLabel ?? ""}
+                        valueChargesCurrent={feat.featChargeCurrent ?? ""}
+                        valueChargesMax={feat.featChargeMax ?? ""}
+                        valueText={feat.featText ?? ""}
                         fieldName="featName"
                         fieldCharges="featChargeLabel"
                         fieldChargesCurrent="featChargeCurrent"
@@ -481,7 +489,7 @@ const Home = () => {
               <div className='flex flex-col gap-2'>
 
                 <LabelComp
-                  value={post?.spellsData.spellsLabel}
+                  value={post?.spellsData.spellsLabel ?? ""}
                   locks={locks}
                   activePostId={activePostId}
                   updateLocalData={updateSpellsLabel}
@@ -495,34 +503,34 @@ const Home = () => {
                 <div className='flex justify-between'>
 
                   <SpellModsComp
-                    valueLabel={post?.spellsData.spellsModifierLabel!}
+                    valueLabel={post?.spellsData.spellsModifierLabel! ?? ""}
                     fieldLabel={"spellsModifierLabel"}
                     styleLabel="card-label max-w-32  text-lg"
                     locks={locks}
                     activePostId={activePostId}
-                    valueName={post?.spellsData.spellsModifier!}
+                    valueName={post?.spellsData.spellsModifier! ?? ""}
                     fieldName={"spellsModifier"}
                     styleName="card-textarea w-12 h-10"
                   />
 
                   <SpellModsComp
-                    valueLabel={post?.spellsData.spellsAttackLabel!}
+                    valueLabel={post?.spellsData.spellsAttackLabel! ?? ""}
                     fieldLabel={"spellsAttackLabel"}
                     styleLabel="card-label max-w-32  text-lg"
                     locks={locks}
                     activePostId={activePostId}
-                    valueName={post?.spellsData.spellsAttack!}
+                    valueName={post?.spellsData.spellsAttack! ?? ""}
                     fieldName={"spellsAttack"}
                     styleName="card-textarea w-12 h-10"
                   />
 
                   <SpellModsComp
-                    valueLabel={post?.spellsData.spellsSaveLabel!}
+                    valueLabel={post?.spellsData.spellsSaveLabel! ?? ""}
                     fieldLabel={"spellsSaveLabel"}
                     styleLabel="card-label max-w-32  text-lg"
                     locks={locks}
                     activePostId={activePostId}
-                    valueName={post?.spellsData.spellsSave!}
+                    valueName={post?.spellsData.spellsSave! ?? ""}
                     fieldName={"spellsSave"}
                     styleName="card-textarea w-12 h-10"
                   />
@@ -531,7 +539,7 @@ const Home = () => {
 
                 <div className='border-t-2 border-gray w-full'></div>
 
-                {/*Spell Levels */}
+                {/*Spell Slot */}
                 <div className='flex gap-2 justify-start items-center'>
 
                   {/*Spell Slot Instance */}
@@ -543,36 +551,41 @@ const Home = () => {
                         key={spellSlotInstance.id}
                         locks={locks}
                         activePostId={activePostId}
-                        valueText={spellSlotInstance.spellSlotBoxLabel!}
+                        valueText={spellSlotInstance.spellSlotBoxLabel! ?? ""}
                         fieldText={'spellSlotBoxLabel'}
                         styleText={'card-textarea-spellbox'}
+                        deleteFunction={handleDeleteSpellSlotInstance}
                       />
                     ))
                   }
 
-                  <Plus
-                    onClick={() => handleAddSpellSlotInstance()}
-                    className='addButton size-6'
-                  />
+                  <div className="relative group">
+                    <Plus
+                      onClick={() => handleAddSpellSlotInstance()}
+                      className="addButton size-6"
+                    />
+
+                   <HoverInfo/>
+                  </div>
 
                 </div>
 
-                {/*Slots */}
+                {/*Slot Charges */}
                 <div className='flex justify-start items-center gap-2 mt-2'>
 
                   <SpellSlotChargesComp
                     locks={locks}
                     activePostId={activePostId}
-                    valueCharges={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotLabel || ''}
-                    valueChargesCurrent={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotCurrent || ''}
-                    valueChargesMax={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotMax || ''}
+                    valueCharges={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotLabel ?? ""}
+                    valueChargesCurrent={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotCurrent ?? ""}
+                    valueChargesMax={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellSlotMax ?? ""}
                     fieldCharges={'spellSlotLabel'}
                     fieldChargesCurrent={'spellSlotCurrent'}
                     fieldChargesMax={'spellSlotMax'}
                     styleCharges="card-label w-16 !text-start text-lg"
                     styleChargesCurrent="card-textarea w-10 h-10 text-center text-sec"
                     styleChargesMax="card-textarea w-10 h-10 text-center "
-                    id={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.id || ''}
+                    id={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.id ?? ""}
                   />
 
                 </div>
@@ -581,11 +594,11 @@ const Home = () => {
                 <SpellSlotLabelComp
                   locks={locks}
                   activePostId={activePostId}
-                  valueName={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellNameLabel || ''}
-                  value1={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel1 || ''}
-                  value2={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel2 || ''}
-                  value3={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel3 || ''}
-                  value4={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel4 || ''}
+                  valueName={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellNameLabel ?? ""}
+                  value1={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel1 ?? ""}
+                  value2={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel2 ?? ""}
+                  value3={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel3 ?? ""}
+                  value4={post?.spellsData.spellSlotInstance.find(s => s.id === activeSpellSlotId)?.spellLabel4 ?? ""}
                   fieldName={'spellNameLabel'}
                   field1={'spellLabel1'}
                   field2={'spellLabel2'}
@@ -602,17 +615,18 @@ const Home = () => {
 
                 <div className='border-t-2 border-gray w-full'></div>
 
+                {/*Spell Instance */}
                 <div className='flex flex-col gap-2 items-center'>
                   {
                     post?.spellsData.spellSlotInstance?.find(s => s.id === activeSpellSlotId)?.spellInstance?.map((spell, index) => (
                       <SpellInstanceComp
                         key={spell.id}
                         locks={locks}
-                        valueName={spell.spellNameValue || ''}
-                        value1={spell.spellValue1 || ''}
-                        value2={spell.spellValue2 || ''}
-                        value3={spell.spellValue3 || ''}
-                        value4={spell.spellValue4 || ''}
+                        valueName={spell.spellNameValue ?? ""}
+                        value1={spell.spellValue1 ?? ""}
+                        value2={spell.spellValue2 ?? ""}
+                        value3={spell.spellValue3 ?? ""}
+                        value4={spell.spellValue4 ?? ""}
                         fieldName={'spellNameValue'}
                         field1={'spellValue1'}
                         field2={'spellValue2'}

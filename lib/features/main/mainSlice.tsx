@@ -83,6 +83,27 @@ export const deletePost = createAsyncThunk(
     }
 );
 
+export const deleteAllPost = createAsyncThunk(
+    'main/deleteAllPost',
+    async (_, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/posts/deleteAll', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'Patch failed' });
+        }
+    }
+);
+
 // Skills
 
 export const createSkillInstance = createAsyncThunk(
@@ -380,7 +401,7 @@ export const updateSpells = createAsyncThunk(
 
 export const updateSpellInstance = createAsyncThunk(
     'main/updateSpellInstance',
-    async (spellInstance: {id: string, spellInstance: Partial<spellInstanceData>}, { rejectWithValue }) => {
+    async (spellInstance: { id: string, spellInstance: Partial<spellInstanceData> }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/spells/spellInstance/update', {
                 method: 'POST',
@@ -530,7 +551,7 @@ const initialState: MainState = {
                 spellSlotInstance: [
                     {
                         id: "0",
-                        spellSlotBoxLabel: " ",
+                        spellSlotBoxLabel: "",
                         spellSlotLabel: "Slots",
                         spellSlotCurrent: "0",
                         spellSlotMax: "0",

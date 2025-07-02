@@ -9,7 +9,7 @@ import "./Navbar.css"
 import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
-import { updateLocks } from '@/lib/features/main/mainSlice';
+import { deleteAllPost, updateLocks } from '@/lib/features/main/mainSlice';
 import { Lock, Unlock, Archive, FileText } from "@deemlol/next-icons";
 
 const Navbar = () => {
@@ -87,6 +87,8 @@ const Navbar = () => {
                             }
                         </button>
                     </div>
+
+                    <button className="w-32 h-14" onClick={() => dispatch(deleteAllPost())}>Wipe DB</button>
 
                 </div>
 

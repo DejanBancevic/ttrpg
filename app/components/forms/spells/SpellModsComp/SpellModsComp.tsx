@@ -1,8 +1,7 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateFeats, updateFeatsById, updateSpells, updateSpellsLabel, } from '@/lib/features/main/mainSlice';
-import DeleteButton from '../../../DeleteButton/DeleteButton';
+import { updateSpells, updateSpellsLabel, } from '@/lib/features/main/mainSlice';
 
 interface SpellModsCompProps {
     locks: Record<string, any>;

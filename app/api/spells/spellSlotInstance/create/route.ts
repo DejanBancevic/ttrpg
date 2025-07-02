@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
     const newSpellSlotInstance = await prisma.spellSlotInstance.create({
         data: {
-            spellSlotBoxLabel: " ",
+            spellSlotBoxLabel: "",
             spellSlotLabel: "Slots",
             spellSlotCurrent: "0",
             spellSlotMax: "0",

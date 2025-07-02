@@ -61,7 +61,7 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                                     onClick={() => handleFocusPost(post.id!)}
                                     onMouseOver={sidebarExpanded}
 
-                                    className={`${sidebarMove ? "activeSidebarButton" : "sidebarButton"}`}
+                                    className={` ${sidebarMove ? "activeSidebarButton" : "sidebarButton"}`}
                                 >
                                     {sidebarMove ? (
                                         <div className="flex items-center gap-2 ">
@@ -70,7 +70,7 @@ const Sidebar = ({ sidebarMove, sidebarExpanded, sidebarReduce, }: SidebarProps)
                                                 alt="Custom Icon"
                                                 className="size-12 border border-gray rounded-md"
                                             />
-                                            <div className="w-[130px]">
+                                            <div className="w-[130px]  ">
                                                 <h1 className=" overflow-hidden line-clamp-2">{post.basicsData.name}</h1>
                                             </div>
                                         </div>

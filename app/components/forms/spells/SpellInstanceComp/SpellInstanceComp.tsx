@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateFeats, updateFeatsById, updateSpellInstance, updateSpellInstanceById, updateSpells, updateSpellsLabel, } from '@/lib/features/main/mainSlice';
+import { updateSpellInstance, updateSpellInstanceById, } from '@/lib/features/main/mainSlice';
 import DeleteButton from '../../../DeleteButton/DeleteButton';
 
 interface SpellInstanceCompProps {
