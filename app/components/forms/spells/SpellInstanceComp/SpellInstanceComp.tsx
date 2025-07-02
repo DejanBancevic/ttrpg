@@ -1,8 +1,9 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateSpellInstance, updateSpellInstanceById, } from '@/lib/features/main/mainSlice';
+import { updateSpellInstanceById, } from '@/lib/features/main/mainSlice';
 import DeleteButton from '../../../DeleteButton/DeleteButton';
+import { updateSpellInstance } from '@/lib/features/spells/spellsSlice';
 
 interface SpellInstanceCompProps {
     locks: Record<string, any>;

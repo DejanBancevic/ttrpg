@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateFeats, updateFeatsLabel } from '@/lib/features/main/mainSlice';
+import { updateFeatsLabel } from '@/lib/features/main/mainSlice';
+import { updateFeats } from '@/lib/features/feats/featsSlice';
 
 interface FeatsLabelCompProps {
     locks: Record<string, any>;
@@ -12,7 +13,7 @@ interface FeatsLabelCompProps {
 }
 
 const FeatsLabelComp: React.FC<FeatsLabelCompProps> = (
-    { locks,  activePostId, valueLabel, fieldLabel, styleLabel }
+    { locks, activePostId, valueLabel, fieldLabel, styleLabel }
 ) => {
 
     //Redux

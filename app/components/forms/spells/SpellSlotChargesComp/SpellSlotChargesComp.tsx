@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import {  updateSpells, updateSpellSlotInstanceById} from '@/lib/features/main/mainSlice';
+import { updateSpellSlotInstanceById} from '@/lib/features/main/mainSlice';
+import { updateSpells } from '@/lib/features/spells/spellsSlice';
 
 interface SpellSlotChargesCompProps {
     locks: Record<string, any>;

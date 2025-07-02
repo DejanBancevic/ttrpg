@@ -1,4 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { deleteAttributeInstance, updateAttributes } from '../attributes/attributesSlice';
+import { deleteFeatInstance, updateFeats } from '../feats/featsSlice';
+import { deleteSkillInstance, readSkills, updateSkills } from '../skills/skillsSlice';
+import { deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '../spells/spellsSlice';
 
 //#region Thunks
 
@@ -103,365 +107,6 @@ export const deleteAllPost = createAsyncThunk(
         }
     }
 );
-
-// Skills
-
-export const createSkillInstance = createAsyncThunk(
-    'main/createSkillInstance',
-    async (id: string, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/skills/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id }),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Create failed' });
-        }
-    }
-);
-
-export const readSkills = createAsyncThunk(
-    'main/readSkills',
-    async (postId: string, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/skills/read', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(postId)
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            const json = await res.json();
-            return json.skills;
-        } catch (err) {
-            return rejectWithValue({ error: 'Skills read failed' });
-        }
-    }
-);
-
-export const updateSkills = createAsyncThunk(
-    'main/updateSkills',
-    async (postData: { postId: string, skills: Partial<skillsData> }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/skills/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(postData),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Skill patch failed' });
-        }
-    }
-);
-
-export const deleteSkillInstance = createAsyncThunk(
-    'main/deleteSkill',
-    async (skillInstanceId: { id: string }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/skills/delete', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(skillInstanceId),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Patch failed' });
-        }
-    }
-);
-
-// Attributes
-
-export const createAttributeInstance = createAsyncThunk(
-    'main/createAttributeInstance',
-    async (id: string, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/attributes/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id }),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Create failed' });
-        }
-    }
-);
-
-export const updateAttributes = createAsyncThunk(
-    'main/updateAttribute',
-    async (postData: { postId: string, attributes: Partial<attributesData> }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/attributes/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(postData),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Skill patch failed' });
-        }
-    }
-);
-
-export const deleteAttributeInstance = createAsyncThunk(
-    'main/deleteAttributeInstance',
-    async (attributeInstanceId: { id: string }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/attributes/delete', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(attributeInstanceId),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Patch failed' });
-        }
-    }
-);
-
-// Feats
-
-export const createFeatInstance = createAsyncThunk(
-    'main/createFeatInstance',
-    async (id: string, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/feats/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id }),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Feat create failed' });
-        }
-    }
-);
-
-export const updateFeats = createAsyncThunk(
-    'main/updateFeats',
-    async (postData: { postId: string, feats: Partial<featsData> }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/feats/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(postData),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Feat patch failed' });
-        }
-    }
-);
-
-export const deleteFeatInstance = createAsyncThunk(
-    'main/deleteFeatInstance',
-    async (featInstanceId: { id: string }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/feats/delete', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(featInstanceId),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'Patch failed' });
-        }
-    }
-);
-
-// Spells
-
-export const createSpellSlotInstance = createAsyncThunk(
-    'main/createSpellSlotInstance',
-    async (id: string, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/spells/spellSlotInstance/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id }),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'createSpellSlotInstance failed' });
-        }
-    }
-);
-
-export const createSpellInstance = createAsyncThunk(
-    'main/createSpellInstance',
-    async (id: string, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/spells/spellInstance/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id }),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'createSpellInstance failed' });
-        }
-    }
-);
-
-export const updateSpells = createAsyncThunk(
-    'main/updateSpells',
-    async (postData: { postId: string, spells: Partial<spellsData> }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/spells/spellSlotInstance/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(postData),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'updateSpells failed' });
-        }
-    }
-);
-
-export const updateSpellInstance = createAsyncThunk(
-    'main/updateSpellInstance',
-    async (spellInstance: { id: string, spellInstance: Partial<spellInstanceData> }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/spells/spellInstance/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(spellInstance),
-            });
-
-            if (!res.ok) return rejectWithValue(await res.json());
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'patchSpellInstance failed' });
-        }
-    }
-);
-
-export const deleteSpellSlotInstance = createAsyncThunk(
-    'main/deleteSpellSlotInstance',
-    async (spellSlotInstanceId: { id: string }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/spells/spellSlotInstance/delete', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(spellSlotInstanceId),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'deleteSpellSlotInstance failed' });
-        }
-    }
-);
-
-export const deleteSpellInstance = createAsyncThunk(
-    'main/deleteSpellInstance',
-    async (spellInstanceId: { id: string }, { rejectWithValue }) => {
-        try {
-            const res = await fetch('/api/spells/spellInstance/delete', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(spellInstanceId),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                return rejectWithValue(err);
-            }
-
-            return await res.json();
-        } catch (err) {
-            return rejectWithValue({ error: 'deleteSpellInstance failed' });
-        }
-    }
-);
-
 
 //#endregion 
 
@@ -594,7 +239,7 @@ interface post {
     spellsData: spellsData;
 };
 
-interface spellsData {
+export interface spellsData {
     id: string;
     spellsLabel: string;
     spellsModifierLabel: string;
@@ -606,7 +251,7 @@ interface spellsData {
     spellSlotInstance: Partial<spellSlotInstanceData>[]
 }
 
-interface spellSlotInstanceData {
+export interface spellSlotInstanceData {
     id: string;
     spellSlotBoxLabel: string;
     spellSlotLabel: string;
@@ -620,7 +265,7 @@ interface spellSlotInstanceData {
     spellInstance: Partial<spellInstanceData>[]
 };
 
-interface spellInstanceData {
+export interface spellInstanceData {
     id: string;
     spellNameValue: string;
     spellValue1: string;
@@ -629,13 +274,13 @@ interface spellInstanceData {
     spellValue4: string;
 };
 
-interface featsData {
+export interface featsData {
     id: string;
     featsLabel: string;
     featInstance: Partial<featInstanceData>[]
 }
 
-interface featInstanceData {
+export interface featInstanceData {
     id: string;
     featName: string;
     featChargeLabel: string;
@@ -644,12 +289,12 @@ interface featInstanceData {
     featText: string;
 };
 
-interface attributesData {
+export interface attributesData {
     id: string;
     attributeInstance: Partial<attributeInstanceData>[]
 }
 
-interface attributeInstanceData {
+export interface attributeInstanceData {
     id: string;
     attributeName: string;
     attributeValue: String;
@@ -658,14 +303,14 @@ interface attributeInstanceData {
     attributeColor: String;
 };
 
-interface skillsData {
+export interface skillsData {
     id: string;
     skillsLabel: string;
     profsLabel: string;
     skillInstance: Partial<skillInstanceData>[]
 }
 
-interface skillInstanceData {
+export interface skillInstanceData {
     id: string;
     skillName: string;
     skillValue: string;

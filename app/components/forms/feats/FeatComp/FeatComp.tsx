@@ -1,8 +1,9 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateFeats, updateFeatsById, } from '@/lib/features/main/mainSlice';
+import { updateFeatsById, } from '@/lib/features/main/mainSlice';
 import DeleteButton from '../../../DeleteButton/DeleteButton';
+import { updateFeats } from '@/lib/features/feats/featsSlice';
 
 interface FeatCompProps {
     locks: Record<string, any>;

@@ -1,8 +1,9 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateSkillById, updateSkills } from '@/lib/features/main/mainSlice';
+import { updateSkillById} from '@/lib/features/main/mainSlice';
 import DeleteButton from '../../../DeleteButton/DeleteButton';
+import { updateSkills } from '@/lib/features/skills/skillsSlice';
 
 interface SkillInputCompProps {
     locks: Record<string, any>;

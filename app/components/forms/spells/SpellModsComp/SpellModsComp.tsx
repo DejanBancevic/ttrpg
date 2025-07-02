@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateSpells, updateSpellsLabel, } from '@/lib/features/main/mainSlice';
+import { updateSpellsLabel, } from '@/lib/features/main/mainSlice';
+import { updateSpells } from '@/lib/features/spells/spellsSlice';
 
 interface SpellModsCompProps {
     locks: Record<string, any>;

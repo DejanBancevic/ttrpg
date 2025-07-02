@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateSkills, updateSkillsLabel } from '@/lib/features/main/mainSlice';
+import { updateSkillsLabel } from '@/lib/features/main/mainSlice';
+import { updateSkills } from '@/lib/features/skills/skillsSlice';
 
 interface SkillsLabelCompProps {
     locks: Record<string, any>;

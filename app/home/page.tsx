@@ -5,7 +5,7 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, createSkillInstance, deleteSkillInstance, createAttributeInstance, deleteAttributeInstance, createFeatInstance, deleteFeatInstance, createSpellInstance, createSpellSlotInstance, updateSpells, updateSpellsLabel, deleteSpellInstance, deleteSpellSlotInstance } from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData, updateSpellsLabel} from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/forms/global/LabelComp/LabelComp';
 import InputComp from '../components/forms/global/InputComp/InputComp';
 import SkillInputComp from '../components/forms/skills/SkillInputComp/SkillInputComp';
@@ -21,6 +21,10 @@ import SpellSlotChargesComp from '../components/forms/spells/SpellSlotChargesCom
 import SpellSlotLabelComp from '../components/forms/spells/SpellSlotLabelComp/SpellSlotLabelComp';
 import SpellInstanceComp from '../components/forms/spells/SpellInstanceComp/SpellInstanceComp';
 import HoverInfo from '../components/HoverInfo/HoverInfo';
+import { createFeatInstance, deleteFeatInstance } from '@/lib/features/feats/featsSlice';
+import { createAttributeInstance, deleteAttributeInstance } from '@/lib/features/attributes/attributesSlice';
+import { createSkillInstance, deleteSkillInstance } from '@/lib/features/skills/skillsSlice';
+import { createSpellInstance, createSpellSlotInstance, deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '@/lib/features/spells/spellsSlice';
 
 const Home = () => {
 
@@ -67,6 +71,7 @@ const Home = () => {
   const handleDeleteFeatInstance = async (id: string) => {
 
     dispatch(deleteInstance(deleteFeatInstance({ id: id }), 'featsData', 'featInstance'))
+
   }
 
   {/*Spells */ }
@@ -565,7 +570,7 @@ const Home = () => {
                       className="addButton size-6"
                     />
 
-                   <HoverInfo/>
+                    <HoverInfo />
                   </div>
 
                 </div>
