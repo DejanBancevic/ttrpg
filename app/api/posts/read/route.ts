@@ -66,6 +66,25 @@ export async function GET(request: NextRequest) {
                     },
                 },
             },
+            passives: {
+                include: {
+                    passiveFirstInstance: {
+                        orderBy: {
+                            passiveName: 'asc',
+                        },
+                    },
+                    passiveSecondInstance: {
+                        orderBy: {
+                            passiveName: 'asc',
+                        },
+                    },
+                    passiveThirdInstance: {
+                        orderBy: {
+                            passiveName: 'asc',
+                        },
+                    },
+                },
+            },
         },
     });
 
@@ -184,6 +203,35 @@ export async function GET(request: NextRequest) {
                         },
                     },
                 },
+                passives: {
+                    create: {
+                        passiveLabel: "Passives & Proficiencies",
+                        passiveFirstInstance: {
+                            create: [
+                                {
+                                    passiveName: "Passive",
+                                    passiveValue: "0",
+                                },
+                            ],
+                        },
+                        passiveSecondInstance: {
+                            create: [
+                                {
+                                    passiveName: "Passive",
+                                    passiveValue: "0",
+                                },
+                            ],
+                        },
+                        passiveThirdInstance: {
+                            create: [
+                                {
+                                    passiveName: "Passive",
+                                    passiveValue: "0",
+                                },
+                            ],
+                        },
+                    },
+                },
             },
             include: {
                 health: true,
@@ -210,6 +258,13 @@ export async function GET(request: NextRequest) {
                                 spellInstance: true,
                             }
                         }
+                    },
+                },
+                passives: {
+                    include: {
+                        passiveFirstInstance: true,
+                        passiveSecondInstance: true,
+                        passiveThirdInstance: true,
                     },
                 },
             },

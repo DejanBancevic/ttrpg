@@ -18,6 +18,7 @@ export async function DELETE(request: NextRequest) {
                 await tx.attributes.deleteMany();
                 await tx.feats.deleteMany();
                 await tx.spells.deleteMany();
+                await tx.passives.deleteMany();
 
                 return deletedPost;
             });

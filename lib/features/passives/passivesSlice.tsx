@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { skillsData } from '../main/mainSlice';
+import { passivesData,  } from '../main/mainSlice';
 
-export const createSkillInstance = createAsyncThunk(
-    'main/createSkillInstance',
-    async (id: string, { rejectWithValue }) => {
+export const createPassiveInstance = createAsyncThunk(
+    'main/createPassiveInstance',
+    async (data: { id: string, section:string }, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/skills/create', {
+            const res = await fetch('/api/passives/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id }),
+                body: JSON.stringify(data),
             });
 
             if (!res.ok) {
@@ -23,11 +23,11 @@ export const createSkillInstance = createAsyncThunk(
     }
 );
 
-export const readSkills = createAsyncThunk(
-    'main/readSkills',
+export const readPassives = createAsyncThunk(
+    'main/readPassives',
     async (postId: string, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/skills/read', {
+            const res = await fetch('/api/passives/read', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(postId)
@@ -41,16 +41,16 @@ export const readSkills = createAsyncThunk(
             const json = await res.json();
             return json.skills;
         } catch (err) {
-            return rejectWithValue({ error: 'Skills read failed' });
+            return rejectWithValue({ error: 'passives read failed' });
         }
     }
 );
 
-export const updateSkills = createAsyncThunk(
-    'main/updateSkills',
-    async (postData: { postId: string, skills: Partial<skillsData> }, { rejectWithValue }) => {
+export const updatePassives= createAsyncThunk(
+    'main/updatePassives',
+    async (postData: { postId: string, passives: Partial<passivesData> }, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/skills/update', {
+            const res = await fetch('/api/passives/update', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(postData),
@@ -63,19 +63,19 @@ export const updateSkills = createAsyncThunk(
 
             return await res.json();
         } catch (err) {
-            return rejectWithValue({ error: 'Skill patch failed' });
+            return rejectWithValue({ error: 'passives update failed' });
         }
     }
 );
 
-export const deleteSkillInstance = createAsyncThunk(
-    'main/deleteSkill',
-    async (skillInstanceId: { id: string }, { rejectWithValue }) => {
+export const deletePassiveInstance = createAsyncThunk(
+    'main/deletePassiveInstance',
+    async (passiveInstance: { id: string, section: string }, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/skills/delete', {
+            const res = await fetch('/api/passives/delete', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(skillInstanceId),
+                body: JSON.stringify(passiveInstance),
             });
 
             if (!res.ok) {

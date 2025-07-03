@@ -1,6 +1,6 @@
 
 export const getCurrentUser = () => {
   return (
-    null
+    null  // COMP NOT IN USE
   )
 }

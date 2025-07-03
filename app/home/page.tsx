@@ -5,7 +5,7 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, updateSpellsLabel} from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData, updateSpellsLabel } from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/forms/global/LabelComp/LabelComp';
 import InputComp from '../components/forms/global/InputComp/InputComp';
 import SkillInputComp from '../components/forms/skills/SkillInputComp/SkillInputComp';
@@ -25,6 +25,9 @@ import { createFeatInstance, deleteFeatInstance } from '@/lib/features/feats/fea
 import { createAttributeInstance, deleteAttributeInstance } from '@/lib/features/attributes/attributesSlice';
 import { createSkillInstance, deleteSkillInstance } from '@/lib/features/skills/skillsSlice';
 import { createSpellInstance, createSpellSlotInstance, deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '@/lib/features/spells/spellsSlice';
+import { createPassiveInstance, deletePassiveInstance } from '@/lib/features/passives/passivesSlice';
+import PassiveInputComp from '../components/forms/passives/PassiveInputComp/PassiveInputComp';
+import PassivesLabelComp from '../components/forms/passives/PassivesLabelComp/PassivesLabelComp';
 
 const Home = () => {
 
@@ -47,8 +50,9 @@ const Home = () => {
   }
 
   const handleDeleteSkillInstance = async (id: string) => {
-
-    dispatch(deleteInstance(deleteSkillInstance({ id }), 'skillsData', 'skillInstance'))
+    if (window.confirm("Are you sure you want to delete this?")) {
+      dispatch(deleteInstance(deleteSkillInstance({ id }), 'skillsData', 'skillInstance'))
+    }
   }
 
   {/*Attributes */ }
@@ -58,8 +62,9 @@ const Home = () => {
   }
 
   const handleDeleteAttributeInstance = async (id: string) => {
-
-    dispatch(deleteInstance(deleteAttributeInstance({ id: id }), 'attributesData', 'attributeInstance'))
+    if (window.confirm("Are you sure you want to delete this?")) {
+      dispatch(deleteInstance(deleteAttributeInstance({ id: id }), 'attributesData', 'attributeInstance'))
+    }
   }
 
   {/*Feats */ }
@@ -69,9 +74,9 @@ const Home = () => {
   }
 
   const handleDeleteFeatInstance = async (id: string) => {
-
-    dispatch(deleteInstance(deleteFeatInstance({ id: id }), 'featsData', 'featInstance'))
-
+    if (window.confirm("Are you sure you want to delete this?")) {
+      dispatch(deleteInstance(deleteFeatInstance({ id: id }), 'featsData', 'featInstance'))
+    }
   }
 
   {/*Spells */ }
@@ -87,15 +92,51 @@ const Home = () => {
 
   const handleDeleteSpellSlotInstance = async (id: string) => {
 
-    if (!locks.deleteLock) {
-      dispatch(deleteInstance(deleteSpellSlotInstance({ id: id }), 'spellsData', 'spellSlotInstance', "spellSlotInstance"))
+    if (window.confirm("Are you sure you want to delete this?")) {
+      if (!locks.deleteLock) {
+        dispatch(deleteInstance(deleteSpellSlotInstance({ id: id }), 'spellsData', 'spellSlotInstance', "spellSlotInstance"))
+      }
     }
   }
 
   const handleDeleteSpellInstance = async (id: string) => {
-
-    dispatch(deleteInstance(deleteSpellInstance({ id: id }), undefined, undefined, "spellInstance"))
+    if (window.confirm("Are you sure you want to delete this?")) {
+      dispatch(deleteInstance(deleteSpellInstance({ id: id }), undefined, undefined, "spellInstance"))
+    }
   }
+
+  {/*Passives */ }
+  const handleAddPassiveFirstInstance = async () => {
+
+    dispatch(addInstance(createPassiveInstance({ id: post!.passivesData.id, section: "first" })))
+  }
+
+  const handleAddPassiveSecondInstance = async () => {
+
+    dispatch(addInstance(createPassiveInstance({ id: post!.passivesData.id, section: "second" })))
+  }
+
+  const handleAddPassiveThirdInstance = async () => {
+
+    dispatch(addInstance(createPassiveInstance({ id: post!.passivesData.id, section: "third" })))
+  }
+  const handleDeletePassiveFirstInstance = async (id: string, section: string, ) => {
+    if (window.confirm("Are you sure you want to delete this?")) {
+      dispatch(deleteInstance(deletePassiveInstance({ id: id, section:"first" }), "passivesData", "passiveFirstInstance", ))
+    }
+  }
+  const handleDeletePassiveSecondInstance = async (id: string, section: string,) => {
+    if (window.confirm("Are you sure you want to delete this?")) {
+      dispatch(deleteInstance(deletePassiveInstance({ id: id, section: "second" }), "passivesData", "passiveSecondInstance",))
+    }
+  }
+  const handleDeletePassiveThirdInstance = async (id: string, section: string,) => {
+    if (window.confirm("Are you sure you want to delete this?")) {
+      dispatch(deleteInstance(deletePassiveInstance({ id: id, section: "third" }), "passivesData", "passiveThirdInstance",))
+    }
+  }
+
+
 
   //#endregion
 
@@ -664,223 +705,107 @@ const Home = () => {
           {/*Passives and Profs */}
           <div className='mainContainers max-h-[32vh] min-h-0 w-full overflow-y-auto custom-scrollbar'>
             <div className='flex flex-col gap-2 w-full'>
-              <h1 className='text-2xl font-bold italic mb-2'>Passives & Proficiencies</h1>
+
+              <PassivesLabelComp
+                valueLabel={post?.passivesData.passiveLabel! ?? ""}
+                locks={locks}
+                activePostId={activePostId}
+                labelName={"passiveLabel"}
+                style={'card-label !text-start !text-2xl font-bold italic mb-2'}
+              />
+            
               <div className='flex justify-between'>
 
                 {/*Passives */}
                 <div className='flex flex-col gap-2 items-center'>
 
-                  {/*Passives Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
+                  {
+                    post?.passivesData.passiveFirstInstance.map((passive, index) => (
+                      <PassiveInputComp
+                        locks={locks}
+                        key={passive.id!}
+                        activePostId={activePostId}
+                        valueName={passive.passiveName}
+                        valueBonus={passive.passiveValue}
+                        fieldName={'passiveName'}
+                        fieldBonus={'passiveValue'}
+                        styleName={'card-label !text-start w-24 h-6'}
+                        styleBonus={'card-textarea w-11 h-10 text-center'}
+                        id={passive.id!}
+                        deleteFunction={handleDeletePassiveFirstInstance}
+                        sectionInstance={"passiveFirstInstance"}
+                      />
+                   ))
+                  }
 
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-
-                  <Plus className='size-6 text-sec' />
+                  <Plus
+                    onClick={() => handleAddPassiveFirstInstance()}
+                    className="addButton size-6"
+                  />
+            
 
                 </div>
 
-                <div className='border-l border-gray h-full'></div>
+                <div className='border-l border-gray h-60'></div>
 
                 {/*Proffs */}
                 <div className='flex flex-col gap-2 items-center'>
 
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
+                  {
+                    post?.passivesData.passiveSecondInstance.map((passive, index) => (
+                      <PassiveInputComp
+                        locks={locks}
+                        key={passive.id!}
+                        activePostId={activePostId}
+                        valueName={passive.passiveName}
+                        valueBonus={passive.passiveValue}
+                        fieldName={'passiveName'}
+                        fieldBonus={'passiveValue'}
+                        styleName={'card-label !text-start w-24 h-6'}
+                        styleBonus={'card-textarea w-11 h-10 text-center'}
+                        id={passive.id!}
+                        deleteFunction={handleDeletePassiveSecondInstance}
+                        sectionInstance={"passiveSecondInstance"}
+                      />
+                    ))
+                  }
 
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-
-                  <Plus className='size-6 text-sec' />
+                  <Plus
+                    onClick={() => handleAddPassiveSecondInstance()}
+                    className="addButton size-6"
+                  />
 
                 </div>
 
-                <div className='border-l border-gray h-full'></div>
+                <div className='border-l border-gray h-60'></div>
 
                 {/*Other */}
                 <div className='flex flex-col gap-2 items-center'>
 
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
+                  {
+                    post?.passivesData.passiveThirdInstance.map((passive, index) => (
+                      <PassiveInputComp
+                        locks={locks}
+                        key={passive.id!}
+                        activePostId={activePostId}
+                        valueName={passive.passiveName}
+                        valueBonus={passive.passiveValue}
+                        fieldName={'passiveName'}
+                        fieldBonus={'passiveValue'}
+                        styleName={'card-label !text-start w-24 h-6'}
+                        styleBonus={'card-textarea w-11 h-10 text-center'}
+                        id={passive.id!}
+                        deleteFunction={handleDeletePassiveThirdInstance}
+                        sectionInstance={"passiveThirdInstance"}
+                      />
+                    ))
+                  }
 
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
+                  <Plus
+                    onClick={() => handleAddPassiveThirdInstance()}
+                    className="addButton size-6"
+                  />
 
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-                  {/*Proffs Instance*/}
-                  <div className='flex items-center gap-2 '>
-                    <h1 className='text-lg font-bold '>Initiative</h1>
-                    <textarea
-                      value={"56"}
-                      spellCheck={false}
-                      className="card-textarea w-11 h-10 text-center "
-                    />
-                    <Trash2 className='size-6 text-gray' />
-                  </div>
-
-                  <Plus className='size-6 text-sec' />
 
                 </div>
               </div>

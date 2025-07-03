@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteAttributeInstance, updateAttributes } from '../attributes/attributesSlice';
 import { deleteFeatInstance, updateFeats } from '../feats/featsSlice';
+import { deletePassiveInstance, updatePassives } from '../passives/passivesSlice';
 import { deleteSkillInstance, readSkills, updateSkills } from '../skills/skillsSlice';
 import { deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '../spells/spellsSlice';
 
@@ -218,6 +219,31 @@ const initialState: MainState = {
                     },
                 ],
             },
+            passivesData: {
+                id: crypto.randomUUID(),
+                passiveLabel: "Passives & Proficiencies",
+                passiveFirstInstance: [
+                    {
+                        id: crypto.randomUUID(),
+                        passiveName: "Passive",
+                        passiveValue: "0",
+                    },
+                ],
+                passiveSecondInstance: [
+                    {
+                        id: crypto.randomUUID(),
+                        passiveName: "Passive",
+                        passiveValue: "0",
+                    },
+                ],
+                passiveThirdInstance: [
+                    {
+                        id: crypto.randomUUID(),
+                        passiveName: "Passive",
+                        passiveValue: "0",
+                    },
+                ],
+            },
         },
     ],
     activePostId: "0",
@@ -237,7 +263,22 @@ interface post {
     attributesData: attributesData;
     featsData: featsData;
     spellsData: spellsData;
+    passivesData: passivesData;
 };
+
+export interface passivesData {
+    id: string;
+    passiveLabel: string;
+    passiveFirstInstance: Partial<passiveInstanceData>[]
+    passiveSecondInstance: Partial<passiveInstanceData>[]
+    passiveThirdInstance: Partial<passiveInstanceData>[]
+}
+
+export interface passiveInstanceData {
+    id: string;
+    passiveName: string;
+    passiveValue: string;
+}
 
 export interface spellsData {
     id: string;
@@ -443,6 +484,30 @@ const mainSlice = createSlice({
         setActiveSpellSlotId: (state, action: PayloadAction<string>) => {
             state.activeSpellSlotId = action.payload;
         },
+        updatePassivesById: (state, action: PayloadAction<{ key: string; value: Partial<passiveInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            const instanceArrays = [
+                activePost.passivesData.passiveFirstInstance,
+                activePost.passivesData.passiveSecondInstance,
+                activePost.passivesData.passiveThirdInstance,
+            ];
+
+            for (const arr of instanceArrays) {
+                const instance = arr.find((i) => i.id === action.payload.key);
+                if (instance) {
+                    Object.assign(instance, action.payload.value)
+                    break;
+                }
+            }
+        },
+        updatePassivesLabel: (state, action: PayloadAction<{ key: 'passiveLabel'; value: string }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId);
+            if (!activePost) return;
+
+            activePost.passivesData[action.payload.key] = action.payload.value;
+        },
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
@@ -480,6 +545,13 @@ const mainSlice = createSlice({
                             ...slot,
                             spellInstance: slot.spellInstance ?? [],
                         })),
+                    },
+                    passivesData: {
+                        id: newPost.passives.id,
+                        passiveLabel: newPost.passives.passiveLabel,
+                        passiveFirstInstance: newPost.passives.passiveFirstInstance ?? [],
+                        passiveSecondInstance: newPost.passives.passiveSecondInstance ?? [],
+                        passiveThirdInstance: newPost.passives.passiveThirdInstance ?? [],
                     },
                 });
                 state.activePostId = newPost.id;
@@ -519,6 +591,13 @@ const mainSlice = createSlice({
                             ...slot,
                             spellInstance: slot.spellInstance ?? [],
                         })),
+                    },
+                    passivesData: {
+                        id: post.passives.id,
+                        passiveLabel: post.passives.passiveLabel,
+                        passiveFirstInstance: post.passives.passiveFirstInstance ?? [],
+                        passiveSecondInstance: post.passives.passiveSecondInstance ?? [],
+                        passiveThirdInstance: post.passives.passiveThirdInstance ?? [],
                     },
                 }));
 
@@ -612,7 +691,7 @@ const mainSlice = createSlice({
             })
             .addCase(deleteFeatInstance.fulfilled, (state, action) => {
                 const deletedId = action.payload.id;
-                const activePost = state.posts.find(p => p.id === state.activePostId)
+                const activePost = state.posts.find(p => p.id === state.activePostId);
                 if (!activePost) return;
 
                 activePost.featsData.featInstance = activePost.featsData.featInstance.filter(a => a.id !== deletedId);
@@ -657,6 +736,32 @@ const mainSlice = createSlice({
                     };
                 });
             })
+            .addCase(updatePassives.fulfilled, (state, action) => {
+                const updated = action.payload.data;
+                const activePost = state.posts.find(p =>
+                    p.passivesData.passiveFirstInstance === updated.id
+                );
+                if (!activePost) return;
+
+                activePost.passivesData.passiveLabel = updated.passiveLabel;
+                activePost.passivesData.passiveFirstInstance = updated.passiveFirstInstance ?? [];
+                activePost.passivesData.passiveSecondInstance = updated.passiveSecondInstance ?? [];
+                activePost.passivesData.passiveThirdInstance = updated.passiveThirdInstance ?? [];
+            })
+            .addCase(deletePassiveInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                const activePost = state.posts.find(p => p.id === state.activePostId);
+                if (!activePost) return;
+
+                if (action.payload.section === "first") {
+                    activePost.passivesData.passiveFirstInstance = activePost.passivesData.passiveFirstInstance.filter(p => p.id !== deletedId);
+                } else if (action.payload.section === "second") {
+                    activePost.passivesData.passiveSecondInstance = activePost.passivesData.passiveSecondInstance.filter(p => p.id !== deletedId);
+                } else if (action.payload.section === "third") {
+                    activePost.passivesData.passiveThirdInstance = activePost.passivesData.passiveThirdInstance.filter(p => p.id !== deletedId);
+                }
+
+            })
     }
 })
 
@@ -677,6 +782,8 @@ export const {
     updateSpellSlotInstanceById,
     updateSpellInstanceById,
     updateSpellsLabel,
+    updatePassivesById,
+    updatePassivesLabel,
 } = mainSlice.actions;
 
 // Export the reducer to be used in the store

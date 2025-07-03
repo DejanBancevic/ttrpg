@@ -122,6 +122,35 @@ export async function POST(request: NextRequest) {
                     },
                 },
             },
+            passives: {
+                create: {
+                    passiveLabel: "Passives & Proficiencies",
+                    passiveFirstInstance: {
+                        create: [
+                            {
+                                passiveName: "Passive",
+                                passiveValue: "0",
+                            },
+                        ],
+                    },
+                    passiveSecondInstance: {
+                        create: [
+                            {
+                                passiveName: "Passive",
+                                passiveValue: "0",
+                            },
+                        ],
+                    },
+                    passiveThirdInstance: {
+                        create: [
+                            {
+                                passiveName: "Passive",
+                                passiveValue: "0",
+                            },
+                        ],
+                    },
+                },
+            },
         },
         include: {
             health: true,
@@ -148,6 +177,13 @@ export async function POST(request: NextRequest) {
                             spellInstance: true,
                         }
                     }
+                },
+            },
+            passives: {
+                include: {
+                    passiveFirstInstance: true,
+                    passiveSecondInstance: true,
+                    passiveThirdInstance: true,
                 },
             },
         },

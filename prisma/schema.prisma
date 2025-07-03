@@ -36,8 +36,50 @@ model Post {
   spells   Spells @relation("PostSpells", fields: [spellsId], references: [id], onDelete: Cascade)
   spellsId String @unique
 
+  passives   Passives @relation("PostPassives", fields: [passivesId], references: [id], onDelete: Cascade)
+  passivesId String   @unique
+
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
+}
+
+model Passives {
+  id           String @id @default(cuid())
+  passiveLabel String
+
+  passiveFirstInstance  PassiveFirstInstance[]  @relation("PassivesPassiveFirstInstance")
+  passiveSecondInstance PassiveSecondInstance[] @relation("PassivesPassiveSecondInstance")
+  passiveThirdInstance  PassiveThirdInstance[]  @relation("PassivesPassiveThirdInstance")
+
+  post   Post?   @relation("PostPassives")
+  postId String?
+}
+
+model PassiveFirstInstance {
+  id           String @id @default(cuid())
+  passiveName  String
+  passiveValue String
+
+  passives   Passives? @relation("PassivesPassiveFirstInstance", fields: [passivesId], references: [id], onDelete: Cascade)
+  passivesId String
+}
+
+model PassiveSecondInstance {
+  id           String @id @default(cuid())
+  passiveName  String
+  passiveValue String
+
+  passives   Passives? @relation("PassivesPassiveSecondInstance", fields: [passivesId], references: [id], onDelete: Cascade)
+  passivesId String
+}
+
+model PassiveThirdInstance {
+  id           String @id @default(cuid())
+  passiveName  String
+  passiveValue String
+
+  passives   Passives? @relation("PassivesPassiveThirdInstance", fields: [passivesId], references: [id], onDelete: Cascade)
+  passivesId String
 }
 
 model Spells {

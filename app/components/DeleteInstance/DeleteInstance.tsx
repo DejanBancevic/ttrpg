@@ -19,6 +19,12 @@ export const deleteInstance = (deleteInstanceThunk?: any, data?: any, dataInstan
             await dispatch(readPosts());
             dispatch(setActivePostId(mainData.activePostId));
             dispatch(setActiveSpellSlotId(firstId!));
+
+            return (
+                <div className='z-10 w-20 h-20 bg-sec'>
+                    <h1 className='text-white'>dadaddadadadada</h1>
+                </div>
+            )
         }
         else (
             alert("You can't delete the last node. \nFirst create a new one and then delete the one you want.")
