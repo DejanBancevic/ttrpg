@@ -9,8 +9,9 @@ import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
 import { deleteAllPost, updateLocks } from '@/lib/features/main/mainSlice';
-import { Lock, Unlock, Archive, FileText, Award } from "@deemlol/next-icons";
-import { getSession } from "@/app/actions/getCurrentUser";
+import { Lock, Unlock, Archive, FileText } from "@deemlol/next-icons";
+
+
 
 const Navbar =  () => {
 

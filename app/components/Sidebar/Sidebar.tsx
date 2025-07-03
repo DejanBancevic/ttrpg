@@ -2,7 +2,7 @@ import React from "react";
 import "./Sidebar.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
-import { Trash2, Plus } from "@deemlol/next-icons";
+import { Plus } from "@deemlol/next-icons";
 import { createPost, readPosts, setActivePostId } from "@/lib/features/main/mainSlice";
 import { deletePost as deletePostAction } from "@/lib/features/main/mainSlice";
 import DeleteButton from "../DeleteButton/DeleteButton";
