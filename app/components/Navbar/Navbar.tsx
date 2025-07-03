@@ -1,4 +1,3 @@
-"use client"
 
 import Link from "next/link";
 import React from "react";
@@ -10,13 +9,15 @@ import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
 import { deleteAllPost, updateLocks } from '@/lib/features/main/mainSlice';
-import { Lock, Unlock, Archive, FileText } from "@deemlol/next-icons";
+import { Lock, Unlock, Archive, FileText, Award } from "@deemlol/next-icons";
+import { getSession } from "@/app/actions/getCurrentUser";
 
-const Navbar = () => {
+const Navbar =  () => {
 
     //Redux
     const dispatch: AppDispatch = useDispatch();
     const locks = useSelector((state: RootState) => state.mainData.locks);
+    const { data: session } = useSession();
 
     const handleSignOut = () => {
         const callbackUrl = `${window.location.origin}/`;
@@ -24,7 +25,6 @@ const Navbar = () => {
     }
 
     const AuthButton = (): any => {
-        const { data: session } = useSession();
 
         if (session) {
             return (
@@ -88,7 +88,12 @@ const Navbar = () => {
                         </button>
                     </div>
 
-                    <button className="w-32 h-14" onClick={() => dispatch(deleteAllPost())}>Wipe DB</button>
+                    {session?.user?.email === "dejanbancevic@gmail.com" && (
+                        <button className="w-32 h-14" onClick={() => dispatch(deleteAllPost())}>
+                            Wipe DB
+                        </button>
+                    )}
+                   
 
                 </div>
 

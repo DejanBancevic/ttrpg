@@ -6,15 +6,11 @@ export async function DELETE(request: NextRequest) {
     try {
         const session = await getSession();
 
-        if (session?.user?.email === "dejanbancevic@gmail.com" || "alies22222@gmail.com") {
+        if (session?.user?.email === "dejanbancevic@gmail.com") {
+     
             const deleted = await prisma.$transaction(async (tx) => {
-                // lets you execute multiple database operations as a single atomic unit
-                // meaning either all of them succeed, or none of them do.
-
-                // 1. Delete the post first
                 const deletedPost = await tx.post.deleteMany();
 
-                // 2. Then delete the related records 
                 await tx.health.deleteMany();
                 await tx.basics.deleteMany(); 4
                 await tx.skills.deleteMany();
@@ -30,7 +26,7 @@ export async function DELETE(request: NextRequest) {
                 return NextResponse.json({ error: "Deletion failed" }, { status: 500 });
             }
 
-            return NextResponse.json("All posts deleted"); // success
+            return NextResponse.json("All posts deleted"); 
         }
        
     } catch (err: any) {
