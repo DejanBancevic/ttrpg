@@ -122,7 +122,7 @@ interface MainState {
 const initialState: MainState = {
     posts: [
         {
-            id: "0",
+            id: crypto.randomUUID(),
             healthData: {
                 hpCurrent: "0",
                 hpMax: "0",
@@ -145,12 +145,12 @@ const initialState: MainState = {
                 xpLabel: "XP",
             },
             skillsData: {
-                id: "0",
+                id: crypto.randomUUID(),
                 skillsLabel: "Skills",
                 profsLabel: "Profs",
                 skillInstance: [
                     {
-                        id: "0",
+                        id: crypto.randomUUID(),
                         skillName: "Add Skill Name",
                         skillValue: "0",
                         skillProf: "0",
@@ -158,10 +158,10 @@ const initialState: MainState = {
                 ],
             },
             attributesData: {
-                id: "0",
+                id: crypto.randomUUID(),
                 attributeInstance: [
                     {
-                        id: "0",
+                        id: crypto.randomUUID(),
                         attributeName: "Attribute",
                         attributeValue: "0",
                         attributeMod: "0",
@@ -171,11 +171,11 @@ const initialState: MainState = {
                 ],
             },
             featsData: {
-                id: "0",
+                id: crypto.randomUUID(),
                 featsLabel: "Features & Traits",
                 featInstance: [
                     {
-                        id: "0",
+                        id: crypto.randomUUID(),
                         featName: "Feat Name",
                         featChargeLabel: "Charges",
                         featChargeCurrent: "0",
@@ -185,7 +185,7 @@ const initialState: MainState = {
                 ],
             },
             spellsData: {
-                id: "0",
+                id: crypto.randomUUID(),
                 spellsLabel: "Spells",
                 spellsModifierLabel: "Modifier",
                 spellsAttackLabel: "Spell Attack",
@@ -195,7 +195,7 @@ const initialState: MainState = {
                 spellsSave: "0",
                 spellSlotInstance: [
                     {
-                        id: "0",
+                        id: crypto.randomUUID(),
                         spellSlotBoxLabel: "",
                         spellSlotLabel: "Slots",
                         spellSlotCurrent: "0",
@@ -207,7 +207,7 @@ const initialState: MainState = {
                         spellLabel4: "Hit",
                         spellInstance: [
                             {
-                                id: "0",
+                                id: crypto.randomUUID(),
                                 spellNameValue: "Spell Name",
                                 spellValue1: "0",
                                 spellValue2: "0",

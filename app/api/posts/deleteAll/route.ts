@@ -1,13 +1,14 @@
 import prisma from '../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "../../../actions/getCurrentUser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOp";
 
 export async function DELETE(request: NextRequest) {
     try {
-        const session = await getSession();
+        const session = await getServerSession(authOptions);
 
         if (session?.user?.email === "dejanbancevic@gmail.com") {
-     
+
             const deleted = await prisma.$transaction(async (tx) => {
                 const deletedPost = await tx.post.deleteMany();
 
@@ -26,9 +27,9 @@ export async function DELETE(request: NextRequest) {
                 return NextResponse.json({ error: "Deletion failed" }, { status: 500 });
             }
 
-            return NextResponse.json("All posts deleted"); 
+            return NextResponse.json("All posts deleted");
         }
-       
+
     } catch (err: any) {
         console.error("DELETE /api/post error:", err?.message ?? err);
         return NextResponse.json({ error: "Internal error" }, { status: 500 });

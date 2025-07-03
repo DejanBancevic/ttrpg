@@ -18,7 +18,7 @@ const Login = () => {
             <div className="flex border border-black rounded-lg border-opacity-0 ">
 
                 <Image
-                    className="h-[450px] w-[680px] rounded-s-lg"
+                    className="h-[450px] w-[750px] rounded-s-lg"
                     src={loginVector}
                     alt="Login vector image"
                 />

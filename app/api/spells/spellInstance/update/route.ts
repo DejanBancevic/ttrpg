@@ -1,9 +1,10 @@
 import prisma from '../../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "../../../../actions/getCurrentUser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOp";
 
 export async function POST(request: NextRequest) {
-    const session = await getSession();
+    const session = await getServerSession(authOptions);
     const body = await request.json();
 
     if (!session?.user?.email) {
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
     }
 
     const spellsData = body.spellInstance;
-    
+
     try {
         const updated = await prisma.spellInstance.update({
             where: { id: body.id },

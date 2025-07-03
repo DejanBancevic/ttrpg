@@ -1,10 +1,11 @@
 import prisma from '../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "../../../actions/getCurrentUser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOp";
 
 export async function DELETE(request: NextRequest) {
     try {
-        const session = await getSession();
+        const session = await getServerSession(authOptions);
         const body = await request.json();
 
         if (!session?.user?.email) {
@@ -26,7 +27,7 @@ export async function DELETE(request: NextRequest) {
         const deleted = await prisma.$transaction(async (tx) => {
             // lets you execute multiple database operations as a single atomic unit
             // meaning either all of them succeed, or none of them do.
-            
+
             // 1. Delete the post first
             const deletedPost = await tx.post.delete({ where: { id: body.postId } });
 

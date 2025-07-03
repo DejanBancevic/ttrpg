@@ -1,21 +1,12 @@
 import prisma from '../../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "../../../../actions/getCurrentUser";
-
-interface spellInstanceData {
-    id: string;
-    spellNameValue: string;
-    spellValue1: string;
-    spellValue2: string;
-    spellValue3: string;
-    spellValue4: string;
-}
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOp";
 
 
 export async function POST(request: NextRequest) {
-    const session = await getSession();
+    const session = await getServerSession(authOptions);
     const body = await request.json();
-
 
     if (!session?.user?.email) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -62,7 +53,7 @@ export async function POST(request: NextRequest) {
     if (spellsData.spellsLabel || spellsData.spellsModifierLabel ||
         spellsData.spellsAttackLabel || spellsData.spellsSaveLabel ||
         spellsData.spellsModifier || spellsData.spellsAttack ||
-        spellsData.spellsSave) {  // Update labels & non-nested
+        spellsData.spellsSave) { 
         await prisma.spells.update({
             where: { id: existingPost.spells.id },
             data: {

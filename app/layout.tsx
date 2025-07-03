@@ -4,8 +4,8 @@ import { ReactNode } from "react";
 import LayoutWrapper from "./components/LayoutWrapper/LayoutWrapper";
 import StoreProvider from "./StoreProvider";
 import { Providers } from "./components/SessionProvider";
-import { getSession } from "./actions/getCurrentUser";
-import Navbar from "./components/Navbar/Navbar";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOp";
 import InitDataLoader from "./components/InitDataLoader/InitDataLoader";
 
 
@@ -42,7 +42,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: ReactNode; }) {
 
-  const session = await getSession();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">

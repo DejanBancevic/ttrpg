@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
-import { getSession } from "./actions/getCurrentUser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOp";
 
 const Landing = async () => {
 
-
-  const session = await getSession();
+  const session = await getServerSession(authOptions);
 
   if (session) {
     redirect("/home")

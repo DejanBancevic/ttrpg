@@ -1,9 +1,10 @@
 import prisma from '../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "../../../actions/getCurrentUser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOp";
 
 export async function POST(request: NextRequest) {
-    const session = await getSession();
+    const session = await getServerSession(authOptions);
     const body = await request.json();
 
     if (!session?.user?.email) {
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     const existingPost = await prisma.post.findUnique({
         where: { id: body.postId },
-        include: { health: true, basics: true,  },
+        include: { health: true, basics: true, },
     });
 
     if (!existingPost) {
@@ -33,12 +34,12 @@ export async function POST(request: NextRequest) {
             ...(body.basics && {
                 basics: { update: body.basics },
             }),
-        
+
         },
         include: {
             health: true,
             basics: true,
-          
+
         },
     });
 

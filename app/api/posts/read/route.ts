@@ -1,10 +1,11 @@
 import prisma from '../../../../lib/prisma';
-import { getSession } from "../../../actions/getCurrentUser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOp";
 import { NextRequest, NextResponse } from "next/server";
 
 
 export async function GET(request: NextRequest) {
-    const session = await getSession();
+    const session = await getServerSession(authOptions);
 
     if (!session || !session.user?.email) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -106,7 +107,6 @@ export async function GET(request: NextRequest) {
                         skillInstance: {
                             create: [
                                 {
-                                    id: "0",
                                     skillName: "Add Skill Name",
                                     skillValue: "0",
                                     skillProf: "0",
@@ -120,7 +120,6 @@ export async function GET(request: NextRequest) {
                         attributeInstance: {
                             create: [
                                 {
-                                    id: "0",
                                     attributeName: "Attribute",
                                     attributeValue: "0",
                                     attributeMod: "0",
@@ -138,7 +137,6 @@ export async function GET(request: NextRequest) {
                         featInstance: {
                             create: [
                                 {
-                                    id: "0",
                                     featName: "Feat Name",
                                     featChargeLabel: "Charges",
                                     featChargeCurrent: "0",
@@ -161,12 +159,12 @@ export async function GET(request: NextRequest) {
                         spellSlotInstance: {
                             create: [
                                 {
-                                    spellSlotBoxLabel: " ",
+                                    spellSlotBoxLabel: "",
                                     spellSlotLabel: "Slots",
                                     spellSlotCurrent: "0",
                                     spellSlotMax: "0",
                                     spellNameLabel: "Name",
-                                    spellLabel1: "Level",
+                                    spellLabel1: "Time",
                                     spellLabel2: "Conc",
                                     spellLabel3: "Range",
                                     spellLabel4: "Hit",
