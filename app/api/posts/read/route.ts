@@ -85,6 +85,27 @@ export async function GET(request: NextRequest) {
                     },
                 },
             },
+            inventory: {
+                include: {
+                    currencyInstance: {
+                        orderBy: {
+                            currenyLabel: 'asc',
+                        },
+                    },
+                    bagInstance: {
+                        orderBy: {
+                            bagLabel: 'asc',
+                        },
+                        include: {
+                            itemInstance: {
+                                orderBy: {
+                                    itemName: 'asc',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
         },
     });
 
@@ -232,6 +253,50 @@ export async function GET(request: NextRequest) {
                         },
                     },
                 },
+                inventory: {
+                    create: {
+                        invLabel: "Inventory",
+                        invWeightLabel: "Weight",
+                        invWeightCurrent: "0",
+                        invWeightMax: "0",
+                        invWeightUnit: "kg",
+                        invCurrenyLabel: "Currency",
+                        invBagAllLabel: "All",
+                        currencyInstance: {
+                            create: [
+                                {
+                                    currenyValue: "0",
+                                    currenyLabel: "x",
+                                },
+                            ],
+                        },
+                        bagInstance: {
+                            create: [
+                                {
+                                    bagLabel: "Bag",
+                                    itemNameLabel: "Name",
+                                    itemLabel1: "Hit",
+                                    itemLabel2: "Dmg",
+                                    itemLabel3: "Range",
+                                    itemLabel4: "Value",
+                                    itemLabel5: "#",
+                                    itemInstance: {
+                                        create: [
+                                            {
+                                                itemName: "Item",
+                                                itemValue1: "0",
+                                                itemValue2: "0",
+                                                itemValue3: "0",
+                                                itemValue4: "0",
+                                                itemValue5: "0",
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                },
             },
             include: {
                 health: true,
@@ -265,6 +330,16 @@ export async function GET(request: NextRequest) {
                         passiveFirstInstance: true,
                         passiveSecondInstance: true,
                         passiveThirdInstance: true,
+                    },
+                },
+                inventory: {
+                    include: {
+                        currencyInstance: true,
+                        bagInstance: {
+                            include: {
+                                itemInstance: true,
+                            },
+                        },
                     },
                 },
             },

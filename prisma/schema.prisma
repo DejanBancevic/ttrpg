@@ -39,8 +39,66 @@ model Post {
   passives   Passives @relation("PostPassives", fields: [passivesId], references: [id], onDelete: Cascade)
   passivesId String   @unique
 
+  inventory   Inventory @relation("PostInventory", fields: [inventoryId], references: [id], onDelete: Cascade)
+  inventoryId String    @unique
+
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
+}
+
+model Inventory {
+  id               String @id @default(cuid())
+  invLabel         String
+  invWeightLabel   String
+  invWeightCurrent String
+  invWeightMax     String
+  invWeightUnit    String
+  invCurrenyLabel  String
+  invBagAllLabel   String
+
+  currencyInstance CurrencyInstance[] @relation("InventoryCurrencyInstance")
+  bagInstance      BagInstance[]      @relation("InventoryBagInstance")
+
+  post   Post?   @relation("PostInventory")
+  postId String?
+}
+
+model CurrencyInstance {
+  id           String @id @default(cuid())
+  currenyValue String
+  currenyLabel String
+
+  inventory   Inventory? @relation("InventoryCurrencyInstance", fields: [inventoryId], references: [id], onDelete: Cascade)
+  inventoryId String
+}
+
+model BagInstance {
+  id            String @id @default(cuid())
+  bagLabel      String
+  itemNameLabel String
+  itemLabel1    String
+  itemLabel2    String
+  itemLabel3    String
+  itemLabel4    String
+  itemLabel5    String
+
+  itemInstance ItemInstance[] @relation("BagInstanceItemInstance")
+
+  inventory   Inventory? @relation("InventoryBagInstance", fields: [inventoryId], references: [id], onDelete: Cascade)
+  inventoryId String
+}
+
+model ItemInstance {
+  id         String @id @default(cuid())
+  itemName   String
+  itemValue1 String
+  itemValue2 String
+  itemValue3 String
+  itemValue4 String
+  itemValue5 String
+
+  bagInstance   BagInstance? @relation("BagInstanceItemInstance", fields: [bagInstanceId], references: [id], onDelete: Cascade)
+  bagInstanceId String
 }
 
 model Passives {

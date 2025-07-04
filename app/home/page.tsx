@@ -5,7 +5,7 @@ import './page.css';
 import { Trash2, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updatePost, updateHealthData, updateBasicsData, updateSpellsLabel } from '@/lib/features/main/mainSlice';
+import { updatePost, updateHealthData, updateBasicsData, updateSpellsLabel, updateInventoryLabel } from '@/lib/features/main/mainSlice';
 import LabelComp from '../components/forms/global/LabelComp/LabelComp';
 import InputComp from '../components/forms/global/InputComp/InputComp';
 import SkillInputComp from '../components/forms/skills/SkillInputComp/SkillInputComp';
@@ -28,6 +28,9 @@ import { createSpellInstance, createSpellSlotInstance, deleteSpellInstance, dele
 import { createPassiveInstance, deletePassiveInstance } from '@/lib/features/passives/passivesSlice';
 import PassiveInputComp from '../components/forms/passives/PassiveInputComp/PassiveInputComp';
 import PassivesLabelComp from '../components/forms/passives/PassivesLabelComp/PassivesLabelComp';
+import { createCurrencyInstance, deleteCurrencyInstance, updateInventory } from '@/lib/features/inventory/inventorySlice';
+import WeightComp from '../components/forms/inventory/WeightComp/WeightComp';
+import CurrencyComp from '../components/forms/inventory/CurrencyComp/CurrencyComp';
 
 const Home = () => {
 
@@ -120,22 +123,40 @@ const Home = () => {
 
     dispatch(addInstance(createPassiveInstance({ id: post!.passivesData.id, section: "third" })))
   }
-  const handleDeletePassiveFirstInstance = async (id: string, section: string, ) => {
+
+  const handleDeletePassiveFirstInstance = async (id: string, section: string,) => {
     if (window.confirm("Are you sure you want to delete this?")) {
-      dispatch(deleteInstance(deletePassiveInstance({ id: id, section:"first" }), "passivesData", "passiveFirstInstance", ))
+      dispatch(deleteInstance(deletePassiveInstance({ id: id, section: "first" }), "passivesData", "passiveFirstInstance",))
     }
   }
+
   const handleDeletePassiveSecondInstance = async (id: string, section: string,) => {
     if (window.confirm("Are you sure you want to delete this?")) {
       dispatch(deleteInstance(deletePassiveInstance({ id: id, section: "second" }), "passivesData", "passiveSecondInstance",))
     }
   }
+
   const handleDeletePassiveThirdInstance = async (id: string, section: string,) => {
     if (window.confirm("Are you sure you want to delete this?")) {
       dispatch(deleteInstance(deletePassiveInstance({ id: id, section: "third" }), "passivesData", "passiveThirdInstance",))
     }
   }
 
+  {/*Spells */ }
+  const handleAddCurrencyInstance = async () => {
+
+    dispatch(addInstance(createCurrencyInstance(post!.inventoryData.id)))
+  }
+
+
+  const handleDeleteCurrencyInstance = async (id: string) => {
+
+    if (window.confirm("Are you sure you want to delete this?")) {
+      if (!locks.deleteLock) {
+        dispatch(deleteInstance(deleteCurrencyInstance({ id: id }), 'inventoryData', 'currencyInstance'))
+      }
+    }
+  }
 
 
   //#endregion
@@ -147,7 +168,7 @@ const Home = () => {
         {/*TEST 
             <div>
               <h1>Data Test</h1>
-              {healthData && <pre>{JSON.stringify(healthData, null, 2)}</pre>}
+              {post?.inventoryData && <pre>{JSON.stringify(post?.inventoryData, null, 2)}</pre>}
             </div>
           */}
 
@@ -556,7 +577,7 @@ const Home = () => {
                     activePostId={activePostId}
                     valueName={post?.spellsData.spellsModifier! ?? ""}
                     fieldName={"spellsModifier"}
-                    styleName="card-textarea w-12 h-10"
+                    styleName="card-textarea w-14 h-10"
                   />
 
                   <SpellModsComp
@@ -567,7 +588,7 @@ const Home = () => {
                     activePostId={activePostId}
                     valueName={post?.spellsData.spellsAttack! ?? ""}
                     fieldName={"spellsAttack"}
-                    styleName="card-textarea w-12 h-10"
+                    styleName="card-textarea w-14 h-10"
                   />
 
                   <SpellModsComp
@@ -578,7 +599,7 @@ const Home = () => {
                     activePostId={activePostId}
                     valueName={post?.spellsData.spellsSave! ?? ""}
                     fieldName={"spellsSave"}
-                    styleName="card-textarea w-12 h-10"
+                    styleName="card-textarea w-14 h-10"
                   />
 
                 </div>
@@ -713,7 +734,7 @@ const Home = () => {
                 labelName={"passiveLabel"}
                 style={'card-label !text-start !text-2xl font-bold italic mb-2'}
               />
-            
+
               <div className='flex justify-between'>
 
                 {/*Passives */}
@@ -735,14 +756,14 @@ const Home = () => {
                         deleteFunction={handleDeletePassiveFirstInstance}
                         sectionInstance={"passiveFirstInstance"}
                       />
-                   ))
+                    ))
                   }
 
                   <Plus
                     onClick={() => handleAddPassiveFirstInstance()}
                     className="addButton size-6"
                   />
-            
+
 
                 </div>
 
@@ -813,51 +834,79 @@ const Home = () => {
           </div>
 
           {/*Inventory */}
-          <div className='mainContainers shrink-0 w-fit max-h-[50vh] min-h-0 overflow-y-auto custom-scrollbar '>
-            <div className='flex flex-col gap-2'>
+          <div className='mainContainers shrink-0 w-full max-h-[50vh] min-h-0 overflow-y-auto custom-scrollbar '>
+            <div className='flex flex-col gap-2 w-full'>
 
-              <h1 className='text-2xl font-bold italic'>Inventory</h1>
+              {/*Title and Weight */}
+              <div className='flex justify-between items-center w-full '>
+                
+                  <LabelComp
+                    value={post?.inventoryData.invLabel ?? ""}
+                    locks={locks}
+                    activePostId={activePostId}
+                    updateLocalData={updateInventoryLabel}
+                    updatePostData={updateInventory}
+                    model="inventory"
+                    labelName='invLabel'
+                    style="card-label !text-start text-2xl italic w-full"
+                  />
+           
+                  <WeightComp
+                    locks={locks}
+                    activePostId={activePostId}
+                    valueWeight={post?.inventoryData.invWeightLabel ?? ""}
+                    valueWeightCurrent={post?.inventoryData.invWeightCurrent ?? ""}
+                    valueWeightMax={post?.inventoryData.invWeightMax ?? ""}
+                    valueUnit={post?.inventoryData.invWeightUnit ?? ""}
+                    fieldWeight={"invWeightLabel"}
+                    fieldWeightCurrent={"invWeightCurrent"}
+                    fieldWeightMax={"invWeightMax"}
+                    fieldUnit={"invWeightUnit"}
+                    styleWeight={'card-label w-20 h-10  text-lg !text-start'}
+                    styleWeightsCurrent={'card-textarea w-10 h-10 text-sec'}
+                    styleWeightsMax={'card-textarea w-10 h-10'}
+                    styleUnit={'card-label w-8 text-md !text-start'}
+                  />
+          
+              </div>
 
-              {/*Upper bar */}
-              <div className='flex justify-between items-center'>
-                <div className='flex items-center gap-2'>
-                  <h1 className='text-md font-bold'>Weight</h1>
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-10 h-10 text-sec"
-                  />
-                  <div className='border border-gray h-10 ' />
-                  <textarea
-                    value={"16"}
-                    spellCheck={false}
-                    className="card-textarea w-10 h-10 "
-                  />
-                </div>
-                <div className='flex items-center gap-1'>
-                  <h1 className='text-md font-bold'>Currency</h1>
-                  <textarea
-                    value={"62422"}
-                    spellCheck={false}
-                    className="card-textarea w-20 h-10"
-                  />
-                  <h1 className='text-sm font-bold'>g</h1>
-                  <div className='border border-gray h-10 w-px'></div>
-                  <textarea
-                    value={"16622"}
-                    spellCheck={false}
-                    className="card-textarea w-20 h-10"
-                  />
-                  <h1 className='text-sm font-bold'>s</h1>
-                  <div className='border border-gray h-10 w-px'></div>
-                  <textarea
-                    value={"53546"}
-                    spellCheck={false}
-                    className="card-textarea w-20 h-10"
-                  />
-                  <h1 className='text-sm font-bold'>c</h1>
+              {/*Currency */}
+              <div className='flex items-center gap-1'>
 
-                </div>
+                <LabelComp
+                  value={post?.inventoryData.invCurrenyLabel ?? ""}
+                  locks={locks}
+                  activePostId={activePostId}
+                  updateLocalData={updateInventoryLabel}
+                  updatePostData={updateInventory}
+                  model="inventory"
+                  labelName='invCurrenyLabel'
+                  style="card-label w-20 !text-start text-md"
+                />
+
+                {
+                  post?.inventoryData?.currencyInstance?.map((currency, index) => (
+                    <CurrencyComp
+                      key={currency.id}
+                      valueNumber={currency.currenyValue ?? ""}
+                      valueLabel={currency.currenyLabel ?? ""}
+                      fieldNumber='currenyValue'
+                      fieldLabel='currenyLabel'
+                      locks={locks}
+                      activePostId={activePostId}
+                      styleNumber='card-textarea w-20 h-10'
+                      styleLabel='card-label w-2 !text-start text-sm'
+                      id={currency.id!}
+                      deleteFunction={handleDeleteCurrencyInstance}
+                    />
+                  ))
+                }
+
+                <Plus
+                  onClick={() => handleAddCurrencyInstance()}
+                  className='addButton size-6'
+                />
+
               </div>
 
               {/*Bags */}
@@ -924,385 +973,7 @@ const Home = () => {
                   />
                 </div>
 
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
-
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
+       
 
                 <Plus className='size-6 text-sec' />
               </div>

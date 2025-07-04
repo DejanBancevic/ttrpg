@@ -38,6 +38,7 @@ const SpellSlotComp: React.FC<SpellSlotCompProps> = (
             {
                 <textarea
                     value={valueText}
+                    maxLength={1}
                     readOnly={locks.labelLock}
                     onChange={(e) => {
                         if (!locks.labelLock) {

@@ -51,6 +51,7 @@ const SpellModsComp: React.FC<SpellModsCompProps> = (
             {/* Input */}
             <textarea
                 value={valueName}
+                maxLength={3}
                 readOnly={locks.inputLock}
                 onChange={(e) => dispatch(updateSpellsLabel({ key: fieldName, value: e.target.value }))}
                 onBlur={(e) => {

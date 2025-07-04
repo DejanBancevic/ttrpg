@@ -39,7 +39,8 @@ export async function DELETE(request: NextRequest) {
             await tx.feats.delete({ where: { id: existing.featsId } });
             await tx.spells.delete({ where: { id: existing.spellsId } });
             await tx.passives.delete({ where: { id: existing.passivesId } });
-            
+            await tx.inventory.delete({ where: { id: existing.inventoryId } });
+
             return deletedPost;
         });
 

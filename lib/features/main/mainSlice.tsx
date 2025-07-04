@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteAttributeInstance, updateAttributes } from '../attributes/attributesSlice';
 import { deleteFeatInstance, updateFeats } from '../feats/featsSlice';
+import { deleteBagInstance, deleteItemInstance, updateInventory } from '../inventory/inventorySlice';
 import { deletePassiveInstance, updatePassives } from '../passives/passivesSlice';
 import { deleteSkillInstance, readSkills, updateSkills } from '../skills/skillsSlice';
 import { deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '../spells/spellsSlice';
@@ -244,6 +245,46 @@ const initialState: MainState = {
                     },
                 ],
             },
+            inventoryData: {
+                id: crypto.randomUUID(),
+                invLabel: "Inventory",
+                invWeightLabel: "Weight",
+                invWeightCurrent: "0",
+                invWeightMax: "0",
+                invWeightUnit: "kg",
+                invCurrenyLabel: "Currency",
+                invBagAllLabel: "All",
+                currencyInstance: [
+                    {
+                        id: crypto.randomUUID(),
+                        currenyValue: "0",
+                        currenyLabel: "x",
+                    },
+                ],
+                bagInstance: [
+                    {
+                        id: crypto.randomUUID(),
+                        bagLabel: "Bag",
+                        itemNameLabel: "Name",
+                        itemLabel1: "Hit",
+                        itemLabel2: "Dmg",
+                        itemLabel3: "Range",
+                        itemLabel4: "Value",
+                        itemLabel5: "#",
+                        itemInstance: [
+                            {
+                                id: crypto.randomUUID(),
+                                itemName: "Item",
+                                itemValue1: "0",
+                                itemValue2: "0",
+                                itemValue3: "0",
+                                itemValue4: "0",
+                                itemValue5: "0",
+                            },
+                        ],
+                    },
+                ],
+            },
         },
     ],
     activePostId: "0",
@@ -264,6 +305,48 @@ interface post {
     featsData: featsData;
     spellsData: spellsData;
     passivesData: passivesData;
+    inventoryData: inventoryData;
+};
+
+export interface inventoryData {
+    id: string;
+    invLabel: string;
+    invWeightLabel: string;
+    invWeightCurrent: string;
+    invWeightMax: string;
+    invWeightUnit: string;
+    invCurrenyLabel: string;
+    invBagAllLabel: string;
+    currencyInstance: Partial<currencyInstanceData>[]
+    bagInstance: Partial<bagInstanceData>[]
+}
+
+export interface currencyInstanceData {
+    id: string;
+    currenyValue: string;
+    currenyLabel: string;
+};
+
+export interface bagInstanceData {
+    id: string;
+    bagLabel: string;
+    itemNameLabel: string;
+    itemLabel1: string;
+    itemLabel2: string;
+    itemLabel3: string;
+    itemLabel4: string;
+    itemLabel5: string;
+    itemInstance: Partial<itemInstanceData>[]
+};
+
+export interface itemInstanceData {
+    id: string;
+    itemName: string;
+    itemValue1: string;
+    itemValue2: string;
+    itemValue3: string;
+    itemValue4: string;
+    itemValue5: string;
 };
 
 export interface passivesData {
@@ -467,7 +550,7 @@ const mainSlice = createSlice({
                 const instance = spellSlot.spellInstance?.find(i => i.id === action.payload.key);
                 if (instance) {
                     Object.assign(instance, action.payload.value);
-                    break; // exit loop once updated
+                    break; 
                 }
             }
         },
@@ -507,6 +590,46 @@ const mainSlice = createSlice({
             if (!activePost) return;
 
             activePost.passivesData[action.payload.key] = action.payload.value;
+        },
+        updateCurrencyInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<currencyInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            const currencyInstance = activePost.inventoryData.currencyInstance.find((s) => s.id === action.payload.key)
+            if (!currencyInstance) return;
+
+            Object.assign(currencyInstance, action.payload.value);
+        },
+        updateBagInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<bagInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            const bagInstance = activePost.inventoryData.bagInstance.find((s) => s.id === action.payload.key)
+            if (!bagInstance) return;
+
+            Object.assign(bagInstance, action.payload.value);
+        },
+        updateItemInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<itemInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            for (const bagInstance of activePost.inventoryData.bagInstance) {
+                const instance = bagInstance.itemInstance?.find(i => i.id === action.payload.key);
+                if (instance) {
+                    Object.assign(instance, action.payload.value);
+                    break; 
+                }
+            }
+        },
+        updateInventoryLabel: (state, action: PayloadAction<{
+            key: 'invLabel' | 'invWeightLabel' | 'invWeightCurrent' | 'invWeightMax' |
+            'invWeightUnit' | 'invCurrenyLabel' | 'invBagAllLabel'
+            value: string
+        }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId);
+            if (!activePost) return;
+
+            activePost.inventoryData[action.payload.key] = action.payload.value;
         },
     },
     extraReducers: (builder) => {  // za asinhrone akcije
@@ -553,6 +676,21 @@ const mainSlice = createSlice({
                         passiveSecondInstance: newPost.passives.passiveSecondInstance ?? [],
                         passiveThirdInstance: newPost.passives.passiveThirdInstance ?? [],
                     },
+                    inventoryData: {
+                        id: newPost.inventory.id,
+                        invLabel: newPost.invLabel,
+                        invWeightLabel: newPost.invWeightLabel,
+                        invWeightCurrent: newPost.invWeightCurrent,
+                        invWeightMax: newPost.invWeightMax,
+                        invWeightUnit: newPost.invWeightUnit,
+                        invCurrenyLabel: newPost.invCurrenyLabel,
+                        invBagAllLabel: newPost.invBagAllLabel,
+                        currencyInstance: newPost.inventory.currencyInstance ?? [],
+                        bagInstance: (newPost.inventory.bagInstance ?? []).map((bag: any) => ({
+                            ...bag,
+                            itemInstance: bag.itemInstance ?? [],
+                        })),
+                    },
                 });
                 state.activePostId = newPost.id;
 
@@ -598,6 +736,21 @@ const mainSlice = createSlice({
                         passiveFirstInstance: post.passives.passiveFirstInstance ?? [],
                         passiveSecondInstance: post.passives.passiveSecondInstance ?? [],
                         passiveThirdInstance: post.passives.passiveThirdInstance ?? [],
+                    },
+                    inventoryData: {
+                        id: post.inventory.id,
+                        invLabel: post.inventory.invLabel,
+                        invWeightLabel: post.inventory.invWeightLabel,
+                        invWeightCurrent: post.inventory.invWeightCurrent,
+                        invWeightMax: post.inventory.invWeightMax,
+                        invWeightUnit: post.inventory.invWeightUnit,
+                        invCurrenyLabel: post.inventory.invCurrenyLabel,
+                        invBagAllLabel: post.inventory.invBagAllLabel,
+                        currencyInstance: post.inventory.currencyInstance ?? [],
+                        bagInstance: (post.inventory.bagInstance ?? []).map((bag: any) => ({
+                            ...bag,
+                            itemInstance: bag.itemInstance ?? [],
+                        })),
                     },
                 }));
 
@@ -762,6 +915,47 @@ const mainSlice = createSlice({
                 }
 
             })
+            .addCase(updateInventory.fulfilled, (state, action) => {
+                const updated = action.payload.data;
+                const activePost = state.posts.find(p =>
+                    p.inventoryData.id === updated.id
+                );
+                if (!activePost) return;
+
+                activePost.inventoryData = {
+                    ...activePost.inventoryData,
+                    invLabel: updated.invLabel,
+                    invWeightLabel: updated.invWeightLabel,
+                    invWeightCurrent: updated.invWeightCurrent,
+                    invWeightMax: updated.invWeightMax,
+                    invWeightUnit: updated.invWeightUnit,
+                    invCurrenyLabel: updated.invCurrenyLabel,
+                    invBagAllLabel: updated.invBagAllLabel,
+                    currencyInstance: updated.currencyInstance ?? [],
+                    bagInstance: updated.bagInstance ?? [],
+                };
+            })
+            .addCase(deleteBagInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                const activePost = state.posts.find(p => p.id === state.activePostId)
+                if (!activePost) return;
+
+                activePost.inventoryData.bagInstance = activePost.inventoryData.bagInstance.filter(b => b.id !== deletedId);
+            })
+            .addCase(deleteItemInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                const activePost = state.posts.find(p => p.id === state.activePostId);
+                if (!activePost) return;
+
+                activePost.inventoryData.bagInstance = activePost.inventoryData.bagInstance.map(bag => {
+                    if (!bag.itemInstance) return bag;
+
+                    return {
+                        ...bag,
+                        itemInstance: bag.itemInstance.filter(item => item.id !== deletedId)
+                    };
+                });
+            })
     }
 })
 
@@ -784,6 +978,10 @@ export const {
     updateSpellsLabel,
     updatePassivesById,
     updatePassivesLabel,
+    updateCurrencyInstanceById,
+    updateBagInstanceById,
+    updateItemInstanceById,
+    updateInventoryLabel,
 } = mainSlice.actions;
 
 // Export the reducer to be used in the store
