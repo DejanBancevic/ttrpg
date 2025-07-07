@@ -128,6 +128,7 @@ interface MainState {
     activeSpellSlotId: string;
     activeBagId: string;
     locks: locks;
+    showInfo: boolean;
 };
 
 const initialState: MainState = {
@@ -299,6 +300,7 @@ const initialState: MainState = {
     activePostId: "0",
     activeSpellSlotId: "0",
     activeBagId: "0",
+    showInfo: false,
     locks: {
         inputLock: false,
         labelLock: true,
@@ -332,6 +334,9 @@ const mainSlice = createSlice({
     reducers: { // za sinhrone akcije
         setActivePostId: (state, action: PayloadAction<string>) => {
             state.activePostId = action.payload;
+        },
+        setShowInfo: (state, action: PayloadAction<boolean>) => {
+            state.showInfo = action.payload;
         },
         updateLocks: (state, action: PayloadAction<{ key: keyof locks, value: boolean }>) => {
             state.locks[action.payload.key] = action.payload.value;
@@ -823,6 +828,7 @@ export const {
     setActivePostId,
     setActiveSpellSlotId,
     setActiveBagId,
+    setShowInfo,
     updateLocks,
     updateHealthData,
     updateBasicsData,

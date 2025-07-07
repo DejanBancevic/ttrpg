@@ -8,16 +8,17 @@ import "./Navbar.css"
 import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
-import { deleteAllPost, updateLocks } from '@/lib/features/main/mainSlice';
+import { deleteAllPost, setShowInfo, updateLocks } from '@/lib/features/main/mainSlice';
 import { Lock, Unlock, Archive, FileText } from "@deemlol/next-icons";
 
 
 
-const Navbar =  () => {
+const Navbar = () => {
 
     //Redux
     const dispatch: AppDispatch = useDispatch();
     const locks = useSelector((state: RootState) => state.mainData.locks);
+    const showInfo = useSelector((state: RootState) => state.mainData.showInfo);
     const { data: session } = useSession();
 
     const handleSignOut = () => {
@@ -40,7 +41,7 @@ const Navbar =  () => {
     return (
         <nav className="nav overflow-x-auto whitespace-nowrap custom-scrollbar">
             <div className="flex justify-between w-full items-center gap-2 ml-4 h-20 pr-4 ">
-                
+
                 {/*Left Side*/}
                 <div className="flex items-center flex-shrink-0 flex-wrap gap-4 min-w-[300px]">
                     <Link href="/">
@@ -94,7 +95,7 @@ const Navbar =  () => {
                             Wipe DB
                         </button>
                     )}
-                   
+
 
                 </div>
 
@@ -102,7 +103,8 @@ const Navbar =  () => {
                 <div className="flex items-center flex-shrink-0 flex-wrap min-w-[300px] gap-5">
 
                     <button
-                        className="text-lg px-2 pb-1 ">
+                        className="text-lg px-2 pb-1 "
+                        onClick={() => dispatch(setShowInfo(true))}>
                         {
                             <div className="flex flex-col text-center items-center">
                                 <h1>Notes</h1>
