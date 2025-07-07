@@ -12,6 +12,10 @@ export const deleteInstance = (deleteInstanceThunk?: any, data?: any, dataInstan
         await dispatch(deleteInstanceThunk);
         await dispatch(readPosts());
         dispatch(setActivePostId(mainData.activePostId));
+    } else if (type === "itemInstance") {
+        await dispatch(deleteInstanceThunk);
+        await dispatch(readPosts());
+        dispatch(setActivePostId(mainData.activePostId));
     }
     else if (type === "spellSlotInstance") {
         if ((post as any)?.[data]?.[dataInstance!].length! > 1) {
@@ -19,12 +23,6 @@ export const deleteInstance = (deleteInstanceThunk?: any, data?: any, dataInstan
             await dispatch(readPosts());
             dispatch(setActivePostId(mainData.activePostId));
             dispatch(setActiveSpellSlotId(firstId!));
-
-            return (
-                <div className='z-10 w-20 h-20 bg-sec'>
-                    <h1 className='text-white'>dadaddadadadada</h1>
-                </div>
-            )
         }
         else (
             alert("You can't delete the last node. \nFirst create a new one and then delete the one you want.")

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { featsData, featInstanceData } from '../main/mainSlice';
+import { featsData, featInstanceData } from '../interfaces/interfaces';
 
 export const createFeatInstance = createAsyncThunk(
     'main/createFeatInstance',

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { skillsData } from '../main/mainSlice';
+import { skillsData } from '../interfaces/interfaces';
 
 export const createSkillInstance = createAsyncThunk(
     'main/createSkillInstance',

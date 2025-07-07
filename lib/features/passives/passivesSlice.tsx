@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { passivesData,  } from '../main/mainSlice';
+import { passivesData } from '../interfaces/interfaces';
 
 export const createPassiveInstance = createAsyncThunk(
     'main/createPassiveInstance',

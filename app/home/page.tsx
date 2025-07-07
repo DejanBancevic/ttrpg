@@ -28,9 +28,12 @@ import { createSpellInstance, createSpellSlotInstance, deleteSpellInstance, dele
 import { createPassiveInstance, deletePassiveInstance } from '@/lib/features/passives/passivesSlice';
 import PassiveInputComp from '../components/forms/passives/PassiveInputComp/PassiveInputComp';
 import PassivesLabelComp from '../components/forms/passives/PassivesLabelComp/PassivesLabelComp';
-import { createCurrencyInstance, deleteCurrencyInstance, updateInventory } from '@/lib/features/inventory/inventorySlice';
+import { createBagInstance, createCurrencyInstance, createItemInstance, deleteBagInstance, deleteCurrencyInstance, deleteItemInstance, updateInventory } from '@/lib/features/inventory/inventorySlice';
 import WeightComp from '../components/forms/inventory/WeightComp/WeightComp';
 import CurrencyComp from '../components/forms/inventory/CurrencyComp/CurrencyComp';
+import BagComp from '../components/forms/inventory/BagComp/BagComp';
+import BagLabelComp from '../components/forms/inventory/BagLabelComp/BagLabelComp';
+import ItemInstanceComp from '../components/forms/inventory/ItemInstanceComp/ItemInstanceComp';
 
 const Home = () => {
 
@@ -38,6 +41,7 @@ const Home = () => {
   const dispatch: AppDispatch = useDispatch();
   const activePostId = useSelector((state: RootState) => state.mainData.activePostId);
   const activeSpellSlotId = useSelector((state: RootState) => state.mainData.activeSpellSlotId);
+  const activeBagId = useSelector((state: RootState) => state.mainData.activeBagId);
   const post = useSelector((state: RootState) =>
     state.mainData.posts.find(post => post.id === activePostId)
   )
@@ -142,12 +146,11 @@ const Home = () => {
     }
   }
 
-  {/*Spells */ }
+  {/*Inventory */ }
   const handleAddCurrencyInstance = async () => {
 
     dispatch(addInstance(createCurrencyInstance(post!.inventoryData.id)))
   }
-
 
   const handleDeleteCurrencyInstance = async (id: string) => {
 
@@ -158,6 +161,33 @@ const Home = () => {
     }
   }
 
+  const handleAddBagInstance = async () => {
+
+    dispatch(addInstance(createBagInstance(post!.inventoryData.id)))
+  }
+
+  const handleDeleteBagInstance = async (id: string) => {
+
+    if (window.confirm("Are you sure you want to delete this?")) {
+      if (!locks.deleteLock) {
+        dispatch(deleteInstance(deleteBagInstance({ id: id }), 'inventoryData', 'bagInstance'))
+      }
+    }
+  }
+
+  const handleAddItemInstance = async () => {
+
+    dispatch(addInstance(createItemInstance(activeBagId)))
+  }
+
+  const handleDeleteItemInstance = async (id: string) => {
+
+    if (window.confirm("Are you sure you want to delete this?")) {
+      if (!locks.deleteLock) {
+        dispatch(deleteInstance(deleteItemInstance({ id: id }), 'inventoryData', 'itemInstance', 'itemInstance'))
+      }
+    }
+  }
 
   //#endregion
 
@@ -839,39 +869,39 @@ const Home = () => {
 
               {/*Title and Weight */}
               <div className='flex justify-between items-center w-full '>
-                
-                  <LabelComp
-                    value={post?.inventoryData.invLabel ?? ""}
-                    locks={locks}
-                    activePostId={activePostId}
-                    updateLocalData={updateInventoryLabel}
-                    updatePostData={updateInventory}
-                    model="inventory"
-                    labelName='invLabel'
-                    style="card-label !text-start text-2xl italic w-full"
-                  />
-           
-                  <WeightComp
-                    locks={locks}
-                    activePostId={activePostId}
-                    valueWeight={post?.inventoryData.invWeightLabel ?? ""}
-                    valueWeightCurrent={post?.inventoryData.invWeightCurrent ?? ""}
-                    valueWeightMax={post?.inventoryData.invWeightMax ?? ""}
-                    valueUnit={post?.inventoryData.invWeightUnit ?? ""}
-                    fieldWeight={"invWeightLabel"}
-                    fieldWeightCurrent={"invWeightCurrent"}
-                    fieldWeightMax={"invWeightMax"}
-                    fieldUnit={"invWeightUnit"}
-                    styleWeight={'card-label w-20 h-10  text-lg !text-start'}
-                    styleWeightsCurrent={'card-textarea w-10 h-10 text-sec'}
-                    styleWeightsMax={'card-textarea w-10 h-10'}
-                    styleUnit={'card-label w-8 text-md !text-start'}
-                  />
-          
+
+                <LabelComp
+                  value={post?.inventoryData.invLabel ?? ""}
+                  locks={locks}
+                  activePostId={activePostId}
+                  updateLocalData={updateInventoryLabel}
+                  updatePostData={updateInventory}
+                  model="inventory"
+                  labelName='invLabel'
+                  style="card-label !text-start text-2xl italic w-full"
+                />
+
+                <WeightComp
+                  locks={locks}
+                  activePostId={activePostId}
+                  valueWeight={post?.inventoryData.invWeightLabel ?? ""}
+                  valueWeightCurrent={post?.inventoryData.invWeightCurrent ?? ""}
+                  valueWeightMax={post?.inventoryData.invWeightMax ?? ""}
+                  valueUnit={post?.inventoryData.invWeightUnit ?? ""}
+                  fieldWeight={"invWeightLabel"}
+                  fieldWeightCurrent={"invWeightCurrent"}
+                  fieldWeightMax={"invWeightMax"}
+                  fieldUnit={"invWeightUnit"}
+                  styleWeight={'card-label w-20 h-10  text-lg !text-start'}
+                  styleWeightsCurrent={'card-textarea w-10 h-10 text-sec'}
+                  styleWeightsMax={'card-textarea w-10 h-10'}
+                  styleUnit={'card-label w-8 text-md !text-start'}
+                />
+
               </div>
 
               {/*Currency */}
-              <div className='flex items-center gap-1'>
+              <div className='flex items-center gap-1 overflow-y-auto'>
 
                 <LabelComp
                   value={post?.inventoryData.invCurrenyLabel ?? ""}
@@ -893,7 +923,6 @@ const Home = () => {
                       fieldNumber='currenyValue'
                       fieldLabel='currenyLabel'
                       locks={locks}
-                      activePostId={activePostId}
                       styleNumber='card-textarea w-20 h-10'
                       styleLabel='card-label w-2 !text-start text-sm'
                       id={currency.id!}
@@ -912,70 +941,93 @@ const Home = () => {
               {/*Bags */}
               <div className='flex justify-start gap-2 mt-2 items-center'>
                 <button className="card-bag">All</button>
-                <button className="card-bag">Equipment</button>
-                <button className="card-bag">Backpack</button>
-                <button className="card-bag">Bag of Holding</button>
 
-                <Plus className='size-6 text-sec' />
+                <div className='border border-gray h-10 w-px' />
+
+                {
+                  post?.inventoryData?.bagInstance?.map((bag, index) => (
+                    <BagComp
+                      key={bag.id}
+                      valueInfo={bag.bagLabel}
+                      fieldInfo='bagLabel'
+                      locks={locks}
+                      styleInfo='card-bag w-20 h-10'
+                      id={bag.id!}
+                      deleteFunction={handleDeleteBagInstance}
+                    />
+                  ))
+                }
+
+                <Plus
+                  onClick={() => handleAddBagInstance()}
+                  className='addButton size-6'
+                />
+
               </div>
 
-              {/*Labels */}
-              <div className='flex justify-between'>
-                <h1 className='text-lg font-bold'>Name</h1>
-                <div className='flex pr-2'>
-                  <h1 className='text-lg font-bold mr-11'>Hit</h1>
-                  <h1 className='text-lg font-bold mr-10'>Dmg</h1>
-                  <h1 className='text-lg font-bold mr-3'>Range</h1>
-                  <h1 className='text-lg font-bold mr-7'>Value</h1>
-                  <h1 className='text-lg font-bold mr-3'>#</h1>
-                </div>
-              </div>
+              {/*Item Labels */}
+              <BagLabelComp
+                locks={locks}
+                valueName={post?.inventoryData.bagInstance.find(b => b.id === activeBagId)?.itemNameLabel ?? ""}
+                value1={post?.inventoryData.bagInstance.find(b => b.id === activeBagId)?.itemLabel1 ?? ""}
+                value2={post?.inventoryData.bagInstance.find(b => b.id === activeBagId)?.itemLabel2 ?? ""}
+                value3={post?.inventoryData.bagInstance.find(b => b.id === activeBagId)?.itemLabel3 ?? ""}
+                value4={post?.inventoryData.bagInstance.find(b => b.id === activeBagId)?.itemLabel4 ?? ""}
+                value5={post?.inventoryData.bagInstance.find(b => b.id === activeBagId)?.itemLabel5 ?? ""}
+                fieldName={'itemNameLabel'}
+                field1={'itemLabel1'}
+                field2={'itemLabel2'}
+                field3={'itemLabel3'}
+                field4={'itemLabel4'}
+                field5={'itemLabel5'}
+                styleName={'card-label w-14 !text-start text-lg'}
+                style1={'card-label w-14 mr-1 !text-start text-lg'}
+                style2={'card-label w-14 mr-3 !text-start text-lg'}
+                style3={'card-label w-14 mr-1 !text-start text-lg'}
+                style4={'card-label w-14 mr-2 !text-start text-lg'}
+                style5={'card-label w-6 !text-start text-lg'}
+                id={post?.inventoryData.bagInstance.find(b => b.id === activeBagId)?.id!}
+
+              />
 
               <div className='border-t-2 border-gray w-full'></div>
 
               <div className='flex flex-col gap-2 items-center'>
 
-                {/*Item Instance */}
-                <div className='flex items-center gap-2'>
-                  <textarea
-                    value={"Longsword"}
-                    placeholder={"Name"}
-                    spellCheck={false}
-                    className="card-textarea-item"
-                  />
+                {
+                  post?.inventoryData.bagInstance?.find(b => b.id === activeBagId)?.itemInstance?.map((item, index) => (
+                    <ItemInstanceComp
+                      key={item.id}
+                      locks={locks}
+                      valueName={item.itemName ?? ""}
+                      value1={item.itemValue1 ?? ""}
+                      value2={item.itemValue2 ?? ""}
+                      value3={item.itemValue3 ?? ""}
+                      value4={item.itemValue4 ?? ""}
+                      value5={item.itemValue5 ?? ""}
+                      fieldName={'itemName'}
+                      field1={'itemValue1'}
+                      field2={'itemValue2'}
+                      field3={'itemValue3'}
+                      field4={'itemValue4'}
+                      field5={'itemValue5'}
+                      styleName={'card-textarea-item !text-start'}
+                      style1={'card-textarea w-12 h-10'}
+                      style2={'card-textarea w-24 h-10'}
+                      style3={'card-textarea w-14 h-10'}
+                      style4={'card-textarea w-16 h-10'}
+                      style5={'card-textarea w-11 h-10'}
+                      id={item.id!}
+                      deleteFunction={handleDeleteItemInstance}
+                    />
+                  ))
+                }
 
-                  <Trash2 className='size-6 text-gray' />
-
-                  <textarea
-                    value={"+12"}
-                    spellCheck={false}
-                    className="card-textarea w-12 h-10"
-                  />
-                  <textarea
-                    value={"1d10+26"}
-                    spellCheck={false}
-                    className="card-textarea w-24 h-10"
-                  />
-                  <textarea
-                    value={"120"}
-                    spellCheck={false}
-                    className="card-textarea w-14 h-10"
-                  />
-                  <textarea
-                    value={"6000"}
-                    spellCheck={false}
-                    className="card-textarea w-16 h-10"
-                  />
-                  <textarea
-                    value={"6"}
-                    spellCheck={false}
-                    className="card-textarea w-11 h-10"
-                  />
-                </div>
-
-       
-
-                <Plus className='size-6 text-sec' />
+                <Plus
+                  onClick={() => handleAddItemInstance()}
+                  className='addButton size-6'
+                />
+               
               </div>
 
             </div>

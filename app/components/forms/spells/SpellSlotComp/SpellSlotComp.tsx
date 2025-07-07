@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { setActiveSpellSlotId,  updateSpellSlotInstanceById, } from '@/lib/features/main/mainSlice';
+import { setActiveSpellSlotId, updateSpellSlotInstanceById, } from '@/lib/features/main/mainSlice';
 import { updateSpells } from '@/lib/features/spells/spellsSlice';
 
 interface SpellSlotCompProps {
@@ -19,51 +19,57 @@ const SpellSlotComp: React.FC<SpellSlotCompProps> = (
         fieldText,
         styleText,
         id,
-        deleteFunction ,}
+        deleteFunction, }
 ) => {
 
     //Redux
     const dispatch: AppDispatch = useDispatch();
+
+    if (!locks.labelLock) return (
+        <textarea
+            value={valueText}
+            maxLength={1}
+            readOnly={locks.labelLock}
+            onChange={(e) => {
+                if (!locks.labelLock) {
+                    dispatch(updateSpellSlotInstanceById({ key: id, value: { [fieldText]: e.target.value } }))
+                }
+            }
+            }
+            onBlur={(e) => {
+                if (!locks.labelLock) {
+                    dispatch(updateSpells({
+                        postId: activePostId,
+                        spells: {
+                            spellSlotInstance: [
+                                {
+                                    id: id,
+                                    [fieldText]: e.target.value
+                                },
+                            ],
+                        },
+                    }));
+                }
+            }}
+            spellCheck={false}
+            className={styleText}
+        />
+    )
 
     return (
 
         <button
             onClick={() => dispatch(setActiveSpellSlotId(id))}
             onContextMenu={(e) => {
-                e.preventDefault(); 
-                deleteFunction(id!);
+                e.preventDefault();
+                if (!locks.deleteLock) { 
+                    deleteFunction(id!);
+                }
             }}
-            className="bg-sec"
+            className={styleText}
         >
-            {
-                <textarea
-                    value={valueText}
-                    maxLength={1}
-                    readOnly={locks.labelLock}
-                    onChange={(e) => {
-                        if (!locks.labelLock) {
-                            dispatch(updateSpellSlotInstanceById({ key: id, value: { [fieldText]: e.target.value } }))
-                        }
-                    }
-                    }
-                    onBlur={(e) => {
-                        if (!locks.labelLock) {
-                            dispatch(updateSpells({
-                                postId: activePostId,
-                                spells: {
-                                    spellSlotInstance: [
-                                        {
-                                            id: id,
-                                            [fieldText]: e.target.value
-                                        },
-                                    ],
-                                },
-                            }));
-                        }
-                    }}
-                    spellCheck={false}
-                    className={styleText}
-                />}</button>
+            {valueText}
+        </button>
     )
 }
 

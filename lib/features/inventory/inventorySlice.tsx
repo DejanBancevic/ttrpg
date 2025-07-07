@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { bagInstanceData, currencyInstanceData, inventoryData, itemInstanceData,   } from '../main/mainSlice';
+import { bagInstanceData, currencyInstanceData, inventoryData, itemInstanceData, } from '../interfaces/interfaces';
 
 export const createCurrencyInstance = createAsyncThunk(
     'main/createCurrencyInstance',
@@ -71,7 +71,7 @@ export const updateInventory = createAsyncThunk(  //ovde update i za currency
     'main/updateInventory',
     async (postData: { postId: string, inventory: Partial<inventoryData> }, { rejectWithValue }) => {
         try {
-            const res = await fetch('/api/inventory/currencyInstance/update', {
+            const res = await fetch('/api/inventory/update', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(postData),
@@ -85,6 +85,28 @@ export const updateInventory = createAsyncThunk(  //ovde update i za currency
             return await res.json();
         } catch (err) {
             return rejectWithValue({ error: 'updateInventory failed' });
+        }
+    }
+);
+
+export const updateCurrencyInstance = createAsyncThunk(  //ovde update i za currency
+    'main/updateCurrenyInstance',
+    async (currencyInstance: { id: string, currencyInstance: Partial<currencyInstanceData> }, { rejectWithValue }) => {
+        try {
+            const res = await fetch('/api/inventory/currencyInstance/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currencyInstance),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                return rejectWithValue(err);
+            }
+
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue({ error: 'updateCurrenyInstance failed' });
         }
     }
 );

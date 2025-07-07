@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { spellInstanceData, spellsData } from '../main/mainSlice';
+import { spellInstanceData, spellsData } from '../interfaces/interfaces';
 
 export const createSpellSlotInstance = createAsyncThunk(
     'main/createSpellSlotInstance',

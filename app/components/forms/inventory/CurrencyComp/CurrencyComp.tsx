@@ -1,13 +1,12 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateCurrencyInstanceById, updateInventoryLabel, } from '@/lib/features/main/mainSlice';
-import { updateInventory, updateItemInstance } from '@/lib/features/inventory/inventorySlice';
+import { updateCurrencyInstanceById, } from '@/lib/features/main/mainSlice';
+import { updateCurrencyInstance,} from '@/lib/features/inventory/inventorySlice';
 import DeleteButton from '@/app/components/DeleteButton/DeleteButton';
 
 interface CurrencyCompProps {
     locks: Record<string, any>;
-    activePostId: string;
     valueNumber: any;
     valueLabel: any;
     fieldNumber: any;
@@ -19,7 +18,7 @@ interface CurrencyCompProps {
 }
 
 const CurrencyComp: React.FC<CurrencyCompProps> = (
-    { locks, activePostId, valueNumber, valueLabel,
+    { locks, valueNumber, valueLabel,
         fieldNumber, fieldLabel,
         styleNumber, styleLabel, id, deleteFunction
     }
@@ -29,7 +28,7 @@ const CurrencyComp: React.FC<CurrencyCompProps> = (
     const dispatch: AppDispatch = useDispatch();
 
     return (
-        <div className='flex  gap-1 '>
+        <div className='flex items-center gap-1 '>
 
             {/* Value */}
             <textarea
@@ -44,9 +43,9 @@ const CurrencyComp: React.FC<CurrencyCompProps> = (
                 }}
                 onBlur={(e) => {
                     if (!locks.inputLock) {
-                        dispatch(updateInventory({
-                            postId: activePostId,
-                            inventory: { [fieldNumber]: e.target.value }
+                        dispatch(updateCurrencyInstance({
+                            id: id,
+                            currencyInstance: { [fieldNumber]: e.target.value }
                         }));
                     }
                 }}
@@ -67,9 +66,9 @@ const CurrencyComp: React.FC<CurrencyCompProps> = (
                 }}
                 onBlur={(e) => {
                     if (!locks.labelLock) {
-                        dispatch(updateInventory({
-                            postId: activePostId,
-                            inventory: { [fieldLabel]: e.target.value }
+                        dispatch(updateCurrencyInstance({
+                            id: id,
+                            currencyInstance: { [fieldLabel]: e.target.value }
                         }));
                     }
                 }}
@@ -78,7 +77,7 @@ const CurrencyComp: React.FC<CurrencyCompProps> = (
             />
 
             <DeleteButton
-                style='size-6'
+                style='size-6 mr-1'
                 deleteFunction={() => deleteFunction(id!)}
             />
 
