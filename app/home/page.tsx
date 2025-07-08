@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './page.css';
-import { Trash2, Plus } from "@deemlol/next-icons";
+import { Info, Plus } from "@deemlol/next-icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
 import { updatePost, updateHealthData, updateBasicsData, updateSpellsLabel, updateInventoryLabel } from '@/lib/features/main/mainSlice';
@@ -484,12 +484,17 @@ const Home = () => {
           </div>
         </div>
 
+        <div className='top-[180px] left-[920px] group relative '>
+          <Info />
+          <HoverInfo />
+        </div>
+
         {/*Middle Side */}
         <div className='flex flex-col gap-4'>
 
           {/*Atributes */}
           <div className='flex justify-between gap-4'>
-            <div className='mainContainersAtrib w-[90vh] min-w-0 overflow-x-auto custom-scrollbar'>
+            <div className='mainContainersAtrib w-[1090px] min-w-0 overflow-x-auto custom-scrollbar'>
               <div className='flex items-center gap-3 min-w-max'>
 
                 {/*Attribute Instance */}
@@ -653,14 +658,13 @@ const Home = () => {
                         deleteFunction={handleDeleteSpellSlotInstance}
                       />
                     ))
-                  } 
+                  }
 
-                  <div className="relative group">
-                    <Plus
-                      onClick={() => handleAddSpellSlotInstance()}
-                      className="addButton size-6"
-                    />
-                  </div>
+                  <Plus
+                    onClick={() => handleAddSpellSlotInstance()}
+                    className="addButton size-6"
+                  />
+
                 </div>
 
                 {/*Slot Charges */}
