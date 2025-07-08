@@ -653,7 +653,7 @@ const Home = () => {
                         deleteFunction={handleDeleteSpellSlotInstance}
                       />
                     ))
-                  }
+                  } 
 
                   <div className="relative group">
                     <Plus
