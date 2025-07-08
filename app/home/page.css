@@ -33,7 +33,7 @@
 }
 
 .card-textarea-spellbox {
-    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center size-8 pt-1 relative whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive;
+    @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center min-w-8 size-8 pt-1 relative whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive;
 }
 
 .card-bag {

@@ -29,7 +29,7 @@ button {
 }
 
 button:hover {
-  @apply border-sec bg-blackButtonBackground
+  @apply border-sec
 }
 
 .addButton {
@@ -37,7 +37,7 @@ button:hover {
 }
 
 .addButton:hover {
-  @apply text-sec shadow-lg 
+  @apply text-sec shadow-lg
 }
 
 .addButton:active {
@@ -49,6 +49,20 @@ button:hover {
 }
 
 
+/* Markdown Editor */
+.w-md-editor textarea:focus {
+  background-color: transparent !important;
+}
+
+.w-md-editor-preview ul {
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.w-md-editor-preview ol {
+  list-style: decimal;
+}
+
 /* SCROLL */
 /* For modern browsers */
 .custom-scrollbar::-webkit-scrollbar {
@@ -58,7 +72,6 @@ button:hover {
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
   border-radius: 1rem;
-  margin: 10px 0;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
@@ -72,4 +85,5 @@ button:hover {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(100, 100, 100, 0.4) transparent;
+  padding: 3px;
 }

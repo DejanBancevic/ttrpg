@@ -582,8 +582,8 @@ const Home = () => {
             </div>
 
             {/*Spells */}
-            <div className='mainContainers shrink-0 w-fit max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar '>
-              <div className='flex flex-col gap-2'>
+            <div className="mainContainers shrink-0 w-[450px] max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar ">
+              <div className='flex flex-col gap-2 w-full'>
 
                 <LabelComp
                   value={post?.spellsData.spellsLabel ?? ""}
@@ -637,8 +637,7 @@ const Home = () => {
                 <div className='border-t-2 border-gray w-full'></div>
 
                 {/*Spell Slot */}
-                <div className='flex gap-2 justify-start items-center'>
-
+                <div className="flex gap-2 items-center overflow-x-auto custom-scrollbar ">
                   {/*Spell Slot Instance */}
                   {
                     post?.spellsData?.spellSlotInstance?.map((spellSlotInstance, index) => (
@@ -661,14 +660,11 @@ const Home = () => {
                       onClick={() => handleAddSpellSlotInstance()}
                       className="addButton size-6"
                     />
-
-                    <HoverInfo />
                   </div>
-
                 </div>
 
                 {/*Slot Charges */}
-                <div className='flex justify-start items-center gap-2 mt-2'>
+                <div className='flex justify-start items-center gap-2 mt-2 '>
 
                   <SpellSlotChargesComp
                     locks={locks}
@@ -864,7 +860,7 @@ const Home = () => {
           </div>
 
           {/*Inventory */}
-          <div className='mainContainers shrink-0 w-full max-h-[50vh] min-h-0 overflow-y-auto custom-scrollbar '>
+          <div className='mainContainers shrink-0 w-[600px] max-h-[50vh] min-h-0 overflow-y-auto custom-scrollbar '>
             <div className='flex flex-col gap-2 w-full'>
 
               {/*Title and Weight */}
@@ -901,7 +897,7 @@ const Home = () => {
               </div>
 
               {/*Currency */}
-              <div className='flex items-center gap-1 overflow-y-auto'>
+              <div className='flex w-full items-center gap-1 overflow-x-auto custom-scrollbar'>
 
                 <LabelComp
                   value={post?.inventoryData.invCurrenyLabel ?? ""}
@@ -931,16 +927,18 @@ const Home = () => {
                   ))
                 }
 
-                <Plus
-                  onClick={() => handleAddCurrencyInstance()}
-                  className='addButton size-6'
-                />
+                <div className='relative'>
+                  <Plus
+                    onClick={() => handleAddCurrencyInstance()}
+                    className='addButton  size-6'
+                  />
+                </div>
 
               </div>
 
               {/*Bags */}
-              <div className='flex justify-start gap-2 mt-2 items-center'>
-                <button className="card-bag">All</button>
+              <div className='flex justify-start gap-2 mt-2 items-center overflow-x-scroll custom-scrollbar'>
+                <button className="card-bag min-w-14">All</button>
 
                 <div className='border border-gray h-10 w-px' />
 
@@ -958,10 +956,12 @@ const Home = () => {
                   ))
                 }
 
-                <Plus
-                  onClick={() => handleAddBagInstance()}
-                  className='addButton size-6'
-                />
+                <div className='relative'>
+                  <Plus
+                    onClick={() => handleAddBagInstance()}
+                    className='addButton size-6'
+                  />
+                </div>
 
               </div>
 
@@ -1027,7 +1027,7 @@ const Home = () => {
                   onClick={() => handleAddItemInstance()}
                   className='addButton size-6'
                 />
-               
+
               </div>
 
             </div>
