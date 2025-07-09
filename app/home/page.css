@@ -40,7 +40,13 @@
     @apply bg-primary border border-gray transition-all duration-300 outline-none rounded-md text-center p-2 whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none placeholder-grayActive truncate;
 }
 
+.loading-spinner {
+    @apply border-t-[4px] border-sec rounded-full animate-spin w-[60px] h-[60px];
+}
 
+.loading-spinner-small {
+    @apply border-t-[4px] border-sec rounded-full animate-spin w-[30px] h-[30px];
+}
 
 .movementText {
     font-size: 1.30rem;

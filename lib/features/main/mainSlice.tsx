@@ -11,7 +11,7 @@ import {
 } from '../interfaces/interfaces';
 import { deleteBagInstance, deleteItemInstance, updateInventory } from '../inventory/inventorySlice';
 import { deletePassiveInstance, updatePassives } from '../passives/passivesSlice';
-import { deleteSkillInstance, readSkills, updateSkills } from '../skills/skillsSlice';
+import { createSkillInstance, deleteSkillInstance, readSkills, updateSkills } from '../skills/skillsSlice';
 import { deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '../spells/spellsSlice';
 
 //#region Post Thunks
@@ -129,6 +129,15 @@ interface MainState {
     activeBagId: string;
     locks: locks;
     showInfo: boolean;
+    loading: {
+        posts: boolean;
+        skills: boolean;
+        attributes: boolean;
+        feats: boolean;
+        spells: boolean;
+        passives: boolean;
+        inventory: boolean;
+    };
 };
 
 const initialState: MainState = {
@@ -305,6 +314,15 @@ const initialState: MainState = {
         inputLock: false,
         labelLock: true,
         deleteLock: true,
+    },
+    loading: {
+        posts: false,
+        skills: false,
+        attributes: false,
+        feats: false,
+        spells: false,
+        passives: false,
+        inventory: false,
     },
 };
 
@@ -497,6 +515,8 @@ const mainSlice = createSlice({
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
             .addCase(createPost.fulfilled, (state, action) => {
+                state.loading.posts = false;
+
                 const newPost = action.payload.data;
                 state.posts.unshift({
                     id: newPost.id,
@@ -557,7 +577,12 @@ const mainSlice = createSlice({
                 state.activePostId = newPost.id;
 
             })
+            .addCase(createPost.pending, (state) => {
+                state.loading.posts = true;
+            })
             .addCase(readPosts.fulfilled, (state, action) => {
+                state.loading.posts = false;
+
                 const posts = action.payload.data;
                 state.posts = posts.map((post: any): post => ({
                     id: post.id,
@@ -623,6 +648,9 @@ const mainSlice = createSlice({
                     state.activePostId = posts[0]?.id ?? null;
                 }
             })
+            .addCase(readPosts.pending, (state) => {
+                state.loading.posts = true;
+            })
             .addCase(updatePost.fulfilled, (state, action) => {
                 const updatedPost = action.payload.data;
                 const index = state.posts.findIndex(p => p.id === updatedPost.id)
@@ -641,6 +669,8 @@ const mainSlice = createSlice({
                 state.activePostId = updatedPost.id;
             })
             .addCase(deletePost.fulfilled, (state, action) => {
+                state.loading.posts = false;
+
                 const deletedId = action.payload.id;
                 state.posts = state.posts.filter(post => post.id !== deletedId)
 
@@ -650,7 +680,18 @@ const mainSlice = createSlice({
                     state.activePostId = '';
                 }
             })
+            .addCase(deletePost.pending, (state) => {
+                state.loading.posts = true;
+            })
+            .addCase(createSkillInstance.fulfilled, (state,) => {
+                state.loading.skills = false;
+            })
+            .addCase(createSkillInstance.pending, (state,) => {
+                state.loading.skills = true;
+            })
             .addCase(readSkills.fulfilled, (state, action) => {
+                state.loading.skills = false;
+
                 const activePost = state.posts.find(p => p.id === state.activePostId);
                 if (!activePost) return;
 
@@ -659,6 +700,10 @@ const mainSlice = createSlice({
                 activePost.skillsData.skillInstance = Array.isArray(skillsPayload.skillInstance)
                     ? skillsPayload.skillInstance
                     : [];
+            })
+            .addCase(readSkills.pending, (state,) => {
+                state.loading.skills = true;
+
             })
             .addCase(updateSkills.fulfilled, (state, action) => {
                 const updated = action.payload.data;

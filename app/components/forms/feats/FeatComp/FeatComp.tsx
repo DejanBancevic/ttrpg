@@ -4,6 +4,8 @@ import { AppDispatch, } from '@/lib/store';
 import { updateFeatsById, } from '@/lib/features/main/mainSlice';
 import DeleteButton from '../../../DeleteButton/DeleteButton';
 import { updateFeats } from '@/lib/features/feats/featsSlice';
+import MDEditor, { commands } from "@uiw/react-md-editor";
+import remarkGfm from "remark-gfm";
 
 interface FeatCompProps {
     locks: Record<string, any>;
@@ -156,7 +158,43 @@ const FeatComp: React.FC<FeatCompProps> = (
             </div>
 
             {/* Text */}
-            <textarea
+            <MDEditor
+                value={valueText.replace("{Charges}", valueChargesMax)}
+                onChange={(e) => {
+                    if (!locks.inputLock) {
+                        dispatch(updateFeatsById({ key: id, value: { [fieldText]: e || "" } }));
+                    }
+                }}
+                onBlur={() => {
+                    if (!locks.inputLock) {
+                        dispatch(updateFeats({
+                            postId: activePostId,
+                            feats: {
+                                featInstance: [
+                                    {
+                                        id: id,
+                                        [fieldText]: valueText
+                                    },
+                                ],
+                            },
+                        }));
+                    }
+                }}
+                height={200}
+                preview="preview"
+                visibleDragbar={false}
+                extraCommands={[
+                    commands.codeEdit,
+                    commands.codeLive,
+                    commands.codePreview
+                ]}
+                previewOptions={{
+                    remarkPlugins: [remarkGfm],
+                }}
+            />
+
+            {/* 
+                <textarea
                 value={valueText}
                 readOnly={locks.inputLock}
                 onChange={(e) => dispatch(updateFeatsById({ key: id, value: { [fieldText]: e.target.value } }))}
@@ -178,6 +216,7 @@ const FeatComp: React.FC<FeatCompProps> = (
                 spellCheck={false}
                 className={styleText}
             />
+            */}
 
         </div >
 

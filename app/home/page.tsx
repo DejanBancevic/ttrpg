@@ -34,6 +34,7 @@ import CurrencyComp from '../components/forms/inventory/CurrencyComp/CurrencyCom
 import BagComp from '../components/forms/inventory/BagComp/BagComp';
 import BagLabelComp from '../components/forms/inventory/BagLabelComp/BagLabelComp';
 import ItemInstanceComp from '../components/forms/inventory/ItemInstanceComp/ItemInstanceComp';
+import { Tooltip } from '../components/Tooltip/Tooltip';
 
 const Home = () => {
 
@@ -46,7 +47,7 @@ const Home = () => {
     state.mainData.posts.find(post => post.id === activePostId)
   )
   const locks = useSelector((state: RootState) => state.mainData.locks);
-
+  const loading = useSelector((state: RootState) => state.mainData.loading);
 
   //#region Handles
 
@@ -190,6 +191,15 @@ const Home = () => {
   }
 
   //#endregion
+
+  if (loading.posts) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loading-spinner" />
+      </div>
+    );
+  }
+  //{ loading.skills && <div className="loading-spinner-small" /> }
 
   return (
     <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
@@ -426,7 +436,7 @@ const Home = () => {
           </div>
 
           {/*Skills */}
-          <div className='mainContainers max-h-[61vh] min-h-0 overflow-y-auto custom-scrollbar '>
+          <div className='mainContainers max-h-[670px] min-h-0 overflow-y-auto custom-scrollbar '>
             <div className='flex flex-col'>
 
               {/*Labels */}
@@ -473,7 +483,7 @@ const Home = () => {
                     />
                   ))
                 }
-
+           
                 <Plus
                   onClick={() => handleAddSkillInstance()}
                   className='addButton size-6'
@@ -482,11 +492,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className='top-[180px] left-[920px] group relative '>
-          <Info />
-          <HoverInfo />
         </div>
 
         {/*Middle Side */}
@@ -534,7 +539,7 @@ const Home = () => {
           <div className='flex gap-4'>
 
             {/*Feats */}
-            <div className='mainContainers !items-stretch w-[450px] max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar '>
+            <div className='mainContainers !items-stretch w-[620px] max-h-[770px] min-h-0 overflow-y-auto custom-scrollbar '>
               <div className='flex flex-col '>
 
                 <FeatsLabelComp
@@ -587,19 +592,33 @@ const Home = () => {
             </div>
 
             {/*Spells */}
-            <div className="mainContainers shrink-0 w-[450px] max-h-[68vh] min-h-0 overflow-y-auto custom-scrollbar ">
+            <div className="mainContainers shrink-0 w-[450px] max-h-[770px] min-h-0 overflow-y-auto custom-scrollbar ">
               <div className='flex flex-col gap-2 w-full'>
 
-                <LabelComp
-                  value={post?.spellsData.spellsLabel ?? ""}
-                  locks={locks}
-                  activePostId={activePostId}
-                  updateLocalData={updateSpellsLabel}
-                  updatePostData={updateSpells}
-                  model="spells"
-                  labelName='spellsLabel'
-                  style="card-label !text-start text-2xl italic w-full"
-                />
+                <div className='flex justify-between'>
+
+                  <LabelComp
+                    value={post?.spellsData.spellsLabel ?? ""}
+                    locks={locks}
+                    activePostId={activePostId}
+                    updateLocalData={updateSpellsLabel}
+                    updatePostData={updateSpells}
+                    model="spells"
+                    labelName='spellsLabel'
+                    style="card-label !text-start text-2xl italic w-full"
+                  />
+
+                  <Tooltip
+                    content={
+                      <>
+                        Right click the spell <br />
+                        level box to delete it.
+                      </>
+                    }
+                  >
+                    <Info />
+                  </Tooltip>
+                </div>
 
                 {/*Mods */}
                 <div className='flex justify-between'>
@@ -754,7 +773,7 @@ const Home = () => {
         <div className='flex flex-col items-center gap-4'>
 
           {/*Passives and Profs */}
-          <div className='mainContainers max-h-[32vh] min-h-0 w-full overflow-y-auto custom-scrollbar'>
+          <div className='mainContainers max-h-[300px] min-h-0 w-full overflow-y-auto custom-scrollbar'>
             <div className='flex flex-col gap-2 w-full'>
 
               <PassivesLabelComp
@@ -864,7 +883,7 @@ const Home = () => {
           </div>
 
           {/*Inventory */}
-          <div className='mainContainers shrink-0 w-[600px] max-h-[50vh] min-h-0 overflow-y-auto custom-scrollbar '>
+          <div className='mainContainers shrink-0 w-[600px] max-h-[620px] min-h-0 overflow-y-auto custom-scrollbar '>
             <div className='flex flex-col gap-2 w-full'>
 
               {/*Title and Weight */}
