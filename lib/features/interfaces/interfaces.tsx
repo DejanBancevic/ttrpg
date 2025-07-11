@@ -1,5 +1,21 @@
 
 
+
+export interface ItemBoostData {
+    id: string;
+    targetField: string; 
+    boostAmount: number; 
+    targetTag?: string; 
+    targetType?: string; 
+    
+};
+
+export interface itemTagData {
+    id: string;
+    tagValue: string;
+    itemInstance: Partial<itemInstanceData>[]
+};
+
 export interface inventoryData {
     id: string;
     invLabel: string;
@@ -39,6 +55,9 @@ export interface itemInstanceData {
     itemValue3: string;
     itemValue4: string;
     itemValue5: string;
+    tags: Partial<itemTagData>[];
+    booster: Partial<ItemBoostData>[];
+    boostedBy: Partial<ItemBoostData>[];
 };
 
 export interface passivesData {

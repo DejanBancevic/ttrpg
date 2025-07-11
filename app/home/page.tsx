@@ -34,6 +34,8 @@ import BagComp from '../components/forms/inventory/BagComp/BagComp';
 import BagLabelComp from '../components/forms/inventory/BagLabelComp/BagLabelComp';
 import ItemInstanceComp from '../components/forms/inventory/ItemInstanceComp/ItemInstanceComp';
 import { Tooltip } from '../components/Tooltip/Tooltip';
+import { applyBoostsToField } from '../components/ApplyBoost/ApplyBoost';
+import { itemInstanceData } from '@/lib/features/interfaces/interfaces';
 
 const Home = () => {
 
@@ -47,6 +49,18 @@ const Home = () => {
   )
   const locks = useSelector((state: RootState) => state.mainData.locks);
   const loading = useSelector((state: RootState) => state.mainData.loading);
+
+  const allItems: itemInstanceData[] =
+    post?.inventoryData.bagInstance
+      .flatMap(b => b.itemInstance ?? [])
+      .filter((item): item is itemInstanceData => !!item?.id) ?? [];
+  const hpMaxBase = Number(post?.healthData.hpMax );
+  const hpMaxBoosted = applyBoostsToField({
+    fieldKey: "hpMax",
+    fieldType: "health",
+    baseValue: hpMaxBase,
+    items: allItems
+  }).toString();
 
   //#region Handles
 
@@ -210,6 +224,18 @@ const Home = () => {
               {post?.inventoryData && <pre>{JSON.stringify(post?.inventoryData, null, 2)}</pre>}
             </div>
           */}
+
+
+        <div>
+          <h1>hpMax</h1>
+          {hpMaxBase} 
+        </div>
+
+        <div>
+          <h1>hpMaxBoosted</h1>
+          {hpMaxBoosted}
+        </div>
+
 
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>

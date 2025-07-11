@@ -636,7 +636,11 @@ const mainSlice = createSlice({
                         currencyInstance: post.inventory.currencyInstance ?? [],
                         bagInstance: (post.inventory.bagInstance ?? []).map((bag: any) => ({
                             ...bag,
-                            itemInstance: bag.itemInstance ?? [],
+                            itemInstance: bag.itemInstance?.map((item: any) => ({
+                                ...item,
+                                booster: item.booster ?? [],
+                                tags: item.tags ?? [],
+                              })) ?? [],
                         })),
                     },
                 }));

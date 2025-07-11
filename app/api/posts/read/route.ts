@@ -101,6 +101,10 @@ export async function GET(request: NextRequest) {
                                 orderBy: {
                                     itemName: 'asc',
                                 },
+                                include: {
+                                    booster: true,
+                                    tags: true,
+                                },
                             },
                         },
                     },
@@ -337,7 +341,13 @@ export async function GET(request: NextRequest) {
                         currencyInstance: true,
                         bagInstance: {
                             include: {
-                                itemInstance: true,
+                                itemInstance: {
+                                    include: {
+                                        booster: true,
+                                        tags: true,
+
+                                    },
+                                },
                             },
                         },
                     },
