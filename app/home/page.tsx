@@ -20,7 +20,6 @@ import SpellSlotComp from '../components/forms/spells/SpellSlotComp/SpellSlotCom
 import SpellSlotChargesComp from '../components/forms/spells/SpellSlotChargesComp/SpellSlotChargesComp';
 import SpellSlotLabelComp from '../components/forms/spells/SpellSlotLabelComp/SpellSlotLabelComp';
 import SpellInstanceComp from '../components/forms/spells/SpellInstanceComp/SpellInstanceComp';
-import HoverInfo from '../components/HoverInfo/HoverInfo';
 import { createFeatInstance, deleteFeatInstance } from '@/lib/features/feats/featsSlice';
 import { createAttributeInstance, deleteAttributeInstance } from '@/lib/features/attributes/attributesSlice';
 import { createSkillInstance, deleteSkillInstance } from '@/lib/features/skills/skillsSlice';
@@ -483,7 +482,7 @@ const Home = () => {
                     />
                   ))
                 }
-           
+
                 <Plus
                   onClick={() => handleAddSkillInstance()}
                   className='addButton size-6'
@@ -615,9 +614,11 @@ const Home = () => {
                         level box to delete it.
                       </>
                     }
+                    style='w-[165px] '
                   >
                     <Info />
                   </Tooltip>
+
                 </div>
 
                 {/*Mods */}
@@ -914,8 +915,20 @@ const Home = () => {
                   styleWeight={'card-label w-20 h-10  text-lg !text-start'}
                   styleWeightsCurrent={'card-textarea w-10 h-10 text-sec'}
                   styleWeightsMax={'card-textarea w-10 h-10'}
-                  styleUnit={'card-label w-8 text-md !text-start'}
+                  styleUnit={'card-label w-8 text-md !text-start mr-2'}
                 />
+
+                <Tooltip
+                  content={
+                    <>
+                      Right click the currency <br />
+                      or bag box to delete it.
+                    </>
+                  }
+                  style='w-[185px] '
+                >
+                  <Info />
+                </Tooltip>
 
               </div>
 
@@ -1015,6 +1028,7 @@ const Home = () => {
 
               <div className='border-t-2 border-gray w-full'></div>
 
+              {/*Item Instances */}
               <div className='flex flex-col gap-2 items-center'>
 
                 {

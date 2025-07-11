@@ -49,6 +49,12 @@ const CurrencyComp: React.FC<CurrencyCompProps> = (
                         }));
                     }
                 }}
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    if (!locks.deleteLock) {
+                        deleteFunction(id!);
+                    }
+                }}
                 spellCheck={false}
                 className={styleNumber}
             />
@@ -74,11 +80,6 @@ const CurrencyComp: React.FC<CurrencyCompProps> = (
                 }}
                 spellCheck={false}
                 className={styleLabel}
-            />
-
-            <DeleteButton
-                style='size-6 mr-1'
-                deleteFunction={() => deleteFunction(id!)}
             />
 
         </div>

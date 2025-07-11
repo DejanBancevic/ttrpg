@@ -50,11 +50,6 @@ const BagComp: React.FC<BagCompProps> = (
                 className={styleInfo}
             />
 
-            <DeleteButton
-                style='size-6 mr-1'
-                deleteFunction={() => deleteFunction(id!)}
-            />
-
         </div>
     )
     return (
@@ -65,16 +60,17 @@ const BagComp: React.FC<BagCompProps> = (
                 onClick={
                     () => dispatch(setActiveBagId(id))
                 }
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    if (!locks.deleteLock) {
+                        deleteFunction(id!);
+                    }
+                }}
                 spellCheck={false}
                 className={styleInfo}
             >
                 {valueInfo}
             </button>
-
-            <DeleteButton
-                style='size-6 mr-1'
-                deleteFunction={() => deleteFunction(id!)}
-            />
 
         </div>
     )

@@ -6,9 +6,10 @@ import { createPortal } from "react-dom";
 type TooltipProps = {
     children: React.ReactNode;
     content: React.ReactNode;
+    style: string;
 };
 
-export const Tooltip = ({ children, content }: TooltipProps) => {
+export const Tooltip = ({ children, content, style }: TooltipProps) => {
     const [mounted, setMounted] = useState(false);
     const [visible, setVisible] = useState(false);
     const [coords, setCoords] = useState({ top: 0, left: 0 });
@@ -42,7 +43,7 @@ export const Tooltip = ({ children, content }: TooltipProps) => {
     const tooltipEl = visible && mounted && tooltipContainer.current
         ? createPortal(
             <div
-                className="fixed z-50 p-3 text-sm bg-blackButtonBackground border border-gray rounded shadow text-center"
+                className={"fixed z-50 p-3 text-sm bg-blackButtonBackground border border-gray rounded shadow text-center" + (style ? ` ${style}` : "")}
                 style={{
                     top: coords.top,
                     left: coords.left,
