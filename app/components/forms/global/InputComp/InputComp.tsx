@@ -1,6 +1,6 @@
-import React from 'react'
-import { useDispatch, } from 'react-redux';
-import { AppDispatch, } from '@/lib/store';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/lib/store';
 
 interface InputCompProps {
     locks: Record<string, any>;
@@ -8,40 +8,61 @@ interface InputCompProps {
     updateLocalData: Function;
     updatePostData: Function;
     model: string;
-    value: any;
+    value: string;          // base value from Redux
+    displayValue?: string;   // boosted value to display when not editing
     inputName: string;
     style: string;
 }
 
-
-const InputComp: React.FC<InputCompProps> = (
-    { locks, activePostId, updateLocalData, updatePostData, model, value, inputName, style }
-) => {
-
-    //Redux
+const InputComp: React.FC<InputCompProps> = ({
+    locks,
+    activePostId,
+    updateLocalData,
+    updatePostData,
+    model,
+    value,
+    displayValue,
+    inputName,
+    style
+}) => {
     const dispatch: AppDispatch = useDispatch();
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [localValue, setLocalValue] = useState(value);
+
+    const handleFocus = () => {
+        setIsEditing(true);
+        setLocalValue(value); 
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (!locks.inputLock) {
+            setLocalValue(e.target.value);
+            dispatch(updateLocalData({ key: inputName, value: e.target.value }));
+        }
+    };
+
+    const handleBlur = () => {
+        if (!locks.inputLock) {
+            dispatch(updatePostData({
+                postId: activePostId,
+                [model]: { [inputName]: localValue }
+            }));
+        }
+        setIsEditing(false);
+    };
 
     return (
         <textarea
-            value={value}
+            value={isEditing ? localValue : displayValue}
             readOnly={locks.inputLock}
-            onChange={(e) => {
-                if (!locks.inputLock) {
-                    dispatch(updateLocalData({ key: inputName, value: e.target.value }));
-                }
-            }}
-            onBlur={(e) => {
-                if (!locks.inputLock) {
-                    dispatch(updatePostData({
-                        postId: activePostId,
-                        [model]: { [inputName]: e.target.value }
-                    }));
-                }
-            }}
+            onFocus={handleFocus}
+            onChange={handleChange}
+            onBlur={handleBlur}
             spellCheck={false}
             className={style}
         />
-    )
-}
+    );
+};
 
-export default InputComp
+export default InputComp;

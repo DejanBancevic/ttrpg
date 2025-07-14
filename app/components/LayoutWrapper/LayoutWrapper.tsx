@@ -6,22 +6,22 @@ import Sidebar from "../Sidebar/Sidebar";
 import { usePathname } from "next/navigation";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowInfo } from "@/lib/features/main/mainSlice";
+import { setInfoData } from "@/lib/features/main/mainSlice";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import remarkGfm from "remark-gfm";
+import { Info } from "@deemlol/next-icons";
+import InfoPanel from "../InfoPanel/InfoPanel";
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
     const dispatch: AppDispatch = useDispatch();
-    const showInfo = useSelector((state: RootState) => state.mainData.showInfo);
+    const infoData = useSelector((state: RootState) => state.mainData.infoData);
+   
+
     const [sidebarMove, setSidebarMove] = useState(false);
     const pathname = usePathname();
 
-
     const shouldHideUI = pathname === "/" || pathname === "/login";
-
-    const [value, setValue] = React.useState("**Hello world!!!**");
-
 
     return (
         <>
@@ -43,29 +43,16 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
                         />
                     )}
 
-                    {showInfo && (
+                    {infoData.showInfo && (
                         <div>
                             <div
                                 className="fixed inset-0 bg-black bg-opacity-50 z-10"
-                                onClick={() => dispatch(setShowInfo(false))}
+                                onClick={() => dispatch(setInfoData({ showInfo: false }))}
                             />
-                            <div className="z-20 bg-white border  border-sec shadow-lg shadow-sec rounded-lg 
+                            <div className="z-20 bg-blackButtonBackground border  border-sec shadow-lg shadow-sec rounded-lg 
                             fixed right-4 top-24 w-[680px] h-[800px]  resize-none"
                             >
-                                <MDEditor
-                                    value={value}
-                                    onChange={(val) => setValue(val || "")}
-                                    height={800}
-                                    visibleDragbar={false}
-                                    extraCommands={[
-                                        commands.codeEdit,
-                                        commands.codeLive,
-                                        commands.codePreview
-                                    ]}
-                                    previewOptions={{
-                                        remarkPlugins: [remarkGfm],
-                                    }}
-                                />
+                                <InfoPanel/>
 
                             </div>
                         </div>

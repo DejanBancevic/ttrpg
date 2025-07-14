@@ -2,12 +2,12 @@
 
 
 export interface ItemBoostData {
-    id: string;
+    boosterId: string;
     targetField: string; 
     boostAmount: number; 
     targetTag?: string; 
     targetType?: string; 
-    
+    boostedById: string;
 };
 
 export interface itemTagData {

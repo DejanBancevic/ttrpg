@@ -8,8 +8,10 @@ import "./Navbar.css"
 import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
-import { deleteAllPost, setShowInfo, updateLocks } from '@/lib/features/main/mainSlice';
+import { deleteAllPost,  setInfoData,  updateLocks } from '@/lib/features/main/mainSlice';
 import { Lock, Unlock, Archive, FileText } from "@deemlol/next-icons";
+import MDEditor, { commands } from "@uiw/react-md-editor";
+import remarkGfm from "remark-gfm";
 
 
 
@@ -18,7 +20,6 @@ const Navbar = () => {
     //Redux
     const dispatch: AppDispatch = useDispatch();
     const locks = useSelector((state: RootState) => state.mainData.locks);
-    const showInfo = useSelector((state: RootState) => state.mainData.showInfo);
     const { data: session } = useSession();
 
     const handleSignOut = () => {
@@ -104,7 +105,9 @@ const Navbar = () => {
 
                     <button
                         className="text-lg px-2 pb-1 "
-                        onClick={() => dispatch(setShowInfo(true))}>
+                        onClick={() => {
+                            dispatch(setInfoData({showInfo: true, infoType: "notes", id: "", infoContent: "noooootes" }));
+                        }}>
                         {
                             <div className="flex flex-col text-center items-center">
                                 <h1>Notes</h1>

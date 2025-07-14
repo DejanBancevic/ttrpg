@@ -1,9 +1,8 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateItemInstanceById, updateSpellInstanceById, } from '@/lib/features/main/mainSlice';
+import { setInfoData, updateItemInstanceById, } from '@/lib/features/main/mainSlice';
 import DeleteButton from '../../../DeleteButton/DeleteButton';
-import { updateSpellInstance } from '@/lib/features/spells/spellsSlice';
 import { updateItemInstance } from '@/lib/features/inventory/inventorySlice';
 
 interface ItemInstanceCompProps {
@@ -39,7 +38,7 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
     //Redux
     const dispatch: AppDispatch = useDispatch();
 
-    return (
+    if (!locks.labelLock) return (
         <div className='flex items-center gap-2'>
             <textarea
                 value={valueName}
@@ -60,6 +59,116 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
                 spellCheck={false}
                 className={styleName}
             />
+
+            <DeleteButton
+                style='size-6'
+                deleteFunction={() => deleteFunction(id!)}
+            />
+
+            <textarea
+                value={value1}
+                readOnly={locks.inputLock}
+                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field1]: e.target.value } }))}
+                onBlur={(e) => {
+                    if (!locks.inputLock) {
+                        dispatch(updateItemInstance({
+                            id: id,
+                            itemInstance: { [field1]: e.target.value }
+                        }));
+                    }
+                }}
+                spellCheck={false}
+                className={style1}
+            />
+
+            <textarea
+                value={value2}
+                readOnly={locks.inputLock}
+                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field2]: e.target.value } }))}
+                onBlur={(e) => {
+                    if (!locks.inputLock) {
+                        dispatch(updateItemInstance({
+                            id: id,
+                            itemInstance: { [field2]: e.target.value }
+                        }));
+                    }
+                }}
+                spellCheck={false}
+                className={style2}
+            />
+
+            <textarea
+                value={value3}
+                readOnly={locks.inputLock}
+                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field3]: e.target.value } }))}
+                onBlur={(e) => {
+                    if (!locks.inputLock) {
+                        dispatch(updateItemInstance({
+                            id: id,
+                            itemInstance: { [field3]: e.target.value }
+                        }));
+                    }
+                }}
+                spellCheck={false}
+                className={style3}
+            />
+
+            <textarea
+                value={value4}
+                readOnly={locks.inputLock}
+                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field4]: e.target.value } }))}
+                onBlur={(e) => {
+                    if (!locks.inputLock) {
+                        dispatch(updateItemInstance({
+                            id: id,
+                            itemInstance: { [field4]: e.target.value }
+                        }));
+                    }
+                }}
+                spellCheck={false}
+                className={style4}
+            />
+
+            <textarea
+                value={value5}
+                readOnly={locks.inputLock}
+                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field5]: e.target.value } }))}
+                onBlur={(e) => {
+                    if (!locks.inputLock) {
+                        dispatch(updateItemInstance({
+                            id: id,
+                            itemInstance: { [field5]: e.target.value }
+                        }));
+                    }
+                }}
+                spellCheck={false}
+                className={style5}
+            />
+
+        </div>
+    )
+
+    return (
+        <div className='flex items-center gap-2'>
+
+
+            <button
+                onClick={
+                    () =>
+                    {
+                        dispatch(setInfoData({
+                            showInfo: true,
+                            infoType: "item",
+                            id: id,
+                            infoContent: "sdasdasdsadasda"
+                        }))
+                    }
+                }
+                spellCheck={false}
+                className={styleName}
+            >
+                {valueName}
+            </button>
 
             <DeleteButton
                 style='size-6'

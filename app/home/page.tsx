@@ -50,11 +50,13 @@ const Home = () => {
   const locks = useSelector((state: RootState) => state.mainData.locks);
   const loading = useSelector((state: RootState) => state.mainData.loading);
 
+  ///////////////////////////////
+  
   const allItems: itemInstanceData[] =
     post?.inventoryData.bagInstance
       .flatMap(b => b.itemInstance ?? [])
       .filter((item): item is itemInstanceData => !!item?.id) ?? [];
-  const hpMaxBase = Number(post?.healthData.hpMax );
+  const hpMaxBase = Number(post?.healthData.hpMax);
   const hpMaxBoosted = applyBoostsToField({
     fieldKey: "hpMax",
     fieldType: "health",
@@ -218,24 +220,24 @@ const Home = () => {
     <div className="flex-col p-6 px-20 md:mt-[90px] ml-12">
       <div className='md:flex justify-between md:justify-center md:gap-4 '>
 
-        {/*TEST 
+        {/*
             <div>
               <h1>Data Test</h1>
               {post?.inventoryData && <pre>{JSON.stringify(post?.inventoryData, null, 2)}</pre>}
             </div>
-          */}
+        */}
 
-
+        {/*
         <div>
           <h1>hpMax</h1>
-          {hpMaxBase} 
+          {hpMaxBase}
         </div>
 
         <div>
           <h1>hpMaxBoosted</h1>
           {hpMaxBoosted}
         </div>
-
+        */}
 
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
@@ -261,6 +263,7 @@ const Home = () => {
 
                     <InputComp
                       value={post?.healthData.hpCurrent ?? ""}
+                      displayValue={post?.healthData.hpCurrent ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -274,6 +277,7 @@ const Home = () => {
 
                     <InputComp
                       value={post?.healthData.hpMax ?? ""}
+                      displayValue={hpMaxBoosted}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -296,6 +300,7 @@ const Home = () => {
 
                     <InputComp
                       value={post?.healthData.hpTemp ?? ""}
+                      displayValue={post?.healthData.hpTemp ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -322,6 +327,7 @@ const Home = () => {
 
                     <InputComp
                       value={post?.healthData.ac ?? ""}
+                      displayValue={post?.healthData.ac ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -344,6 +350,7 @@ const Home = () => {
 
                     <InputComp
                       value={post?.healthData.stressCurrent ?? ""}
+                      displayValue={post?.healthData.stressCurrent ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -357,6 +364,7 @@ const Home = () => {
 
                     <InputComp
                       value={post?.healthData.stressMax ?? ""}
+                      displayValue={post?.healthData.stressMax ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -380,6 +388,7 @@ const Home = () => {
 
                 <InputComp
                   value={post?.basicsData.name ?? ""}
+                  displayValue={post?.basicsData.name ?? ""}
                   locks={locks}
                   activePostId={activePostId}
                   updateLocalData={updateBasicsData}
@@ -391,6 +400,7 @@ const Home = () => {
 
                 <InputComp
                   value={post?.basicsData.desc ?? ""}
+                  displayValue={post?.basicsData.desc ?? ""}
                   locks={locks}
                   activePostId={activePostId}
                   updateLocalData={updateBasicsData}
@@ -421,6 +431,7 @@ const Home = () => {
 
                   <InputComp
                     value={post?.basicsData.level ?? ""}
+                    displayValue={post?.basicsData.level ?? ""}
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}
@@ -445,6 +456,7 @@ const Home = () => {
                   />
                   <InputComp
                     value={post?.basicsData.xp ?? ""}
+                    displayValue={post?.basicsData.xp ?? ""}
                     locks={locks}
                     activePostId={activePostId}
                     updateLocalData={updateBasicsData}

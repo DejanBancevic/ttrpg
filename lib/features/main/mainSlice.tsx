@@ -128,7 +128,12 @@ interface MainState {
     activeSpellSlotId: string;
     activeBagId: string;
     locks: locks;
-    showInfo: boolean;
+    infoData: {
+        showInfo: boolean;
+        infoType: string;
+        id: string;
+        infoContent: any;
+    },
     loading: {
         posts: boolean;
         skills: boolean;
@@ -309,7 +314,12 @@ const initialState: MainState = {
     activePostId: "0",
     activeSpellSlotId: "0",
     activeBagId: "0",
-    showInfo: false,
+    infoData: {
+        showInfo: false,
+        infoType: "notes",
+        id: '0',
+        infoContent: "",
+    },
     locks: {
         inputLock: false,
         labelLock: true,
@@ -325,6 +335,14 @@ const initialState: MainState = {
         inventory: false,
     },
 };
+
+interface infoData {
+    showInfo: boolean;
+    infoType: string;
+    id: string;
+    infoContent: any;
+};
+
 
 interface post {
     id: string;
@@ -353,8 +371,8 @@ const mainSlice = createSlice({
         setActivePostId: (state, action: PayloadAction<string>) => {
             state.activePostId = action.payload;
         },
-        setShowInfo: (state, action: PayloadAction<boolean>) => {
-            state.showInfo = action.payload;
+        setInfoData: (state, action: PayloadAction<Partial<infoData>>) => {
+            state.infoData = { ...state.infoData, ...action.payload };
         },
         updateLocks: (state, action: PayloadAction<{ key: keyof locks, value: boolean }>) => {
             state.locks[action.payload.key] = action.payload.value;
@@ -877,7 +895,7 @@ export const {
     setActivePostId,
     setActiveSpellSlotId,
     setActiveBagId,
-    setShowInfo,
+    setInfoData,
     updateLocks,
     updateHealthData,
     updateBasicsData,
