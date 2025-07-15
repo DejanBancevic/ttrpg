@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     const itemInstanceData = body.itemInstance;
 
     try {
-        await prisma.itemInstance.update({
+        const updatedItem = await prisma.itemInstance.update({
             where: { id: body.id },
             data: {
                 itemName: itemInstanceData.itemName,
@@ -33,46 +33,8 @@ export async function POST(request: NextRequest) {
                 itemValue5: itemInstanceData.itemValue5,
             },
         });
-
-        console.log("Received body:", JSON.stringify(body, null, 2));
-
-        const boosts = Array.isArray(body.boosts) ? body.boosts : [];
-        if (boosts.length > 0) {
-
-            console.log("Updating itemInstance boosts: AHHAHAHA", body.boosts);
-
-            await prisma.itemBoost.deleteMany({
-                where: { boosterId: itemInstanceData.id },
-            });
-
-            const boostData = body.boosts.map((boost: { targetField: any; targetType: any; boostAmount: any; targetTag: any; boostedById: any; }) => ({
-                boosterId: itemInstanceData.id,
-                targetField: boost.targetField!,
-                targetType: boost.targetType!,
-                boostAmount: boost.boostAmount ?? 0,
-                targetTag: boost.targetTag ?? null,
-                boostedById: boost.boostedById ?? null,
-            }));
-
-            await prisma.itemBoost.createMany({
-                data: boostData,
-            });
-        }
-        
-        console.log("psotle boosts", body.boosts);
-
-        const fullItem = await prisma.itemInstance.findUnique({
-           
-            where: { id: body.id },
-            include: {
-                booster: true,
-                bagInstance: true,
-            },
-        });
-
-        console.log("Updadasdasdasds: AHHAHAHA", body.boosts);
-
-        return NextResponse.json({ data: fullItem });
+     
+        return NextResponse.json({ data: updatedItem });
     } catch (error) {
         console.error("❌ itemInstance update error:", error);
         return NextResponse.json({ error: "Update failed" }, { status: 500 });

@@ -4,7 +4,7 @@ import { deleteFeatInstance, updateFeats } from '../feats/featsSlice';
 import {
     attributeInstanceData, attributesData, bagInstanceData,
     basicsData, currencyInstanceData, featInstanceData,
-    featsData, healthData, inventoryData, itemInstanceData,
+    featsData, healthData, inventoryData, ItemBoostData, itemInstanceData,
     passiveInstanceData, passivesData, skillInstanceData,
     skillsData, spellInstanceData, spellsData,
     spellSlotInstanceData
@@ -13,6 +13,7 @@ import { deleteBagInstance, deleteItemInstance, updateInventory } from '../inven
 import { deletePassiveInstance, updatePassives } from '../passives/passivesSlice';
 import { createSkillInstance, deleteSkillInstance, readSkills, updateSkills } from '../skills/skillsSlice';
 import { deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '../spells/spellsSlice';
+import { deleteItemBoostInstance, readItemBoostInstance, updateItemBoostInstance } from '../itemBoost/itemBoostSlice';
 
 //#region Post Thunks
 
@@ -124,6 +125,7 @@ export const deleteAllPost = createAsyncThunk(
 
 interface MainState {
     posts: post[];
+    itemBoosts: ItemBoostData[];
     activePostId: string;
     activeSpellSlotId: string;
     activeBagId: string;
@@ -311,6 +313,7 @@ const initialState: MainState = {
             },
         },
     ],
+    itemBoosts: [],
     activePostId: "0",
     activeSpellSlotId: "0",
     activeBagId: "0",
@@ -342,7 +345,6 @@ interface infoData {
     id: string;
     infoContent: any;
 };
-
 
 interface post {
     id: string;
@@ -445,7 +447,7 @@ const mainSlice = createSlice({
                 const instance = spellSlot.spellInstance?.find(i => i.id === action.payload.key);
                 if (instance) {
                     Object.assign(instance, action.payload.value);
-                    break; 
+                    break;
                 }
             }
         },
@@ -512,7 +514,7 @@ const mainSlice = createSlice({
                 const instance = bagInstance.itemInstance?.find(i => i.id === action.payload.key);
                 if (instance) {
                     Object.assign(instance, action.payload.value);
-                    break; 
+                    break;
                 }
             }
         },
@@ -529,6 +531,13 @@ const mainSlice = createSlice({
         setActiveBagId: (state, action: PayloadAction<string>) => {
             state.activeBagId = action.payload;
         },
+        updateItemBoostById: ( state, action: PayloadAction<{ key: string; value: Partial<ItemBoostData> }>
+        ) => {
+            const boost = state.itemBoosts.find(b => b.id === action.payload.key);
+            if (boost) {
+                Object.assign(boost, action.payload.value);
+            }
+        }
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
@@ -658,7 +667,7 @@ const mainSlice = createSlice({
                                 ...item,
                                 booster: item.booster ?? [],
                                 tags: item.tags ?? [],
-                              })) ?? [],
+                            })) ?? [],
                         })),
                     },
                 }));
@@ -885,6 +894,32 @@ const mainSlice = createSlice({
                     };
                 });
             })
+            ///////// Item Boost
+            .addCase(readItemBoostInstance.fulfilled, (state, action) => {
+                state.loading.posts = false;
+
+                const itemBoosts = action.payload.data;
+                state.itemBoosts = itemBoosts.map((itemBoost: any): ItemBoostData => ({
+                    id: itemBoost.id,
+                    boosterId: itemBoost.boosterId,
+                    boostedById: itemBoost.boostedById ?? "",
+                    targetField: itemBoost.targetField,
+                    targetTag: itemBoost.targetTag,
+                    targetType: itemBoost.targetType,
+                    boostAmount: itemBoost.boostAmount,
+                }));
+            })
+            .addCase(updateItemBoostInstance.fulfilled, (state, action) => {
+                const updated = action.payload.data;
+                const index = state.itemBoosts.findIndex(b => b.id === updated.id);
+                if (index !== -1) {
+                    state.itemBoosts[index] = updated;
+                }
+            })
+            .addCase(deleteItemBoostInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                state.itemBoosts = state.itemBoosts.filter(boost => boost.id !== deletedId);
+            })
     }
 })
 
@@ -913,6 +948,7 @@ export const {
     updateBagInstanceById,
     updateItemInstanceById,
     updateInventoryLabel,
+    updateItemBoostById,
 } = mainSlice.actions;
 
 // Export the reducer to be used in the store
