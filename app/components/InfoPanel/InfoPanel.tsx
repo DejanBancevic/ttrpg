@@ -14,6 +14,8 @@ import { read } from 'fs';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import { deleteInstance } from '../DeleteInstance/DeleteInstance';
 import ItemBoostComp from '../forms/itemBoost/ItemBoostComp';
+import { createBoostTagInstance, deleteBoostTagInstance, readBoostTagInstance, updateBoostTagInstance } from '@/lib/features/boostTag/boostTagSlice';
+import BoostTagComp from '../forms/boostTag/BoostTagComp';
 
 
 
@@ -23,6 +25,7 @@ const InfoPanel = () => {
     const locks = useSelector((state: RootState) => state.mainData.locks);
     const infoData = useSelector((state: RootState) => state.mainData.infoData);
     const itemBoosts = useSelector((state: RootState) => state.mainData.itemBoosts);
+    const boostTags = useSelector((state: RootState) => state.mainData.boostTags);
 
     const handleAddItemBoostInstance = async () => {
 
@@ -41,6 +44,22 @@ const InfoPanel = () => {
 
     }
 
+    const handleAddBoostTagInstance = async () => {
+
+        await dispatch(addInstance(createBoostTagInstance({ id: infoData.id })))
+        await dispatch(readBoostTagInstance({ id: infoData.id }))
+    }
+
+    const handleDeleteBoostTagInstance = async (id: string) => {
+
+        if (window.confirm("Are you sure you want to delete this?")) {
+            if (!locks.deleteLock) {
+                await dispatch(deleteBoostTagInstance({ id: id }),)
+                await dispatch(readBoostTagInstance({ id: infoData.id }))
+            }
+        }
+
+    }
 
     switch (infoData.infoType) {
         case "notes":
@@ -77,11 +96,36 @@ const InfoPanel = () => {
                     }}
                 />
 
-                <div className='flex w-full '>
-                    <h1 className='text-lg font-bold ml-20'>targetField</h1>
-                    <h1 className='text-lg font-bold ml-20'>targetTag</h1>
-                    <h1 className='text-lg font-bold ml-9'>targetType</h1>
-                    <h1 className='text-lg font-bold ml-4'>boostAmount</h1>
+                <div className='flex mt-2 mr-28'>
+                    <h1 className='text-lg font-bold ml-20'>Boost Tags</h1>
+                </div>
+
+                {
+                    boostTags?.filter(b => b.itemInstance?.some(item => item.id === infoData.id))?.map((boostTag, index) => (
+                        <BoostTagComp
+                            key={boostTag.id}
+                            locks={locks}
+                            valueName={boostTag.tagValue ?? ""}
+                            fieldName={'tagValue'}
+                            styleName={'card-textarea-item !text-start'}
+                            id={boostTag.id!}
+                            deleteFunction={handleDeleteBoostTagInstance}
+                        />
+                    ))
+                }
+
+                <Plus
+                    onClick={() => handleAddBoostTagInstance()}
+                    className='addButton size-6'
+                />
+
+                <div className='border-t-2 border-gray w-[600px]'></div>
+
+                <div className='flex w-full mt-2'>
+                    <h1 className='text-lg font-bold ml-[65px]'>Target Field</h1>
+                    <h1 className='text-lg font-bold ml-[70px]'>Target Tag</h1>
+                    <h1 className='text-lg font-bold ml-[35px]'>Target Type</h1>
+                    <h1 className='text-lg font-bold ml-[25px]'>Boost Amount</h1>
                 </div>
                 {
                     itemBoosts?.filter(b => b.boosterId === infoData.id)?.map((itemBoost, index) => (

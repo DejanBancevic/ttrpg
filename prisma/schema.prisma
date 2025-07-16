@@ -47,29 +47,27 @@ model Post {
 }
 
 model ItemBoost {
-  id             String        @id @default(cuid())
+  id String @id @default(cuid())
 
-  booster    ItemInstance  @relation("ItemInstanceBooster", fields: [boosterId], references: [id], onDelete: Cascade)
-  boosterId  String
+  booster   ItemInstance @relation("ItemInstanceBooster", fields: [boosterId], references: [id], onDelete: Cascade)
+  boosterId String
 
   boostedBy   ItemInstance? @relation("ItemInstanceBoostedBy", fields: [boostedById], references: [id], onDelete: Cascade)
-  boostedById  String?       // optional: if the boost targets a specific item
+  boostedById String? // optional: if the boost targets a specific item
 
-  targetField    String        // e.g. "hpMax", "ac", "itemValue2"
-  boostAmount    Int           // e.g. +2 or -1
+  targetField String // e.g. "hpMax", "ac", "itemValue2"
+  boostAmount Int // e.g. +2 or -1
 
-  targetTag      String?       // optional: boosts all items with this tag (like "weapon", "armor")
-  targetType     String?       // optional: e.g. "health", "skill", "attribute"
+  targetTag  String? // optional: boosts all items with this tag (like "weapon", "armor")
+  targetType String? // optional: e.g. "health", "skill", "attribute"
 }
 
-model ItemTag {
-  id        String        @id @default(cuid())
-  tagValue     String        // e.g., "fire", "armor", "healing"
+model BoostTag {
+  id       String @id @default(cuid())
+  tagValue String // e.g., "fire", "armor", "healing"
 
-  itemInstance     ItemInstance[] @relation("ItemInstanceTags")
+  itemInstance ItemInstance[] @relation("ItemInstanceBoostTag")
 }
-
-
 
 model Inventory {
   id               String @id @default(cuid())
@@ -125,14 +123,9 @@ model ItemInstance {
   bagInstance   BagInstance? @relation("BagInstanceItemInstance", fields: [bagInstanceId], references: [id], onDelete: Cascade)
   bagInstanceId String
 
-  // List of tags assigned to this item
-  tags          ItemTag[]        @relation("ItemInstanceTags")
-
-  // Boosts this item provides
-  booster        ItemBoost[]      @relation("ItemInstanceBooster")
-
-  // Boosts this item receives (optional — not needed for logic, but useful for reverse lookup)
-  boostedBy     ItemBoost[]      @relation("ItemInstanceBoostedBy")
+  tags      BoostTag[]  @relation("ItemInstanceBoostTag")
+  booster   ItemBoost[] @relation("ItemInstanceBooster")
+  boostedBy ItemBoost[] @relation("ItemInstanceBoostedBy")
 }
 
 model Passives {

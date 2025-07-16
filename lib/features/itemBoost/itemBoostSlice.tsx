@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { bagInstanceData, currencyInstanceData, inventoryData, ItemBoostData, itemInstanceData, } from '../interfaces/interfaces';
+import { bagInstanceData, currencyInstanceData, inventoryData, itemBoostData, itemInstanceData, } from '../interfaces/interfaces';
 
 export const createItemBoostInstance = createAsyncThunk(
     'main/createItemBoostInstance',
@@ -25,7 +25,7 @@ export const createItemBoostInstance = createAsyncThunk(
 
 export const readItemBoostInstance = createAsyncThunk(
     'main/readItemBoostInstance',
-    async (itemId: {id: string}, { rejectWithValue }) => {
+    async (itemId: { id: string }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/itemBoost/read', {
                 method: 'POST',
@@ -43,7 +43,7 @@ export const readItemBoostInstance = createAsyncThunk(
 
 export const updateItemBoostInstance = createAsyncThunk(
     'main/updateItemBoostInstance',
-    async (itemBoostInstance: { id: string, boosts: Partial<ItemBoostData> }, { rejectWithValue }) => {
+    async (itemBoostInstance: { id: string, boosts: Partial<itemBoostData> }, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/itemBoost/update', {
                 method: 'POST',

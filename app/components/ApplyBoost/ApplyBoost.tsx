@@ -1,28 +1,37 @@
 import { itemInstanceData } from "@/lib/features/interfaces/interfaces";
 
-export function applyBoostsToField({
+export function applyBoostsToItem({
     fieldKey,
-    fieldType,
     baseValue,
-    items,
+    item,
+    allItems,
 }: {
-    fieldKey: string;         // e.g. "hpMax"
-    fieldType: string;        // e.g. "health"
+    fieldKey: string;
     baseValue: number;
-    items: itemInstanceData[]; // from Redux
+    item: itemInstanceData;
+    allItems: itemInstanceData[]; // for collecting all boosts
 }): number {
     let boostSum = 0;
 
-    for (const item of items) {
-        if (!item.booster) continue;
+    for (const otherItem of allItems) {
+        if (!otherItem.booster) continue;
 
-        for (const rule of item.booster) {
-            if (rule.targetField === fieldKey && rule.targetType === fieldType) {
-                boostSum += rule.boostAmount!;
+        for (const rule of otherItem.booster) {
+            // 1. Direct field match (e.g. targetField === "itemValue1")
+            const directMatch = rule.targetField === fieldKey &&
+                rule.boostedById === item.id;
+
+            // 2. Match via tag + type
+            const tagTypeMatch =
+                rule.targetType === "item" &&
+                rule.targetTag &&
+                item.tags?.some(tag => tag.tagValue === rule.targetTag);
+
+            if (directMatch || tagTypeMatch) {
+                boostSum += rule.boostAmount ?? 0;
             }
         }
     }
 
     return baseValue + boostSum;
-}
-  
+  }

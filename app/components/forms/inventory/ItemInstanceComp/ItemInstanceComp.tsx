@@ -5,6 +5,7 @@ import { setInfoData, updateItemInstanceById, } from '@/lib/features/main/mainSl
 import DeleteButton from '../../../DeleteButton/DeleteButton';
 import { updateItemInstance } from '@/lib/features/inventory/inventorySlice';
 import { readItemBoostInstance } from '@/lib/features/itemBoost/itemBoostSlice';
+import { readBoostTagInstance } from '@/lib/features/boostTag/boostTagSlice';
 
 interface ItemInstanceCompProps {
     locks: Record<string, any>;
@@ -164,6 +165,7 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
                             infoContent: "sdasdasdsadasda"
                         }))
                         dispatch(readItemBoostInstance({ id: id }))
+                        dispatch(readBoostTagInstance({ id: id }))
                     }
                 }
                 spellCheck={false}

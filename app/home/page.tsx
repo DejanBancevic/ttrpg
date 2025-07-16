@@ -34,7 +34,7 @@ import BagComp from '../components/forms/inventory/BagComp/BagComp';
 import BagLabelComp from '../components/forms/inventory/BagLabelComp/BagLabelComp';
 import ItemInstanceComp from '../components/forms/inventory/ItemInstanceComp/ItemInstanceComp';
 import { Tooltip } from '../components/Tooltip/Tooltip';
-import { applyBoostsToField } from '../components/ApplyBoost/ApplyBoost';
+import { applyBoostsToItem } from '../components/ApplyBoost/ApplyBoost';
 import { itemInstanceData } from '@/lib/features/interfaces/interfaces';
 
 const Home = () => {
@@ -52,17 +52,18 @@ const Home = () => {
 
   ///////////////////////////////
   
-  const allItems: itemInstanceData[] =
-    post?.inventoryData.bagInstance
-      .flatMap(b => b.itemInstance ?? [])
-      .filter((item): item is itemInstanceData => !!item?.id) ?? [];
-  const hpMaxBase = Number(post?.healthData.hpMax);
-  const hpMaxBoosted = applyBoostsToField({
-    fieldKey: "hpMax",
-    fieldType: "health",
-    baseValue: hpMaxBase,
-    items: allItems
-  }).toString();
+  const allItems = post?.inventoryData.bagInstance
+    .flatMap(b => b.itemInstance ?? [])
+    .filter((item): item is itemInstanceData => !!item?.id) ?? [];
+
+  const itemToCheck = allItems.find(i => i.id === "someItemId");
+
+  const itemValue1Boosted = applyBoostsToItem({
+    fieldKey: "itemValue1",
+    baseValue: Number(itemToCheck?.itemValue1 ?? 0),
+    item: itemToCheck!,
+    allItems: allItems,
+  });
 
   //#region Handles
 
@@ -277,7 +278,7 @@ const Home = () => {
 
                     <InputComp
                       value={post?.healthData.hpMax ?? ""}
-                      displayValue={hpMaxBoosted}
+                      displayValue={post?.healthData.hpMax ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}

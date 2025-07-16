@@ -3,8 +3,8 @@ import { deleteAttributeInstance, updateAttributes } from '../attributes/attribu
 import { deleteFeatInstance, updateFeats } from '../feats/featsSlice';
 import {
     attributeInstanceData, attributesData, bagInstanceData,
-    basicsData, currencyInstanceData, featInstanceData,
-    featsData, healthData, inventoryData, ItemBoostData, itemInstanceData,
+    basicsData, boostTagData, currencyInstanceData, featInstanceData,
+    featsData, healthData, inventoryData, itemBoostData, itemInstanceData,
     passiveInstanceData, passivesData, skillInstanceData,
     skillsData, spellInstanceData, spellsData,
     spellSlotInstanceData
@@ -14,6 +14,7 @@ import { deletePassiveInstance, updatePassives } from '../passives/passivesSlice
 import { createSkillInstance, deleteSkillInstance, readSkills, updateSkills } from '../skills/skillsSlice';
 import { deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '../spells/spellsSlice';
 import { deleteItemBoostInstance, readItemBoostInstance, updateItemBoostInstance } from '../itemBoost/itemBoostSlice';
+import { deleteBoostTagInstance, readBoostTagInstance, updateBoostTagInstance } from '../boostTag/boostTagSlice';
 
 //#region Post Thunks
 
@@ -125,7 +126,8 @@ export const deleteAllPost = createAsyncThunk(
 
 interface MainState {
     posts: post[];
-    itemBoosts: ItemBoostData[];
+    itemBoosts: itemBoostData[];
+    boostTags: boostTagData[];
     activePostId: string;
     activeSpellSlotId: string;
     activeBagId: string;
@@ -314,6 +316,7 @@ const initialState: MainState = {
         },
     ],
     itemBoosts: [],
+    boostTags: [],
     activePostId: "0",
     activeSpellSlotId: "0",
     activeBagId: "0",
@@ -531,13 +534,18 @@ const mainSlice = createSlice({
         setActiveBagId: (state, action: PayloadAction<string>) => {
             state.activeBagId = action.payload;
         },
-        updateItemBoostById: ( state, action: PayloadAction<{ key: string; value: Partial<ItemBoostData> }>
-        ) => {
+        updateItemBoostById: (state, action: PayloadAction<{ key: string; value: Partial<itemBoostData> }>) => {
             const boost = state.itemBoosts.find(b => b.id === action.payload.key);
             if (boost) {
                 Object.assign(boost, action.payload.value);
             }
-        }
+        },
+        updateBoostTagById: (state, action: PayloadAction<{ key: string; value: Partial<boostTagData> }>) => {
+            const tag = state.boostTags.find(b => b.id === action.payload.key);
+            if (tag) {
+                Object.assign(tag, action.payload.value);
+            }
+        },
     },
     extraReducers: (builder) => {  // za asinhrone akcije
         builder
@@ -899,7 +907,7 @@ const mainSlice = createSlice({
                 state.loading.posts = false;
 
                 const itemBoosts = action.payload.data;
-                state.itemBoosts = itemBoosts.map((itemBoost: any): ItemBoostData => ({
+                state.itemBoosts = itemBoosts.map((itemBoost: any): itemBoostData => ({
                     id: itemBoost.id,
                     boosterId: itemBoost.boosterId,
                     boostedById: itemBoost.boostedById ?? "",
@@ -919,6 +927,28 @@ const mainSlice = createSlice({
             .addCase(deleteItemBoostInstance.fulfilled, (state, action) => {
                 const deletedId = action.payload.id;
                 state.itemBoosts = state.itemBoosts.filter(boost => boost.id !== deletedId);
+            })
+            ///////// Boost Tag
+            .addCase(readBoostTagInstance.fulfilled, (state, action) => {
+                state.loading.posts = false;
+
+                const boostTags = action.payload.data;
+                state.boostTags = boostTags.map((boostTag: any): boostTagData => ({
+                    id: boostTag.id,
+                    tagValue: boostTag.tagValue,
+                    itemInstance: boostTag.itemInstance ?? [],
+                }));
+            })
+            .addCase(updateBoostTagInstance.fulfilled, (state, action) => {
+                const updated = action.payload.data;
+                const index = state.boostTags.findIndex(b => b.id === updated.id);
+                if (index !== -1) {
+                    state.boostTags[index] = updated;
+                }
+            })
+            .addCase(deleteBoostTagInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                state.boostTags = state.boostTags.filter(boost => boost.id !== deletedId);
             })
     }
 })
@@ -949,6 +979,7 @@ export const {
     updateItemInstanceById,
     updateInventoryLabel,
     updateItemBoostById,
+    updateBoostTagById,
 } = mainSlice.actions;
 
 // Export the reducer to be used in the store
