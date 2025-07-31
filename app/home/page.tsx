@@ -50,20 +50,12 @@ const Home = () => {
   const locks = useSelector((state: RootState) => state.mainData.locks);
   const loading = useSelector((state: RootState) => state.mainData.loading);
 
-  ///////////////////////////////
-  
+  /////////////////////////////// BOOSTS
+
   const allItems = post?.inventoryData.bagInstance
     .flatMap(b => b.itemInstance ?? [])
     .filter((item): item is itemInstanceData => !!item?.id) ?? [];
 
-  const itemToCheck = allItems.find(i => i.id === "someItemId");
-
-  const itemValue1Boosted = applyBoostsToItem({
-    fieldKey: "itemValue1",
-    baseValue: Number(itemToCheck?.itemValue1 ?? 0),
-    item: itemToCheck!,
-    allItems: allItems,
-  });
 
   //#region Handles
 
@@ -238,7 +230,26 @@ const Home = () => {
           <h1>hpMaxBoosted</h1>
           {hpMaxBoosted}
         </div>
+        
         */}
+
+        <div className="space-y-4">
+          {allItems.map(item => {
+            const boostedVal = applyBoostsToItem({
+              fieldKey: "itemValue1",
+              baseValue: Number(item.itemValue1 ?? 0),
+              item,
+              allItems,
+            });
+
+            return (
+              <div key={item.id} className="p-4 rounded-xl shadow">
+                <h3 className="text-lg font-semibold">{item.itemName}</h3>
+                <p>Boosted Value: {boostedVal}</p>
+              </div>
+            );
+          })}
+        </div>
 
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>

@@ -9,29 +9,37 @@ export function applyBoostsToItem({
     fieldKey: string;
     baseValue: number;
     item: itemInstanceData;
-    allItems: itemInstanceData[]; // for collecting all boosts
+    allItems: itemInstanceData[];
 }): number {
     let boostSum = 0;
 
-    for (const otherItem of allItems) {
-        if (!otherItem.booster) continue;
+    console.log(`\n>> Checking boosts for item "${item.itemName}" (${item.id})`);
+    console.log(`Tags on this item: ${item.tags?.map(t => t.tagValue).join(", ")}`);
+    console.log(`Base value: ${baseValue}`);
 
-        for (const rule of otherItem.booster) {
-            // 1. Direct field match (e.g. targetField === "itemValue1")
-            const directMatch = rule.targetField === fieldKey &&
-                rule.boostedById === item.id;
+    for (const boosterItem of allItems) {
+        if (!boosterItem.booster?.length) continue;
 
-            // 2. Match via tag + type
-            const tagTypeMatch =
-                rule.targetType === "item" &&
+        console.log(`  Booster item: "${boosterItem.itemName}" (${boosterItem.id})`);
+
+        for (const rule of boosterItem.booster) {
+            const appliesToField = rule.targetField === fieldKey;
+            const hasMatchingTag =
                 rule.targetTag &&
                 item.tags?.some(tag => tag.tagValue === rule.targetTag);
 
-            if (directMatch || tagTypeMatch) {
+            console.log(`    Rule: [field=${rule.targetField}] [tag=${rule.targetTag}] [amount=${rule.boostAmount}]`);
+            console.log(`      Applies to field? ${appliesToField}`);
+            console.log(`      Has matching tag? ${hasMatchingTag}`);
+
+            if (appliesToField && hasMatchingTag) {
+                console.log(`      ✅ Applying boost of ${rule.boostAmount}`);
                 boostSum += rule.boostAmount ?? 0;
             }
         }
     }
 
-    return baseValue + boostSum;
+    const finalValue = baseValue + boostSum;
+    console.log(`>> Final boosted value for "${item.itemName}": ${finalValue}`);
+    return finalValue;
   }
