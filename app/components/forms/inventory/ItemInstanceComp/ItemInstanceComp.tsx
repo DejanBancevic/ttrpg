@@ -6,6 +6,7 @@ import DeleteButton from '../../../DeleteButton/DeleteButton';
 import { updateItemInstance } from '@/lib/features/inventory/inventorySlice';
 import { readItemBoostInstance } from '@/lib/features/itemBoost/itemBoostSlice';
 import { readBoostTagInstance } from '@/lib/features/boostTag/boostTagSlice';
+import { applyBoostsToItem } from '@/app/components/ApplyBoost/ApplyBoost';
 
 interface ItemInstanceCompProps {
     locks: Record<string, any>;
@@ -29,16 +30,23 @@ interface ItemInstanceCompProps {
     style5: string;
     deleteFunction: Function;
     id: string;
+    tags: any[];
 }
 
 const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
     { locks, valueName, value1, value2, value3, value4, value5,
         fieldName, field1, field2, field3, field4, field5,
-        styleName, style1, style2, style3, style4, style5, deleteFunction, id, }
+        styleName, style1, style2, style3, style4, style5, deleteFunction, id, tags }
 ) => {
 
     //Redux
     const dispatch: AppDispatch = useDispatch();
+
+    const boostedVal = applyBoostsToItem({
+        fieldKey: "itemValue1",
+        baseValue: Number(value1 ?? 0),
+        tags: tags
+    });
 
     if (!locks.labelLock) return (
         <div className='flex items-center gap-2'>
@@ -178,6 +186,9 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
                 style='size-6'
                 deleteFunction={() => deleteFunction(id!)}
             />
+            <h1>
+                {boostedVal}
+            </h1>
 
             <textarea
                 value={value1}

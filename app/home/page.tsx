@@ -52,10 +52,6 @@ const Home = () => {
 
   /////////////////////////////// BOOSTS
 
-  const allItems = post?.inventoryData.bagInstance
-    .flatMap(b => b.itemInstance ?? [])
-    .filter((item): item is itemInstanceData => !!item?.id) ?? [];
-
 
   //#region Handles
 
@@ -230,8 +226,6 @@ const Home = () => {
           <h1>hpMaxBoosted</h1>
           {hpMaxBoosted}
         </div>
-        
-        */}
 
         <div className="space-y-4">
           {allItems.map(item => {
@@ -249,7 +243,11 @@ const Home = () => {
               </div>
             );
           })}
-        </div>
+        </div>  
+        
+        */}
+
+      
 
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
@@ -1086,6 +1084,7 @@ const Home = () => {
                     <ItemInstanceComp
                       key={item.id}
                       locks={locks}
+                      tags={item.tags ?? []}
                       valueName={item.itemName ?? ""}
                       value1={item.itemValue1 ?? ""}
                       value2={item.itemValue2 ?? ""}
