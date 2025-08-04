@@ -34,8 +34,9 @@ import BagComp from '../components/forms/inventory/BagComp/BagComp';
 import BagLabelComp from '../components/forms/inventory/BagLabelComp/BagLabelComp';
 import ItemInstanceComp from '../components/forms/inventory/ItemInstanceComp/ItemInstanceComp';
 import { Tooltip } from '../components/Tooltip/Tooltip';
-import { applyBoostsToItem } from '../components/ApplyBoost/ApplyBoost';
+import { applyBoosts } from '../components/ApplyBoost/ApplyBoost';
 import { itemInstanceData } from '@/lib/features/interfaces/interfaces';
+import HealthInputComp from '../components/forms/health/InputComp/HealthInputComp';
 
 const Home = () => {
 
@@ -247,7 +248,7 @@ const Home = () => {
         
         */}
 
-      
+
 
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
@@ -271,9 +272,8 @@ const Home = () => {
                       style="card-label text-2xl italic h-8 w-10"
                     />
 
-                    <InputComp
+                    <HealthInputComp
                       value={post?.healthData.hpCurrent ?? ""}
-                      displayValue={post?.healthData.hpCurrent ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -285,9 +285,8 @@ const Home = () => {
 
                     <div className='border-l border-gray h-full'></div>
 
-                    <InputComp
+                    <HealthInputComp
                       value={post?.healthData.hpMax ?? ""}
-                      displayValue={post?.healthData.hpMax ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -308,9 +307,8 @@ const Home = () => {
                       style="card-label text-lg italic h-8 w-14"
                     />
 
-                    <InputComp
+                    <HealthInputComp
                       value={post?.healthData.hpTemp ?? ""}
-                      displayValue={post?.healthData.hpTemp ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -335,9 +333,8 @@ const Home = () => {
                       style="card-label text-2xl italic w-10 h-10"
                     />
 
-                    <InputComp
+                    <HealthInputComp
                       value={post?.healthData.ac ?? ""}
-                      displayValue={post?.healthData.ac ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -358,9 +355,8 @@ const Home = () => {
                       style="card-label text-lg w-[68px] h-7"
                     />
 
-                    <InputComp
+                    <HealthInputComp
                       value={post?.healthData.stressCurrent ?? ""}
-                      displayValue={post?.healthData.stressCurrent ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}
@@ -372,9 +368,8 @@ const Home = () => {
 
                     <div className='border-l border-gray h-full'></div>
 
-                    <InputComp
+                    <HealthInputComp
                       value={post?.healthData.stressMax ?? ""}
-                      displayValue={post?.healthData.stressMax ?? ""}
                       locks={locks}
                       activePostId={activePostId}
                       updateLocalData={updateHealthData}

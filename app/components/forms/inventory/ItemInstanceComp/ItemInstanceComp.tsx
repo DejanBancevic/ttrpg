@@ -6,7 +6,7 @@ import DeleteButton from '../../../DeleteButton/DeleteButton';
 import { updateItemInstance } from '@/lib/features/inventory/inventorySlice';
 import { readItemBoostInstance } from '@/lib/features/itemBoost/itemBoostSlice';
 import { readBoostTagInstance } from '@/lib/features/boostTag/boostTagSlice';
-import { applyBoostsToItem } from '@/app/components/ApplyBoost/ApplyBoost';
+import { applyBoosts } from '@/app/components/ApplyBoost/ApplyBoost';
 
 interface ItemInstanceCompProps {
     locks: Record<string, any>;
@@ -42,9 +42,15 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
     //Redux
     const dispatch: AppDispatch = useDispatch();
 
-    const boostedVal = applyBoostsToItem({
-        fieldKey: "itemValue1",
-        baseValue: Number(value1 ?? 0),
+    const boostedVals = applyBoosts({
+        fieldKeys: [field1, field2, field3, field4, field5],
+        baseValues: {
+            [field1]: Number(value1 ?? 0),
+            [field2]: Number(value2 ?? 0),
+            [field3]: Number(value3 ?? 0),
+            [field4]: Number(value4 ?? 0),
+            [field5]: Number(value5 ?? 0),
+        },
         tags: tags
     });
 
@@ -164,8 +170,7 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
 
             <button
                 onClick={
-                    () =>
-                    {
+                    () => {
                         dispatch(setInfoData({
                             showInfo: true,
                             infoType: "item",
@@ -187,7 +192,7 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
                 deleteFunction={() => deleteFunction(id!)}
             />
             <h1>
-                {boostedVal}
+                {boostedVals[field1]}
             </h1>
 
             <textarea
