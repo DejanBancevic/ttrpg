@@ -50,7 +50,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
                                 onClick={() => dispatch(setInfoData({ showInfo: false }))}
                             />
                             <div className="z-20 bg-blackButtonBackground border  border-sec shadow-lg shadow-sec rounded-lg 
-                            fixed right-4 top-24 w-[680px] h-[800px]  resize-none"
+                            fixed right-4 top-24 w-[680px] h-[800px] overflow-y-auto custom-scrollbar resize-none"
                             >
                                 <InfoPanel/>
 

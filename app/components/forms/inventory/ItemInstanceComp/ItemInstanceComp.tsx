@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { setInfoData, updateItemInstanceById, } from '@/lib/features/main/mainSlice';
@@ -42,6 +42,35 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
     //Redux
     const dispatch: AppDispatch = useDispatch();
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [localValue1, setLocalValue1] = useState(value1);
+    const [localValue2, setLocalValue2] = useState(value2);
+    const [localValue3, setLocalValue3] = useState(value3);
+    const [localValue4, setLocalValue4] = useState(value4);
+    const [localValue5, setLocalValue5] = useState(value5);
+
+    const handleFocus = (specValue: any, setLocalValueFunc: Function) => {
+        setIsEditing(true);
+        setLocalValueFunc(specValue);
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>, specField: string, setLocalValueFunc: Function) => {
+        if (!locks.inputLock) {
+            setLocalValueFunc(e.target.value);
+            dispatch(updateItemInstanceById({ key: id, value: { [specField]: e.target.value } }));
+        }
+    };
+
+    const handleBlur = (specField: string, localValue: string) => {
+        if (!locks.inputLock) {
+            dispatch(updateItemInstance({
+                id: id,
+                itemInstance: { [specField]: localValue }
+            }));
+        }
+        setIsEditing(false);
+    };
+
     const boostedVals = applyBoosts({
         fieldKeys: [field1, field2, field3, field4, field5],
         baseValues: {
@@ -54,229 +83,107 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
         tags: tags
     });
 
-    if (!locks.labelLock) return (
-        <div className='flex items-center gap-2'>
-            <textarea
-                value={valueName}
-                readOnly={locks.inputLock}
-                onChange={(e) =>
-                    dispatch(updateItemInstanceById({
-                        key: id, value: { [fieldName]: e.target.value }
-                    }))
-                }
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [fieldName]: e.target.value }
-                        }));
-                    }
-                }}
-                spellCheck={false}
-                className={styleName}
-            />
-
-            <DeleteButton
-                style='size-6'
-                deleteFunction={() => deleteFunction(id!)}
-            />
-
-            <textarea
-                value={value1}
-                readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field1]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field1]: e.target.value }
-                        }));
-                    }
-                }}
-                spellCheck={false}
-                className={style1}
-            />
-
-            <textarea
-                value={value2}
-                readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field2]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field2]: e.target.value }
-                        }));
-                    }
-                }}
-                spellCheck={false}
-                className={style2}
-            />
-
-            <textarea
-                value={value3}
-                readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field3]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field3]: e.target.value }
-                        }));
-                    }
-                }}
-                spellCheck={false}
-                className={style3}
-            />
-
-            <textarea
-                value={value4}
-                readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field4]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field4]: e.target.value }
-                        }));
-                    }
-                }}
-                spellCheck={false}
-                className={style4}
-            />
-
-            <textarea
-                value={value5}
-                readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field5]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field5]: e.target.value }
-                        }));
-                    }
-                }}
-                spellCheck={false}
-                className={style5}
-            />
-
-        </div>
-    )
-
     return (
         <div className='flex items-center gap-2'>
-
-
-            <button
-                onClick={
-                    () => {
+            {locks.labelLock ? (
+                <button
+                    onClick={() => {
                         dispatch(setInfoData({
                             showInfo: true,
                             infoType: "item",
-                            id: id,
-                            infoContent: "sdasdasdsadasda"
+                            id,
+                            infoContent: "sdasdasdsadasda",
+                        }));
+                        dispatch(readItemBoostInstance({ id }));
+                        dispatch(readBoostTagInstance({ id }));
+                    }}
+                    spellCheck={false}
+                    className={styleName}
+                >
+                    {valueName}
+                </button>
+            ) : (
+                <textarea
+                    value={valueName}
+                    readOnly={locks.inputLock}
+                    onChange={(e) =>
+                        dispatch(updateItemInstanceById({
+                            key: id,
+                            value: { [fieldName]: e.target.value },
                         }))
-                        dispatch(readItemBoostInstance({ id: id }))
-                        dispatch(readBoostTagInstance({ id: id }))
                     }
-                }
-                spellCheck={false}
-                className={styleName}
-            >
-                {valueName}
-            </button>
+                    onBlur={(e) => {
+                        if (!locks.inputLock) {
+                            dispatch(updateItemInstance({
+                                id,
+                                itemInstance: { [fieldName]: e.target.value },
+                            }));
+                        }
+                    }}
+                    spellCheck={false}
+                    className={styleName}
+                />
+            )}
 
             <DeleteButton
                 style='size-6'
                 deleteFunction={() => deleteFunction(id!)}
             />
-            <h1>
-                {boostedVals[field1]}
-            </h1>
 
             <textarea
-                value={value1}
+                value={isEditing ? localValue1 : boostedVals[field1]}
                 readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field1]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field1]: e.target.value }
-                        }));
-                    }
-                }}
+                onFocus={() => handleFocus(value1, setLocalValue1)}
+                onChange={(e) => handleChange(e, field1, setLocalValue1)}
+                onBlur={() => handleBlur(field1, localValue1)}
                 spellCheck={false}
                 className={style1}
             />
 
+            {/* This is DMG and has to be 1d6+2 format */}
             <textarea
-                value={value2}
+                value={isEditing ? localValue2 : localValue2}
                 readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field2]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field2]: e.target.value }
-                        }));
-                    }
-                }}
+                onFocus={() => handleFocus(value2, setLocalValue2)}
+                onChange={(e) => handleChange(e, field2, setLocalValue2)}
+                onBlur={() => handleBlur(field2, localValue2)}
                 spellCheck={false}
                 className={style2}
             />
 
             <textarea
-                value={value3}
+                value={isEditing ? localValue3 : boostedVals[field3]}
                 readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field3]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field3]: e.target.value }
-                        }));
-                    }
-                }}
+                onFocus={() => handleFocus(value3, setLocalValue3)}
+                onChange={(e) => handleChange(e, field3, setLocalValue3)}
+                onBlur={() => handleBlur(field3, localValue3)}
                 spellCheck={false}
                 className={style3}
             />
 
             <textarea
-                value={value4}
+                value={isEditing ? localValue4 : boostedVals[field4]}
                 readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field4]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field4]: e.target.value }
-                        }));
-                    }
-                }}
+                onFocus={() => handleFocus(value4, setLocalValue4)}
+                onChange={(e) => handleChange(e, field4, setLocalValue4)}
+                onBlur={() => handleBlur(field4, localValue4)}
                 spellCheck={false}
                 className={style4}
             />
 
             <textarea
-                value={value5}
+                value={isEditing ? localValue5 : boostedVals[field5]}
                 readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateItemInstanceById({ key: id, value: { [field5]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateItemInstance({
-                            id: id,
-                            itemInstance: { [field5]: e.target.value }
-                        }));
-                    }
-                }}
+                onFocus={() => handleFocus(value5, setLocalValue5)}
+                onChange={(e) => handleChange(e, field5, setLocalValue5)}
+                onBlur={() => handleBlur(field5, localValue5)}
                 spellCheck={false}
                 className={style5}
             />
 
         </div>
     )
+  
 }
 
 export default ItemInstanceComp

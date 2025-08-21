@@ -24,12 +24,14 @@ export function applyBoosts({ fieldKeys, baseValues, tags, fieldOnly }: ApplyBoo
 
     if (fieldOnly !== undefined) {
         allItems.forEach(boosterItem => {
-            boosterItem.booster.forEach(boost => {
-                const appliesToField = fieldKeys.includes(boost.targetField!);
-                if (appliesToField) {
-                    boostMap[boost.targetField!] += boost.boostAmount ?? 0;
-                }
-            });
+            if (boosterItem.booster) {
+                boosterItem.booster.forEach(boost => {
+                    const appliesToField = fieldKeys.includes(boost.targetField!);
+                    if (appliesToField) {
+                        boostMap[boost.targetField!] += boost.boostAmount ?? 0;
+                    }
+                });
+            }
         });
     } else {
         allItems.forEach(boosterItem => {

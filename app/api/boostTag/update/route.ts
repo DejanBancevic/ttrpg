@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
             data: {
                 tagValue: boostTagData.tagValue ?? undefined,
             },
+            include: { itemInstance: true },
         });
 
         //console.log(JSON.stringify(updatedBoostTag, null, 2));

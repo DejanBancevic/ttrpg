@@ -79,7 +79,7 @@ const InfoPanel = () => {
             />
 
         case "item":
-            return <div className='flex flex-col gap-2 items-center overflow-y-scroll '>
+            return <div className='flex flex-col gap-2 items-center overflow-y-auto py-2 '>
 
                 <MDEditor
                     value={infoData.infoContent}
