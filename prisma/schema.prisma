@@ -42,6 +42,8 @@ model Post {
   inventory   Inventory @relation("PostInventory", fields: [inventoryId], references: [id], onDelete: Cascade)
   inventoryId String    @unique
 
+  notes String @default("")
+
   author   User?   @relation(fields: [authorId], references: [id])
   authorId String?
 }
@@ -119,6 +121,7 @@ model ItemInstance {
   itemValue3 String
   itemValue4 String
   itemValue5 String
+  notes      String @default("")
 
   bagInstance   BagInstance? @relation("BagInstanceItemInstance", fields: [bagInstanceId], references: [id], onDelete: Cascade)
   bagInstanceId String

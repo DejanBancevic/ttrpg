@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    //UPDATE existing post by ID (required for multiple posts)
     if (!body.postId) {
         return NextResponse.json({ error: "Missing postId for update." }, { status: 400 });
     }
@@ -34,12 +33,13 @@ export async function POST(request: NextRequest) {
             ...(body.basics && {
                 basics: { update: body.basics },
             }),
-
+            ...(body.notes && {
+                notes: body.notes,
+            }),
         },
         include: {
             health: true,
             basics: true,
-
         },
     });
 

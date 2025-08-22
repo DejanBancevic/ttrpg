@@ -293,6 +293,7 @@ export async function GET(request: NextRequest) {
                                                 itemValue3: "0",
                                                 itemValue4: "0",
                                                 itemValue5: "0",
+                                                notes: "Write notes here...",
                                             },
                                         ],
                                     },
@@ -301,6 +302,7 @@ export async function GET(request: NextRequest) {
                         },
                     },
                 },
+                notes: "Write notes for your character here...",
             },
             include: {
                 health: true,

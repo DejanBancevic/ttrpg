@@ -20,6 +20,10 @@ const Navbar = () => {
     //Redux
     const dispatch: AppDispatch = useDispatch();
     const locks = useSelector((state: RootState) => state.mainData.locks);
+    const activePostId = useSelector((state: RootState) => state.mainData.activePostId);
+    const post = useSelector((state: RootState) =>
+        state.mainData.posts.find(post => post.id === activePostId)
+      )
     const { data: session } = useSession();
 
     const handleSignOut = () => {
@@ -106,7 +110,7 @@ const Navbar = () => {
                     <button
                         className="text-lg px-2 pb-1 "
                         onClick={() => {
-                            dispatch(setInfoData({showInfo: true, infoType: "notes", id: "", infoContent: "noooootes" }));
+                            dispatch(setInfoData({showInfo: true, infoType: "notes", id: "", infoContent: post?.notes }));
                         }}>
                         {
                             <div className="flex flex-col text-center items-center">

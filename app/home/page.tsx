@@ -217,39 +217,6 @@ const Home = () => {
             </div>
         */}
 
-        {/*
-        <div>
-          <h1>hpMax</h1>
-          {hpMaxBase}
-        </div>
-
-        <div>
-          <h1>hpMaxBoosted</h1>
-          {hpMaxBoosted}
-        </div>
-
-        <div className="space-y-4">
-          {allItems.map(item => {
-            const boostedVal = applyBoostsToItem({
-              fieldKey: "itemValue1",
-              baseValue: Number(item.itemValue1 ?? 0),
-              item,
-              allItems,
-            });
-
-            return (
-              <div key={item.id} className="p-4 rounded-xl shadow">
-                <h3 className="text-lg font-semibold">{item.itemName}</h3>
-                <p>Boosted Value: {boostedVal}</p>
-              </div>
-            );
-          })}
-        </div>  
-        
-        */}
-
-
-
         {/*Left Side */}
         <div className='flex flex-col items-center gap-4'>
 
@@ -1098,6 +1065,7 @@ const Home = () => {
                       style3={'card-textarea w-14 h-10'}
                       style4={'card-textarea w-16 h-10'}
                       style5={'card-textarea w-11 h-10'}
+                      notes={item.notes ?? ""}
                       id={item.id!}
                       deleteFunction={handleDeleteItemInstance}
                     />

@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
                 itemValue3: itemInstanceData.itemValue3,
                 itemValue4: itemInstanceData.itemValue4,
                 itemValue5: itemInstanceData.itemValue5,
+                notes: itemInstanceData.notes,
             },
         });
      

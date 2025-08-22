@@ -28,6 +28,7 @@ interface ItemInstanceCompProps {
     style3: string;
     style4: string;
     style5: string;
+    notes: string;
     deleteFunction: Function;
     id: string;
     tags: any[];
@@ -36,7 +37,7 @@ interface ItemInstanceCompProps {
 const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
     { locks, valueName, value1, value2, value3, value4, value5,
         fieldName, field1, field2, field3, field4, field5,
-        styleName, style1, style2, style3, style4, style5, deleteFunction, id, tags }
+        styleName, style1, style2, style3, style4, style5, deleteFunction, id, tags, notes }
 ) => {
 
     //Redux
@@ -92,7 +93,7 @@ const ItemInstanceComp: React.FC<ItemInstanceCompProps> = (
                             showInfo: true,
                             infoType: "item",
                             id,
-                            infoContent: "sdasdasdsadasda",
+                            infoContent: notes,
                         }));
                         dispatch(readItemBoostInstance({ id }));
                         dispatch(readBoostTagInstance({ id }));

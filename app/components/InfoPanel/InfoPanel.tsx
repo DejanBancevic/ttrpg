@@ -4,7 +4,7 @@ import MDEditor, { commands } from "@uiw/react-md-editor";
 import remarkGfm from "remark-gfm";
 import InputComp from '../forms/global/InputComp/InputComp';
 import { updateItemInstance } from '@/lib/features/inventory/inventorySlice';
-import { updateItemBoostById, updateItemInstanceById } from '@/lib/features/main/mainSlice';
+import { setInfoData, updateItemBoostById, updateItemInstanceById, updatePost } from '@/lib/features/main/mainSlice';
 import { AppDispatch, RootState } from '@/lib/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addInstance } from '../AddInstance/AddInstance';
@@ -16,6 +16,7 @@ import { deleteInstance } from '../DeleteInstance/DeleteInstance';
 import ItemBoostComp from '../forms/itemBoost/ItemBoostComp';
 import { createBoostTagInstance, deleteBoostTagInstance, readBoostTagInstance, updateBoostTagInstance } from '@/lib/features/boostTag/boostTagSlice';
 import BoostTagComp from '../forms/boostTag/BoostTagComp';
+import { info } from 'console';
 
 
 
@@ -26,6 +27,7 @@ const InfoPanel = () => {
     const infoData = useSelector((state: RootState) => state.mainData.infoData);
     const itemBoosts = useSelector((state: RootState) => state.mainData.itemBoosts);
     const boostTags = useSelector((state: RootState) => state.mainData.boostTags);
+    const activePostId = useSelector((state: RootState) => state.mainData.activePostId);
 
     const handleAddItemBoostInstance = async () => {
 
@@ -65,7 +67,19 @@ const InfoPanel = () => {
         case "notes":
             return <MDEditor
                 value={infoData.infoContent}
-                //onChange={(val) => setValue(val || "")}
+                onChange={(e) => {
+                    if (!locks.inputLock) {
+                        dispatch(setInfoData({ ...infoData, infoContent: e || "" }));
+                    }
+                }}
+                onBlur={() => {
+                    if (!locks.inputLock) {
+                        dispatch(updatePost({
+                            postId: activePostId,
+                            notes: infoData.infoContent
+                        }));
+                    }
+                }}
                 height={800}
                 visibleDragbar={false}
                 extraCommands={[
@@ -83,7 +97,19 @@ const InfoPanel = () => {
 
                 <MDEditor
                     value={infoData.infoContent}
-                    //onChange={(val) => setValue(val || "")}
+                    onChange={(e) => {
+                        if (!locks.inputLock) {
+                            dispatch(setInfoData({ ...infoData, infoContent: e || "" }));
+                        }
+                    }}
+                    onBlur={() => {
+                        if (!locks.inputLock) {
+                            dispatch(updateItemInstance({
+                                id: infoData.id,
+                                itemInstance: { notes: infoData.infoContent }
+                            }));
+                        }
+                    }}
                     height={400}
                     visibleDragbar={false}
                     extraCommands={[

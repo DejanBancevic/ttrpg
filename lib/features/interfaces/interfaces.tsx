@@ -59,6 +59,7 @@ export interface itemInstanceData {
     tags: Partial<boostTagData>[];
     booster: Partial<itemBoostData>[];
     boostedBy: Partial<itemBoostData>[];
+    notes: string;
 };
 
 export interface passivesData {

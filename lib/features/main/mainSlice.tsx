@@ -57,7 +57,7 @@ export const readPosts = createAsyncThunk(
 
 export const updatePost = createAsyncThunk(
     'main/updatePost',
-    async (postData: { postId?: string, health?: Partial<healthData>, basics?: Partial<basicsData>, }, { rejectWithValue }) => {
+    async (postData: { postId?: string, health?: Partial<healthData>, basics?: Partial<basicsData>, notes?: Partial<String>}, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/posts/update', {
                 method: 'POST',
@@ -308,11 +308,13 @@ const initialState: MainState = {
                                 itemValue3: "0",
                                 itemValue4: "0",
                                 itemValue5: "0",
+                                notes: "Write notes here...",
                             },
                         ],
                     },
                 ],
             },
+            notes: "Write notes for your character here...",
         },
     ],
     itemBoosts: [],
@@ -359,6 +361,7 @@ interface post {
     spellsData: spellsData;
     passivesData: passivesData;
     inventoryData: inventoryData;
+    notes: String;
 };
 
 interface locks {
@@ -608,6 +611,7 @@ const mainSlice = createSlice({
                             itemInstance: bag.itemInstance ?? [],
                         })),
                     },
+                    notes: newPost.notes,
                 });
                 state.activePostId = newPost.id;
 
@@ -678,6 +682,7 @@ const mainSlice = createSlice({
                             })) ?? [],
                         })),
                     },
+                    notes: post.notes,
                 }));
 
                 const activePostStillExists = posts.some((post: any) =>
@@ -703,6 +708,10 @@ const mainSlice = createSlice({
 
                 if (updatedPost.basics) {
                     existingPost.basicsData = updatedPost.basics;
+                }
+
+                if (updatedPost.notes) {
+                    existingPost.notes = updatedPost.notes;
                 }
 
                 state.activePostId = updatedPost.id;

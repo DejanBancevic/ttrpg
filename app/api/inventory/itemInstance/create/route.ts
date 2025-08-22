@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
             itemValue3: "0",
             itemValue4: "0",
             itemValue5: "0",
+            notes: "Write notes here...",
             bagInstance: {
                 connect: { id: body.id },
             },
