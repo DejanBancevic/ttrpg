@@ -8,8 +8,8 @@ interface InputCompProps {
     updateLocalData: Function;
     updatePostData: Function;
     model: string;
-    value: string;          // base value from Redux
-    displayValue?: string;   // boosted value to display when not editing
+    value: string;         
+    displayValue?: string;   
     inputName: string;
     style: string;
 }
@@ -54,7 +54,7 @@ const InputComp: React.FC<InputCompProps> = ({
 
     return (
         <textarea
-            value={isEditing ? localValue : displayValue}
+            value={isEditing ? localValue : displayValue ?? value}
             readOnly={locks.inputLock}
             onFocus={handleFocus}
             onChange={handleChange}

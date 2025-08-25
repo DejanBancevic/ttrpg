@@ -55,7 +55,6 @@ const Home = () => {
 
   /////////////////////////////// BOOSTS
 
-
   //#region Handles
 
   {/*Skills */ }
@@ -370,91 +369,112 @@ const Home = () => {
 
           {/*Name & Level */}
           <div className='mainContainers '>
-            <div className='flex justify-center gap-2'>
-              {/*Name*/}
-              <div className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-2'>
 
-                <InputComp
-                  value={post?.basicsData.name ?? ""}
-                  displayValue={post?.basicsData.name ?? ""}
-                  locks={locks}
-                  activePostId={activePostId}
-                  updateLocalData={updateBasicsData}
-                  updatePostData={updatePost}
-                  model="basics"
-                  inputName='name'
-                  style="card-textarea w-44 h-10 !text-start pl-2 text-sec placeholder-grayActive"
-                />
+              <div className='flex justify-center gap-2'>
+                {/*Name*/}
+                <div className='flex flex-col gap-2'>
 
-                <InputComp
-                  value={post?.basicsData.desc ?? ""}
-                  displayValue={post?.basicsData.desc ?? ""}
-                  locks={locks}
-                  activePostId={activePostId}
-                  updateLocalData={updateBasicsData}
-                  updatePostData={updatePost}
-                  model="basics"
-                  inputName='desc'
-                  style="card-textarea w-44 h-10 text-xs !text-start !pt-3 pl-2 placeholder-grayActive !overflow-y-auto custom-scrollbar"
-                />
+                  <InputComp
+                    value={post?.basicsData.name ?? ""}
+                    displayValue={post?.basicsData.name ?? ""}
+                    locks={locks}
+                    activePostId={activePostId}
+                    updateLocalData={updateBasicsData}
+                    updatePostData={updatePost}
+                    model="basics"
+                    inputName='name'
+                    style="card-textarea w-44 h-10 !text-start pl-2 text-sec placeholder-grayActive"
+                  />
 
+                  <InputComp
+                    value={post?.basicsData.desc ?? ""}
+                    displayValue={post?.basicsData.desc ?? ""}
+                    locks={locks}
+                    activePostId={activePostId}
+                    updateLocalData={updateBasicsData}
+                    updatePostData={updatePost}
+                    model="basics"
+                    inputName='desc'
+                    style="card-textarea w-44 h-10 text-xs !text-start !pt-3 pl-2 placeholder-grayActive !overflow-y-auto custom-scrollbar"
+                  />
+
+                </div>
+
+                <div className='border-l border-gray h-full'></div>
+
+                {/*XP*/}
+                <div className='flex flex-col gap-2'>
+                  <div className='flex items-center gap-2'>
+
+                    <LabelComp
+                      value={post?.basicsData.levelLabel ?? ""}
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateBasicsData}
+                      updatePostData={updatePost}
+                      model='basics'
+                      labelName='levelLabel'
+                      style="card-label text-2xl w-[63px] h-7"
+                    />
+
+                    <InputComp
+                      value={post?.basicsData.level ?? ""}
+                      displayValue={post?.basicsData.level ?? ""}
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateBasicsData}
+                      updatePostData={updatePost}
+                      model="basics"
+                      inputName='level'
+                      style="card-textarea w-11 h-11 text-center"
+                    />
+
+                  </div>
+                  <div className='flex justify-center items-center gap-2 '>
+
+                    <LabelComp
+                      value={post?.basicsData.xpLabel ?? ""}
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateBasicsData}
+                      updatePostData={updatePost}
+                      model='basics'
+                      labelName='xpLabel'
+                      style="card-label text-lg italic w-[27px] h-7"
+                    />
+                    <InputComp
+                      value={post?.basicsData.xp ?? ""}
+                      displayValue={post?.basicsData.xp ?? ""}
+                      locks={locks}
+                      activePostId={activePostId}
+                      updateLocalData={updateBasicsData}
+                      updatePostData={updatePost}
+                      model="basics"
+                      inputName='xp'
+                      style="card-textarea w-20 h-10 text-center"
+                    />
+
+                  </div>
+                </div>
               </div>
 
-              <div className='border-l border-gray h-full'></div>
+              <div className='flex justify-between items-center gap-2'>
 
-              {/*XP*/}
-              <div className='flex flex-col gap-2'>
-                <div className='flex items-center gap-2'>
+                <h1 className='card-label !text-start text-md '>
+                  Portrait
+                </h1>
 
-                  <LabelComp
-                    value={post?.basicsData.levelLabel ?? ""}
-                    locks={locks}
-                    activePostId={activePostId}
-                    updateLocalData={updateBasicsData}
-                    updatePostData={updatePost}
-                    model='basics'
-                    labelName='levelLabel'
-                    style="card-label text-2xl w-[63px] h-7"
-                  />
-
-                  <InputComp
-                    value={post?.basicsData.level ?? ""}
-                    displayValue={post?.basicsData.level ?? ""}
-                    locks={locks}
-                    activePostId={activePostId}
-                    updateLocalData={updateBasicsData}
-                    updatePostData={updatePost}
-                    model="basics"
-                    inputName='level'
-                    style="card-textarea w-11 h-11 text-center"
-                  />
-
-                </div>
-                <div className='flex justify-center items-center gap-2 '>
-
-                  <LabelComp
-                    value={post?.basicsData.xpLabel ?? ""}
-                    locks={locks}
-                    activePostId={activePostId}
-                    updateLocalData={updateBasicsData}
-                    updatePostData={updatePost}
-                    model='basics'
-                    labelName='xpLabel'
-                    style="card-label text-lg italic w-[27px] h-7"
-                  />
-                  <InputComp
-                    value={post?.basicsData.xp ?? ""}
-                    displayValue={post?.basicsData.xp ?? ""}
-                    locks={locks}
-                    activePostId={activePostId}
-                    updateLocalData={updateBasicsData}
-                    updatePostData={updatePost}
-                    model="basics"
-                    inputName='xp'
-                    style="card-textarea w-20 h-10 text-center"
-                  />
-
-                </div>
+                <InputComp
+                  value={post?.basicsData.imageUrl ?? ""}
+                  locks={locks}
+                  activePostId={activePostId}
+                  updateLocalData={updateBasicsData}
+                  updatePostData={updatePost}
+                  model="basics"
+                  inputName='imageUrl'
+                  style="card-textarea w-[230px] h-10 !text-start !font-thin italic !pl-2 !text-grayActive "
+                />
               </div>
             </div>
 
@@ -567,14 +587,29 @@ const Home = () => {
             <div className='mainContainers !items-stretch w-[620px] max-h-[770px] min-h-0 overflow-y-auto custom-scrollbar '>
               <div className='flex flex-col '>
 
-                <FeatsLabelComp
-                  locks={locks}
-                  activePostId={activePostId}
-                  valueLabel={post?.featsData.featsLabel! ?? ""}
-                  fieldLabel={'featsLabel'}
-                  styleLabel={'card-label !text-start text-2xl italic mb-2'}
+                <div className='flex justify-between'>
 
-                />
+                  <FeatsLabelComp
+                    locks={locks}
+                    activePostId={activePostId}
+                    valueLabel={post?.featsData.featsLabel! ?? ""}
+                    fieldLabel={'featsLabel'}
+                    styleLabel={'card-label !text-start text-2xl italic mb-2'}
+                  />
+
+                  <Tooltip
+                    content={
+                      <>
+                        Right click the feat <br />
+                        section box to delete it.
+                      </>
+                    }
+                    style='w-[180px] '
+                  >
+                    <Info />
+                  </Tooltip>
+
+                </div>
 
                 {/*FeatSlots */}
                 <div className='flex justify-start gap-2 mt-2 items-center overflow-x-scroll custom-scrollbar'>
@@ -608,7 +643,7 @@ const Home = () => {
 
                   {/*Feat Instance */}
                   {
-                    post?.featsData?.featSlotInstance?.find(f=> f.id === activeFeatSlotId)?.featInstance?.map((feat, index) => (
+                    post?.featsData?.featSlotInstance?.find(f => f.id === activeFeatSlotId)?.featInstance?.map((feat, index) => (
                       <FeatComp
                         key={feat.id}
                         valueName={feat.featName ?? ""}

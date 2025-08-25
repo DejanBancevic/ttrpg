@@ -9,7 +9,10 @@ import { authOptions } from "@/lib/authOp";
 import InitDataLoader from "./components/InitDataLoader/InitDataLoader";
 
 
-const rubik = Rubik({ subsets: ["latin"] });  // Loading the font which we first imported
+const rubik = Rubik({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700", "900"],
+});
 
 export const metadata = {
   title: "TTRPG Editor",
