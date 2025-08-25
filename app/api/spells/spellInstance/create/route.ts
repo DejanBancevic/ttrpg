@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
             spellValue2: "0",
             spellValue3: "0",
             spellValue4: "0",
+            notes: "Write notes here...",
             spellSlotInstance: {
                 connect: { id: body.id },
             },

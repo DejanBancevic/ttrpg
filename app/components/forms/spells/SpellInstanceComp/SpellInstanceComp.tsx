@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateSpellInstanceById, } from '@/lib/features/main/mainSlice';
+import { setInfoData, updateSpellInstanceById, } from '@/lib/features/main/mainSlice';
 import DeleteButton from '../../../DeleteButton/DeleteButton';
 import { updateSpellInstance } from '@/lib/features/spells/spellsSlice';
 
@@ -22,6 +22,7 @@ interface SpellInstanceCompProps {
     style2: string;
     style3: string;
     style4: string;
+    notes: string;
     deleteFunction: Function;
     id: string;
 }
@@ -29,7 +30,7 @@ interface SpellInstanceCompProps {
 const SpellInstanceComp: React.FC<SpellInstanceCompProps> = (
     { locks, valueName, value1, value2, value3, value4,
         fieldName, field1, field2, field3, field4,
-        styleName, style1, style2, style3, style4, deleteFunction, id, }
+        styleName, style1, style2, style3, style4, notes, deleteFunction, id, }
 ) => {
 
     //Redux
@@ -37,25 +38,43 @@ const SpellInstanceComp: React.FC<SpellInstanceCompProps> = (
 
     return (
         <div className='flex items-center gap-2'>
-            <textarea
-                value={valueName}
-                readOnly={locks.inputLock}
-                onChange={(e) =>
-                    dispatch(updateSpellInstanceById({
-                        key: id, value: { [fieldName]: e.target.value }
-                    }))
-                }
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateSpellInstance({
-                            id: id,
-                            spellInstance: { [fieldName]: e.target.value }
+
+            {locks.labelLock ? (
+                <button
+                    onClick={() => {
+                        dispatch(setInfoData({
+                            showInfo: true,
+                            infoType: "spell",
+                            id,
+                            infoContent: notes,
                         }));
+                    }}
+                    spellCheck={false}
+                    className={styleName}
+                >
+                    {valueName}
+                </button>
+            ) : (
+                <textarea
+                    value={valueName}
+                    readOnly={locks.inputLock}
+                    onChange={(e) =>
+                        dispatch(updateSpellInstanceById({
+                            key: id, value: { [fieldName]: e.target.value }
+                        }))
                     }
-                }}
-                spellCheck={false}
-                className={styleName}
-            />
+                    onBlur={(e) => {
+                        if (!locks.inputLock) {
+                            dispatch(updateSpellInstance({
+                                id: id,
+                                spellInstance: { [fieldName]: e.target.value }
+                            }));
+                        }
+                    }}
+                    spellCheck={false}
+                    className={styleName}
+                />
+            )}
 
             <DeleteButton
                 style='size-6'

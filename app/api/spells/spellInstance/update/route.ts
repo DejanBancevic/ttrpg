@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
                 spellValue2: spellsData.spellValue2,
                 spellValue3: spellsData.spellValue3,
                 spellValue4: spellsData.spellValue4,
+                notes: spellsData.notes,
             },
         });
 

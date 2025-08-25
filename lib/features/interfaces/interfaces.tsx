@@ -109,6 +109,7 @@ export interface spellInstanceData {
     spellValue2: string;
     spellValue3: string;
     spellValue4: string;
+    notes: string;
 };
 
 export interface featsData {

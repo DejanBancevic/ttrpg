@@ -210,6 +210,7 @@ model SpellInstance {
   spellValue2    String
   spellValue3    String
   spellValue4    String
+  notes          String @default("")
 
   spellSlotInstance   SpellSlotInstance? @relation("SpellSlotInstanceSpellInstance", fields: [spellSlotInstanceId], references: [id], onDelete: Cascade)
   spellSlotInstanceId String

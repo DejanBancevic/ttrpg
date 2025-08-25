@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
 import { updateFeatsById, } from '@/lib/features/main/mainSlice';
@@ -6,6 +6,7 @@ import DeleteButton from '../../../DeleteButton/DeleteButton';
 import { updateFeats } from '@/lib/features/feats/featsSlice';
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import remarkGfm from "remark-gfm";
+import { ChevronDown, ChevronUp } from "@deemlol/next-icons"
 
 interface FeatCompProps {
     locks: Record<string, any>;
@@ -39,37 +40,52 @@ const FeatComp: React.FC<FeatCompProps> = (
     //Redux
     const dispatch: AppDispatch = useDispatch();
 
+    const [expanded, setExpanded] = useState(false);
+
     return (
 
         < div className='flex flex-col gap-1' >
+            {/* Top bar */}
             <div className='flex justify-between items-center'>
 
-                {/* Name */}
-                <input
-                    value={valueName}
-                    readOnly={locks.labelLock}
-                    onChange={(e) => {
-                        if (!locks.labelLock) {
-                            dispatch(updateFeatsById({ key: id, value: { [fieldName]: e.target.value } }));
-                        }
-                    }}
-                    onBlur={(e) => {
-                        dispatch(updateFeats({
-                            postId: activePostId,
-                            feats: {
-                                featInstance: [
-                                    {
-                                        id: id,
-                                        [fieldName]: e.target.value
-                                    },
-                                ],
-                            },
-                        }));
-                    }}
-                    spellCheck={false}
-                    className={styleName}
-                />
+                {/* Name and Expand */}
+                <div className='flex items-center gap-1 '>
+                    <input
+                        value={valueName}
+                        readOnly={locks.labelLock}
+                        onChange={(e) => {
+                            if (!locks.labelLock) {
+                                dispatch(updateFeatsById({ key: id, value: { [fieldName]: e.target.value } }));
+                            }
+                        }}
+                        onBlur={(e) => {
+                            dispatch(updateFeats({
+                                postId: activePostId,
+                                feats: {
+                                    featInstance: [
+                                        {
+                                            id: id,
+                                            [fieldName]: e.target.value
+                                        },
+                                    ],
+                                },
+                            }));
+                        }}
+                        spellCheck={false}
+                        style={{
+                            width: `${Math.min(valueName.length * 10 + 10, 300)}px`, 
+                            transition: "width 0.2s",
+                        }}
+                        className={styleName}
+                    />
 
+                    <button className='!border-none'>
+                        {expanded ? <ChevronUp className='icon-md' onClick={() => setExpanded(false)} />
+                            : <ChevronDown className='icon-md' onClick={() => setExpanded(true)} />}
+                    </button>
+                </div>
+
+                {/* Charges */}
                 <div className='flex items-center gap-1 '>
 
                     <DeleteButton
@@ -158,68 +174,44 @@ const FeatComp: React.FC<FeatCompProps> = (
             </div>
 
             {/* Text */}
-            <MDEditor
-                value={valueText.replace("{Charges}", valueChargesMax)}
-                onChange={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateFeatsById({ key: id, value: { [fieldText]: e || "" } }));
-                    }
-                }}
-                onBlur={() => {
-                    if (!locks.inputLock) {
-                        dispatch(updateFeats({
-                            postId: activePostId,
-                            feats: {
-                                featInstance: [
-                                    {
-                                        id: id,
-                                        [fieldText]: valueText
-                                    },
-                                ],
-                            },
-                        }));
-                    }
-                }}
-                height={200}
-                preview="preview"
-                visibleDragbar={false}
-                extraCommands={[
-                    commands.codeEdit,
-                    commands.codeLive,
-                    commands.codePreview
-                ]}
-                previewOptions={{
-                    remarkPlugins: [remarkGfm],
-                }}
-            />
-
-            {/* 
-                <textarea
-                value={valueText}
-                readOnly={locks.inputLock}
-                onChange={(e) => dispatch(updateFeatsById({ key: id, value: { [fieldText]: e.target.value } }))}
-                onBlur={(e) => {
-                    if (!locks.inputLock) {
-                        dispatch(updateFeats({
-                            postId: activePostId,
-                            feats: {
-                                featInstance: [
-                                    {
-                                        id: id,
-                                        [fieldText]: e.target.value
-                                    },
-                                ],
-                            },
-                        }));
-                    }
-                }}
-                spellCheck={false}
-                className={styleText}
-            />
-            */}
+            {expanded &&
+                <MDEditor
+                    value={valueText.replace("{Charges}", valueChargesMax)}
+                    onChange={(e) => {
+                        if (!locks.inputLock) {
+                            dispatch(updateFeatsById({ key: id, value: { [fieldText]: e || "" } }));
+                        }
+                    }}
+                    onBlur={() => {
+                        if (!locks.inputLock) {
+                            dispatch(updateFeats({
+                                postId: activePostId,
+                                feats: {
+                                    featInstance: [
+                                        {
+                                            id: id,
+                                            [fieldText]: valueText
+                                        },
+                                    ],
+                                },
+                            }));
+                        }
+                    }}
+                    height={200}
+                    preview="preview"
+                    visibleDragbar={false}
+                    extraCommands={[
+                        commands.codeEdit,
+                        commands.codeLive,
+                        commands.codePreview
+                    ]}
+                    previewOptions={{
+                        remarkPlugins: [remarkGfm],
+                    }}
+                />
+            }
 
         </div >
-
     )
 }
 

@@ -243,6 +243,7 @@ const initialState: MainState = {
                                 spellValue2: "0",
                                 spellValue3: "0",
                                 spellValue4: "0",
+                                notes: "Write notes here...",
                             },
                         ],
                     },

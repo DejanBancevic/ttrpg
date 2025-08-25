@@ -30,7 +30,7 @@ export const createSpellInstance = createAsyncThunk(
             const res = await fetch('/api/spells/spellInstance/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id }),
+                body: JSON.stringify({id}),
             });
 
             if (!res.ok) {
@@ -69,7 +69,7 @@ export const updateSpells = createAsyncThunk(
 
 export const updateSpellInstance = createAsyncThunk(
     'main/updateSpellInstance',
-    async (spellInstance: { id: string, spellInstance: Partial<spellInstanceData> }, { rejectWithValue }) => {
+    async (spellInstance: { id: string, spellInstance: Partial<spellInstanceData> ,}, { rejectWithValue }) => {
         try {
             const res = await fetch('/api/spells/spellInstance/update', {
                 method: 'POST',

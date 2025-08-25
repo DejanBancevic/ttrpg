@@ -4,7 +4,7 @@ import MDEditor, { commands } from "@uiw/react-md-editor";
 import remarkGfm from "remark-gfm";
 import InputComp from '../forms/global/InputComp/InputComp';
 import { updateItemInstance } from '@/lib/features/inventory/inventorySlice';
-import { setInfoData, updateItemBoostById, updateItemInstanceById, updatePost } from '@/lib/features/main/mainSlice';
+import { readPosts, setInfoData, updateItemBoostById, updateItemInstanceById, updatePost } from '@/lib/features/main/mainSlice';
 import { AppDispatch, RootState } from '@/lib/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addInstance } from '../AddInstance/AddInstance';
@@ -17,6 +17,7 @@ import ItemBoostComp from '../forms/itemBoost/ItemBoostComp';
 import { createBoostTagInstance, deleteBoostTagInstance, readBoostTagInstance, updateBoostTagInstance } from '@/lib/features/boostTag/boostTagSlice';
 import BoostTagComp from '../forms/boostTag/BoostTagComp';
 import { info } from 'console';
+import { updateSpellInstance } from '@/lib/features/spells/spellsSlice';
 
 
 
@@ -78,6 +79,7 @@ const InfoPanel = () => {
                             postId: activePostId,
                             notes: infoData.infoContent
                         }));
+                        dispatch(readPosts());
                     }
                 }}
                 height={800}
@@ -108,6 +110,7 @@ const InfoPanel = () => {
                                 id: infoData.id,
                                 itemInstance: { notes: infoData.infoContent }
                             }));
+                            dispatch(readPosts());
                         }
                     }}
                     height={400}
@@ -184,6 +187,36 @@ const InfoPanel = () => {
                 />
 
             </div>
+
+        case "spell":
+            return <MDEditor
+                value={infoData.infoContent}
+                onChange={(e) => {
+                    if (!locks.inputLock) {
+                        dispatch(setInfoData({ ...infoData, infoContent: e || "" }));
+                    }
+                }}
+                onBlur={() => {
+                    if (!locks.inputLock) {
+                        dispatch(updateSpellInstance({
+                            id: infoData.id,
+                            spellInstance: { notes: infoData.infoContent }
+                        }));
+                        dispatch(readPosts());
+                    }
+                }}
+                height={800}
+                visibleDragbar={false}
+                extraCommands={[
+                    commands.codeEdit,
+                    commands.codeLive,
+                    commands.codePreview
+                ]}
+                previewOptions={{
+                    remarkPlugins: [remarkGfm],
+                }}
+            />
+
 
         default:
             return null;

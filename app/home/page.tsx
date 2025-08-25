@@ -579,7 +579,7 @@ const Home = () => {
                         fieldText='featText'
                         locks={locks}
                         activePostId={activePostId}
-                        styleName="card-label !text-start text-lg w-52"
+                        styleName="bg-primary outline-none text-start whitespace-nowrap overflow-hidden text-ellipsis font-bold resize-none"
                         styleCharges="card-label !text-end text-md w-20"
                         styleChargesCurrent="card-textarea w-10 h-10 text-sec"
                         styleChargesMax='card-textarea w-10 h-10'
@@ -749,6 +749,7 @@ const Home = () => {
                       <SpellInstanceComp
                         key={spell.id}
                         locks={locks}
+                        notes={spell.notes ?? ""}
                         valueName={spell.spellNameValue ?? ""}
                         value1={spell.spellValue1 ?? ""}
                         value2={spell.spellValue2 ?? ""}
@@ -995,7 +996,7 @@ const Home = () => {
                       valueInfo={bag.bagLabel}
                       fieldInfo='bagLabel'
                       locks={locks}
-                      styleInfo='card-bag w-20 h-10'
+                      styleInfo='card-bag w-20 h-10 !px-3'
                       id={bag.id!}
                       deleteFunction={handleDeleteBagInstance}
                     />
