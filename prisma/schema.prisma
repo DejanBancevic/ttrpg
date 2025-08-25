@@ -220,9 +220,19 @@ model Feats {
   id         String @id @default(cuid())
   featsLabel String
 
-  featInstance FeatInstance[] @relation("FeatsFeatInstance")
+  featSlotInstance FeatSlotInstance[] @relation("FeatsFeatSlotInstance")
 
   post Post? @relation("PostFeats")
+}
+
+model FeatSlotInstance {
+  id            String @id @default(cuid())
+  featSlotLabel String
+
+  featInstance FeatInstance[] @relation("FeatSlotInstanceFeatInstance")
+
+  feats   Feats? @relation("FeatsFeatSlotInstance", fields: [featsId], references: [id], onDelete: Cascade)
+  featsId String
 }
 
 model FeatInstance {
@@ -233,8 +243,8 @@ model FeatInstance {
   featChargeMax     String
   featText          String
 
-  feats   Feats? @relation("FeatsFeatInstance", fields: [featsId], references: [id], onDelete: Cascade)
-  featsId String
+  featSlotInstance   FeatSlotInstance? @relation("FeatSlotInstanceFeatInstance", fields: [featSlotInstanceId], references: [id], onDelete: Cascade)
+  featSlotInstanceId String
 }
 
 model Attributes {

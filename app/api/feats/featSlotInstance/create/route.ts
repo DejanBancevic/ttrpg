@@ -1,4 +1,4 @@
-import prisma from '../../../../lib/prisma';
+import prisma from '../../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOp";
@@ -12,24 +12,24 @@ export async function POST(request: NextRequest) {
     }
 
     if (!body.id) {
-        return NextResponse.json({ error: "Missing feat id" }, { status: 400 });
+        return NextResponse.json({ error: "Missing featSlotInstance id" }, { status: 400 });
     }
 
-    const newFeatInstance = await prisma.featInstance.create({
+    const newFeatSlotInstance = await prisma.featSlotInstance.create({
         data: {
-            featName: "Feat Name",
-            featChargeLabel: "Charges",
-            featChargeCurrent: "0",
-            featChargeMax: "0",
-            featText: "Feat Description",
+            featSlotLabel: "Feats",
+            featInstance: {
+                create: [],
+            },
             feats: {
                 connect: { id: body.id },
             },
+
         },
         include: {
             feats: true,
         }
     },);
 
-    return NextResponse.json({ body: newFeatInstance });
+    return NextResponse.json({ body: newFeatSlotInstance });
 }

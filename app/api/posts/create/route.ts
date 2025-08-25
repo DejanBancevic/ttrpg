@@ -2,6 +2,7 @@ import prisma from '../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOp";
+import { create } from 'domain';
 
 export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
@@ -72,17 +73,24 @@ export async function POST(request: NextRequest) {
             feats: {
                 create: {
                     featsLabel: "Features & Traits",
-                    featInstance: {
+                    featSlotInstance: {
                         create: [
                             {
-                                featName: "Feat Name",
-                                featChargeLabel: "Charges",
-                                featChargeCurrent: "0",
-                                featChargeMax: "0",
-                                featText: "Feat Description",
+                                featSlotLabel: "Feats",
+                                featInstance: {
+                                    create: [
+                                        {
+                                            featName: "Feature Name",
+                                            featChargeLabel: "Charges",
+                                            featChargeCurrent: "0",
+                                            featChargeMax: "0",
+                                            featText: "Write feature description here...",
+                                        },
+                                    ],
+                                },
                             },
                         ],
-                    },
+                    }
                 },
             },
             spells: {
@@ -214,7 +222,11 @@ export async function POST(request: NextRequest) {
             },
             feats: {
                 include: {
-                    featInstance: true,
+                    featSlotInstance: {
+                        include: {
+                            featInstance: true,
+                        }
+                    }
                 },
             },
             spells: {

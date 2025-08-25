@@ -8,7 +8,7 @@ export const deleteInstance = (deleteInstanceThunk?: any, data?: any, dataInstan
     const post = mainData.posts.find(post => post.id === mainData.activePostId);
     const firstId = post?.spellsData.spellSlotInstance[0]?.id;
 
-    if (type === "spellInstance") {
+    if (type === "spellInstance" || type === "featInstance") {
         await dispatch(deleteInstanceThunk);
         await dispatch(readPosts());
         dispatch(setActivePostId(mainData.activePostId));

@@ -1,4 +1,4 @@
-import prisma from '../../../../lib/prisma';
+import prisma from '../../../../../lib/prisma';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOp";
@@ -19,19 +19,23 @@ export async function DELETE(request: NextRequest) {
         const featInstance = await prisma.featInstance.findUnique({
             where: { id: body.id },
             include: {
-                feats: {
+                featSlotInstance: {
                     include: {
-                        post: {
-                            select: {
-                                author: { select: { email: true } },
+                        feats: {
+                            include: {
+                                post: {
+                                    select: {
+                                        author: { select: { email: true } },
+                                    },
+                                },
                             },
                         },
-                    }
-                }
+                    },
+                },
             },
         })
 
-        if (!featInstance || featInstance.feats?.post?.author?.email !== session.user.email) {
+        if (!featInstance || featInstance.featSlotInstance?.feats?.post?.author?.email !== session.user.email) {
             return NextResponse.json({ error: "Not authorized to delete this feat" }, { status: 403 });
         }
 

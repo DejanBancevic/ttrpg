@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, } from 'react-redux';
 import { AppDispatch, } from '@/lib/store';
-import { updateFeatsById, } from '@/lib/features/main/mainSlice';
+import { updateFeatInstanceById, } from '@/lib/features/main/mainSlice';
 import DeleteButton from '../../../DeleteButton/DeleteButton';
-import { updateFeats } from '@/lib/features/feats/featsSlice';
+import { updateFeatInstance, updateFeats } from '@/lib/features/feats/featsSlice';
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import remarkGfm from "remark-gfm";
 import { ChevronDown, ChevronUp } from "@deemlol/next-icons"
@@ -55,25 +55,18 @@ const FeatComp: React.FC<FeatCompProps> = (
                         readOnly={locks.labelLock}
                         onChange={(e) => {
                             if (!locks.labelLock) {
-                                dispatch(updateFeatsById({ key: id, value: { [fieldName]: e.target.value } }));
+                                dispatch(updateFeatInstanceById({ key: id, value: { [fieldName]: e.target.value } }));
                             }
                         }}
                         onBlur={(e) => {
-                            dispatch(updateFeats({
-                                postId: activePostId,
-                                feats: {
-                                    featInstance: [
-                                        {
-                                            id: id,
-                                            [fieldName]: e.target.value
-                                        },
-                                    ],
-                                },
+                            dispatch(updateFeatInstance({
+                                id: id,
+                                featInstance: { [fieldName]: e.target.value },
                             }));
                         }}
                         spellCheck={false}
                         style={{
-                            width: `${Math.min(valueName.length * 10 + 10, 300)}px`, 
+                            width: `${Math.min(valueName.length * 10 + 10, 300)}px`,
                             transition: "width 0.2s",
                         }}
                         className={styleName}
@@ -99,21 +92,14 @@ const FeatComp: React.FC<FeatCompProps> = (
                         readOnly={locks.labelLock}
                         onChange={(e) => {
                             if (!locks.labelLock) {
-                                dispatch(updateFeatsById({ key: id, value: { [fieldCharges]: e.target.value } }));
+                                dispatch(updateFeatInstanceById({ key: id, value: { [fieldCharges]: e.target.value } }));
                             }
                         }}
                         onBlur={(e) => {
                             if (!locks.labelLock) {
-                                dispatch(updateFeats({
-                                    postId: activePostId,
-                                    feats: {
-                                        featInstance: [
-                                            {
-                                                id: id,
-                                                [fieldCharges]: e.target.value
-                                            },
-                                        ],
-                                    },
+                                dispatch(updateFeatInstance({
+                                    id: id,
+                                    featInstance: { [fieldCharges]: e.target.value },
                                 }));
                             }
                         }}
@@ -125,19 +111,12 @@ const FeatComp: React.FC<FeatCompProps> = (
                     <textarea
                         value={valueChargesCurrent}
                         readOnly={locks.inputLock}
-                        onChange={(e) => dispatch(updateFeatsById({ key: id, value: { [fieldChargesCurrent]: e.target.value } }))}
+                        onChange={(e) => dispatch(updateFeatInstanceById({ key: id, value: { [fieldChargesCurrent]: e.target.value } }))}
                         onBlur={(e) => {
                             if (!locks.inputLock) {
-                                dispatch(updateFeats({
-                                    postId: activePostId,
-                                    feats: {
-                                        featInstance: [
-                                            {
-                                                id: id,
-                                                [fieldChargesCurrent]: e.target.value
-                                            },
-                                        ],
-                                    },
+                                dispatch(updateFeatInstance({
+                                    id: id,
+                                    featInstance: { [fieldChargesCurrent]: e.target.value },
                                 }));
                             }
                         }}
@@ -151,19 +130,12 @@ const FeatComp: React.FC<FeatCompProps> = (
                     <textarea
                         value={valueChargesMax}
                         readOnly={locks.inputLock}
-                        onChange={(e) => dispatch(updateFeatsById({ key: id, value: { [fieldChargesMax]: e.target.value } }))}
+                        onChange={(e) => dispatch(updateFeatInstanceById({ key: id, value: { [fieldChargesMax]: e.target.value } }))}
                         onBlur={(e) => {
                             if (!locks.inputLock) {
-                                dispatch(updateFeats({
-                                    postId: activePostId,
-                                    feats: {
-                                        featInstance: [
-                                            {
-                                                id: id,
-                                                [fieldChargesMax]: e.target.value
-                                            },
-                                        ],
-                                    },
+                                dispatch(updateFeatInstance({
+                                    id: id,
+                                    featInstance: { [fieldChargesMax]: e.target.value },
                                 }));
                             }
                         }}
@@ -179,21 +151,14 @@ const FeatComp: React.FC<FeatCompProps> = (
                     value={valueText.replace("{Charges}", valueChargesMax)}
                     onChange={(e) => {
                         if (!locks.inputLock) {
-                            dispatch(updateFeatsById({ key: id, value: { [fieldText]: e || "" } }));
+                            dispatch(updateFeatInstanceById({ key: id, value: { [fieldText]: e || "" } }));
                         }
                     }}
                     onBlur={() => {
                         if (!locks.inputLock) {
-                            dispatch(updateFeats({
-                                postId: activePostId,
-                                feats: {
-                                    featInstance: [
-                                        {
-                                            id: id,
-                                            [fieldText]: valueText
-                                        },
-                                    ],
-                                },
+                            dispatch(updateFeatInstance({
+                                id: id,
+                                featInstance: { [fieldText]: valueText },
                             }));
                         }
                     }}

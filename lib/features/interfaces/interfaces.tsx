@@ -115,8 +115,14 @@ export interface spellInstanceData {
 export interface featsData {
     id: string;
     featsLabel: string;
-    featInstance: Partial<featInstanceData>[]
+    featSlotInstance: Partial<featSlotInstanceData>[]
 }
+
+export interface featSlotInstanceData {
+    id: string;
+    featSlotLabel: string;
+    featInstance: Partial<featInstanceData>[]
+};
 
 export interface featInstanceData {
     id: string;

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteAttributeInstance, updateAttributes } from '../attributes/attributesSlice';
-import { deleteFeatInstance, updateFeats } from '../feats/featsSlice';
+import { deleteFeatInstance, deleteFeatSlotInstance, updateFeats } from '../feats/featsSlice';
 import {
     attributeInstanceData, attributesData, bagInstanceData,
-    basicsData, boostTagData, currencyInstanceData, featInstanceData,
+    basicsData, boostTagData, currencyInstanceData, featSlotInstanceData, featInstanceData, 
     featsData, healthData, inventoryData, itemBoostData, itemInstanceData,
     passiveInstanceData, passivesData, skillInstanceData,
     skillsData, spellInstanceData, spellsData,
@@ -129,6 +129,7 @@ interface MainState {
     itemBoosts: itemBoostData[];
     boostTags: boostTagData[];
     activePostId: string;
+    activeFeatSlotId: string;
     activeSpellSlotId: string;
     activeBagId: string;
     locks: locks;
@@ -203,14 +204,20 @@ const initialState: MainState = {
             featsData: {
                 id: crypto.randomUUID(),
                 featsLabel: "Features & Traits",
-                featInstance: [
+                featSlotInstance: [
                     {
                         id: crypto.randomUUID(),
-                        featName: "Feat Name",
-                        featChargeLabel: "Charges",
-                        featChargeCurrent: "0",
-                        featChargeMax: "0",
-                        featText: "Feat Description",
+                        featSlotLabel: "Feats",
+                        featInstance: [
+                            {
+                                id: crypto.randomUUID(),
+                                featName: "Feature Name",
+                                featChargeLabel: "Charges",
+                                featChargeCurrent: "0",
+                                featChargeMax: "0",
+                                featText: "Write feature description here...",
+                            },
+                        ],
                     },
                 ],
             },
@@ -321,6 +328,7 @@ const initialState: MainState = {
     itemBoosts: [],
     boostTags: [],
     activePostId: "0",
+    activeFeatSlotId: "0",
     activeSpellSlotId: "0",
     activeBagId: "0",
     infoData: {
@@ -398,6 +406,7 @@ const mainSlice = createSlice({
 
             activePost.basicsData[action.payload.key as keyof typeof activePost.basicsData] = action.payload.value
         },
+        ///////// Skills
         updateSkillById: (state, action: PayloadAction<{ key: string; value: Partial<skillInstanceData> }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId)
             if (!activePost) return;
@@ -413,6 +422,7 @@ const mainSlice = createSlice({
 
             activePost.skillsData[action.payload.key] = action.payload.value;
         },
+        ///////// Attributes
         updateAttributesById: (state, action: PayloadAction<{ key: string; value: Partial<attributeInstanceData> }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId)
             if (!activePost) return;
@@ -422,14 +432,27 @@ const mainSlice = createSlice({
 
             Object.assign(attribute, action.payload.value);
         },
-        updateFeatsById: (state, action: PayloadAction<{ key: string; value: Partial<featInstanceData> }>) => {
+        ///////// Feats
+        updateFeatSlotInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<featSlotInstanceData> }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId)
             if (!activePost) return;
 
-            const feat = activePost.featsData.featInstance.find((a) => a.id === action.payload.key)
-            if (!feat) return;
+            const featSlotInstance = activePost.featsData.featSlotInstance.find((f) => f.id === action.payload.key)
+            if (!featSlotInstance) return;
 
-            Object.assign(feat, action.payload.value);
+            Object.assign(featSlotInstance, action.payload.value);
+        },
+        updateFeatInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<featInstanceData> }>) => {
+            const activePost = state.posts.find(p => p.id === state.activePostId)
+            if (!activePost) return;
+
+            for (const featSlot of activePost.featsData.featSlotInstance) {
+                const instance = featSlot.featInstance?.find(i => i.id === action.payload.key);
+                if (instance) {
+                    Object.assign(instance, action.payload.value);
+                    break;
+                }
+            }
         },
         updateFeatsLabel: (state, action: PayloadAction<{ key: 'featsLabel'; value: string }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId);
@@ -437,6 +460,10 @@ const mainSlice = createSlice({
 
             activePost.featsData[action.payload.key] = action.payload.value;
         },
+        setActiveFeatSlotId: (state, action: PayloadAction<string>) => {
+            state.activeFeatSlotId = action.payload;
+        },
+        ///////// Spells
         updateSpellSlotInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<spellSlotInstanceData> }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId)
             if (!activePost) return;
@@ -471,6 +498,7 @@ const mainSlice = createSlice({
         setActiveSpellSlotId: (state, action: PayloadAction<string>) => {
             state.activeSpellSlotId = action.payload;
         },
+        ///////// Passives
         updatePassivesById: (state, action: PayloadAction<{ key: string; value: Partial<passiveInstanceData> }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId)
             if (!activePost) return;
@@ -495,6 +523,7 @@ const mainSlice = createSlice({
 
             activePost.passivesData[action.payload.key] = action.payload.value;
         },
+        ///////// Inventory
         updateCurrencyInstanceById: (state, action: PayloadAction<{ key: string; value: Partial<currencyInstanceData> }>) => {
             const activePost = state.posts.find(p => p.id === state.activePostId)
             if (!activePost) return;
@@ -535,6 +564,7 @@ const mainSlice = createSlice({
 
             activePost.inventoryData[action.payload.key] = action.payload.value;
         },
+        ///////// Boosts
         setActiveBagId: (state, action: PayloadAction<string>) => {
             state.activeBagId = action.payload;
         },
@@ -574,7 +604,10 @@ const mainSlice = createSlice({
                     featsData: {
                         id: newPost.feats.id,
                         featsLabel: newPost.featsLabel,
-                        featInstance: newPost.feats.featInstance ?? [],
+                        featSlotInstance: (newPost.feats.featSlotInstance ?? []).map((slot: any) => ({
+                            ...slot ,
+                            featInstance: slot.featInstance ?? [],
+                        })),
                     },
                     spellsData: {
                         id: newPost.spells.id,
@@ -641,7 +674,10 @@ const mainSlice = createSlice({
                     featsData: {
                         id: post.feats.id,
                         featsLabel: post.feats.featsLabel,
-                        featInstance: post.feats.featInstance ?? [],
+                        featSlotInstance: (post.feats.featSlotInstance ?? []).map((slot: any) => ({
+                            ...slot,
+                            featInstance: slot.featInstance ?? [],
+                        })),
                     },
                     spellsData: {
                         id: post.spells.id,
@@ -732,6 +768,7 @@ const mainSlice = createSlice({
             .addCase(deletePost.pending, (state) => {
                 state.loading.posts = true;
             })
+            ///////// Skills
             .addCase(createSkillInstance.fulfilled, (state,) => {
                 state.loading.skills = false;
             })
@@ -772,6 +809,7 @@ const mainSlice = createSlice({
 
                 activePost.skillsData.skillInstance = activePost.skillsData.skillInstance.filter(skill => skill.id !== deletedId);
             })
+            ///////// Attributes
             .addCase(updateAttributes.fulfilled, (state, action) => {
                 const updated = action.payload.data;
                 const activePost = state.posts.find(p =>
@@ -788,23 +826,43 @@ const mainSlice = createSlice({
 
                 activePost.attributesData.attributeInstance = activePost.attributesData.attributeInstance.filter(a => a.id !== deletedId);
             })
+            ///////// Feats
             .addCase(updateFeats.fulfilled, (state, action) => {
                 const updated = action.payload.data;
                 const activePost = state.posts.find(p =>
-                    p.featsData.featInstance === updated.id
+                    p.featsData.id === updated.id
                 );
                 if (!activePost) return;
 
-                activePost.featsData.featsLabel = updated.featsLabel;
-                activePost.featsData.featInstance = updated.featInstance ?? [];
+                activePost.featsData = {
+                    ...activePost.featsData,
+                    featsLabel: updated.featsLabel,
+                    featSlotInstance: updated.featSlotInstance ?? [],
+                }
+              
+            })
+            .addCase(deleteFeatSlotInstance.fulfilled, (state, action) => {
+                const deletedId = action.payload.id;
+                const activePost = state.posts.find(p => p.id === state.activePostId)
+                if (!activePost) return;
+
+                activePost.featsData.featSlotInstance = activePost.featsData.featSlotInstance.filter(a => a.id !== deletedId);
             })
             .addCase(deleteFeatInstance.fulfilled, (state, action) => {
                 const deletedId = action.payload.id;
                 const activePost = state.posts.find(p => p.id === state.activePostId);
                 if (!activePost) return;
 
-                activePost.featsData.featInstance = activePost.featsData.featInstance.filter(a => a.id !== deletedId);
+                activePost.featsData.featSlotInstance = activePost.featsData.featSlotInstance.map(slot => {
+                    if (!slot.featInstance) return slot;
+
+                    return {
+                        ...slot,
+                        featInstance: slot.featInstance.filter(feat => feat.id !== deletedId)
+                    };
+                });
             })
+            ///////// Spells
             .addCase(updateSpells.fulfilled, (state, action) => {
                 const updated = action.payload.data;
                 const activePost = state.posts.find(p =>
@@ -845,6 +903,7 @@ const mainSlice = createSlice({
                     };
                 });
             })
+            ///////// Passives
             .addCase(updatePassives.fulfilled, (state, action) => {
                 const updated = action.payload.data;
                 const activePost = state.posts.find(p =>
@@ -871,6 +930,7 @@ const mainSlice = createSlice({
                 }
 
             })
+            ///////// Inventory
             .addCase(updateInventory.fulfilled, (state, action) => {
                 const updated = action.payload.data;
                 const activePost = state.posts.find(p =>
@@ -968,6 +1028,7 @@ const mainSlice = createSlice({
 // Export the actions to be used in components
 export const {
     setActivePostId,
+    setActiveFeatSlotId,
     setActiveSpellSlotId,
     setActiveBagId,
     setInfoData,
@@ -977,7 +1038,8 @@ export const {
     updateSkillById,
     updateSkillsLabel,
     updateAttributesById,
-    updateFeatsById,
+    updateFeatSlotInstanceById,
+    updateFeatInstanceById,
     updateFeatsLabel,
     updateSpellSlotInstanceById,
     updateSpellInstanceById,

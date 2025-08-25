@@ -20,7 +20,7 @@ import SpellSlotComp from '../components/forms/spells/SpellSlotComp/SpellSlotCom
 import SpellSlotChargesComp from '../components/forms/spells/SpellSlotChargesComp/SpellSlotChargesComp';
 import SpellSlotLabelComp from '../components/forms/spells/SpellSlotLabelComp/SpellSlotLabelComp';
 import SpellInstanceComp from '../components/forms/spells/SpellInstanceComp/SpellInstanceComp';
-import { createFeatInstance, deleteFeatInstance } from '@/lib/features/feats/featsSlice';
+import { createFeatInstance, createFeatSlotInstance, deleteFeatInstance, deleteFeatSlotInstance } from '@/lib/features/feats/featsSlice';
 import { createAttributeInstance, deleteAttributeInstance } from '@/lib/features/attributes/attributesSlice';
 import { createSkillInstance, deleteSkillInstance } from '@/lib/features/skills/skillsSlice';
 import { createSpellInstance, createSpellSlotInstance, deleteSpellInstance, deleteSpellSlotInstance, updateSpells } from '@/lib/features/spells/spellsSlice';
@@ -37,12 +37,14 @@ import { Tooltip } from '../components/Tooltip/Tooltip';
 import { applyBoosts } from '../components/ApplyBoost/ApplyBoost';
 import { itemInstanceData } from '@/lib/features/interfaces/interfaces';
 import HealthInputComp from '../components/forms/health/InputComp/HealthInputComp';
+import FeatSlotComp from '../components/forms/feats/FeatSlotComp/FeatSlotComp';
 
 const Home = () => {
 
   //Redux
   const dispatch: AppDispatch = useDispatch();
   const activePostId = useSelector((state: RootState) => state.mainData.activePostId);
+  const activeFeatSlotId = useSelector((state: RootState) => state.mainData.activeFeatSlotId);
   const activeSpellSlotId = useSelector((state: RootState) => state.mainData.activeSpellSlotId);
   const activeBagId = useSelector((state: RootState) => state.mainData.activeBagId);
   const post = useSelector((state: RootState) =>
@@ -81,14 +83,28 @@ const Home = () => {
   }
 
   {/*Feats */ }
+  const handleAddFeatSlotInstance = async () => {
+
+    dispatch(addInstance(createFeatSlotInstance(post!.featsData.id)))
+  }
+
   const handleAddFeatInstance = async () => {
 
-    dispatch(addInstance(createFeatInstance(post!.featsData.id)))
+    dispatch(addInstance(createFeatInstance(activeFeatSlotId)))
+  }
+
+  const handleDeleteFeatSlotInstance = async (id: string) => {
+
+    if (window.confirm("Are you sure you want to delete this?")) {
+      if (!locks.deleteLock) {
+        dispatch(deleteInstance(deleteFeatSlotInstance({ id: id }), 'featsData', 'featSlotInstance', "featSlotInstance"))
+      }
+    }
   }
 
   const handleDeleteFeatInstance = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this?")) {
-      dispatch(deleteInstance(deleteFeatInstance({ id: id }), 'featsData', 'featInstance'))
+      dispatch(deleteInstance(deleteFeatInstance({ id: id }), undefined, undefined, 'featInstance'))
     }
   }
 
@@ -560,11 +576,39 @@ const Home = () => {
 
                 />
 
+                {/*FeatSlots */}
+                <div className='flex justify-start gap-2 mt-2 items-center overflow-x-scroll custom-scrollbar'>
+
+                  {
+                    post?.featsData?.featSlotInstance?.map((slot, index) => (
+                      <FeatSlotComp
+                        key={slot.id}
+                        activePostId={activePostId}
+                        valueInfo={slot.featSlotLabel ?? ""}
+                        fieldInfo='featSlotLabel'
+                        locks={locks}
+                        styleInfo='card-bag w-20 h-10 !px-3'
+                        id={slot.id!}
+                        deleteFunction={handleDeleteFeatSlotInstance}
+                      />
+                    ))
+                  }
+
+                  <div className='relative'>
+                    <Plus
+                      onClick={() => handleAddFeatSlotInstance()}
+                      className='addButton size-6'
+                    />
+                  </div>
+                </div>
+
+                <div className='border-t-2 border-gray w-full mb-2'></div>
+
                 <div className='flex flex-col gap-2'>
 
                   {/*Feat Instance */}
                   {
-                    post?.featsData?.featInstance?.map((feat, index) => (
+                    post?.featsData?.featSlotInstance?.find(f=> f.id === activeFeatSlotId)?.featInstance?.map((feat, index) => (
                       <FeatComp
                         key={feat.id}
                         valueName={feat.featName ?? ""}

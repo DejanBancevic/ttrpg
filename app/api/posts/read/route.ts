@@ -43,9 +43,16 @@ export async function GET(request: NextRequest) {
             },
             feats: {
                 include: {
-                    featInstance: {
+                    featSlotInstance: {
                         orderBy: {
-                            featName: 'asc',
+                            featSlotLabel: 'asc',
+                        },
+                        include: {
+                            featInstance: {
+                                orderBy: {
+                                    featName: 'asc',
+                                },
+                            },
                         },
                     },
                 },
@@ -175,20 +182,26 @@ export async function GET(request: NextRequest) {
                     },
                 },
                 feats: {
-                    create:
-                    {
+                    create: {
                         featsLabel: "Features & Traits",
-                        featInstance: {
+                        featSlotInstance: {
                             create: [
                                 {
-                                    featName: "Feat Name",
-                                    featChargeLabel: "Charges",
-                                    featChargeCurrent: "0",
-                                    featChargeMax: "0",
-                                    featText: "Feat Description",
+                                    featSlotLabel: "Feats",
+                                    featInstance: {
+                                        create: [
+                                            {
+                                                featName: "Feature Name",
+                                                featChargeLabel: "Charges",
+                                                featChargeCurrent: "0",
+                                                featChargeMax: "0",
+                                                featText: "Write feature description here...",
+                                            },
+                                        ],
+                                    },
                                 },
                             ],
-                        },
+                        }
                     },
                 },
                 spells: {
@@ -320,7 +333,11 @@ export async function GET(request: NextRequest) {
                 },
                 feats: {
                     include: {
-                        featInstance: true,
+                        featSlotInstance: {
+                            include: {
+                                featInstance: true,
+                            }
+                        }
                     },
                 },
                 spells: {
